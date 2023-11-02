@@ -6,10 +6,15 @@ Team Number - 1.
 Team Name - 
 
 Team Members -
+
 Yash Singh
+
 Andrew Wang
+
 Vince Frazzini
+
 Lindy Zhang 
+
 Lucy Profeta
 
 Application Name - 
