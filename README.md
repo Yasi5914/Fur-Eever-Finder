@@ -18,9 +18,22 @@ Lindy Zhang
 Lucy Profeta
 
 Application Name - 
-Pet dog adoption thing
 
-Application -
+Pet adoption Center 
+
+Application - 
+Have a open platform to show clients different pets they can addopt.
+
+filters - 
+breed,
+age,
+location,
+size, 
+gender,
+coat length, 
+color,
+
+put a pet up for adoption
 
 Vision Statement - 
 
