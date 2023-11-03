@@ -47,7 +47,7 @@ Communication plan - Comunicate over discord and text
 Meeting Plain - Meet every tuesday for an hour before the meeting with our TA.
 
 
-[Pet.pdf](https://github.com/Yasi5914/Final_project_3308_team_1/files/13245826/Pet.pdf)
+Case Diagram - [Pet.pdf](https://github.com/Yasi5914/Final_project_3308_team_1/files/13245826/Pet.pdf)
 
 Wireframes
 
