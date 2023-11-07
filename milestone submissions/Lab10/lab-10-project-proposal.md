@@ -3,14 +3,14 @@
 ## Team Name  
 
 ## Team Members
-| Name | GitHub Username | email |
+| Name | GitHub Username | Email |
 | --- | --- | --- |
-Vince Frazzini | Vince-Frazzini | vifr2527@colorado.edu  
-Lucy Profeta | lucia-profeta | lupr2005@colorado.edu  
-Matthew Simpson | matthew-simp | masi4587@colorado.edu  
-Yash Singh | Yasi5914 | yasi5914@colorado.edu  
-Andrew Wang | anwa4862 | anwa4862@colorado.edu  
-Lindy Zhang | LindyZhang | lizh5623@colorado.edu  
+Vince Frazzini | Vince-Frazzini | vifr2527@colorado.edu  |
+Lucy Profeta | lucia-profeta | lupr2005@colorado.edu  |
+Matthew Simpson | matthew-simp | masi4587@colorado.edu  |
+Yash Singh | Yasi5914 | yasi5914@colorado.edu  |
+Andrew Wang | anwa4862 | anwa4862@colorado.edu  |
+Lindy Zhang | LindyZhang | lizh5623@colorado.edu  |
 
 ## Application Name  
 (Fur-ever Friend Finder)
