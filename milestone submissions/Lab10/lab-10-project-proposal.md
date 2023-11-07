@@ -16,10 +16,10 @@ Lindy Zhang | LindyZhang | lizh5623@colorado.edu  |
 (Fur-ever Friend Finder)
 
 ## Application Description  
- Our application will allow people to search for pets and place adoption applications. The website will have a search menu with filters, such as Cat/Dog, breed, color, etc. This will allow users to narrow down their search to find their desired pet. Users will be able to favorite animals they are interested in adoptin and can view them from their profile. The website will have a log in function, that will allow a user to store all of their information that would be needed for an application. This way, users can place an adoption application without filling out a form with their information. The aplication is stored in a database. They can see which applications they have submitted. Users can also post animals for adoption.  
+ Our application will allow people to search for pets and place adoption applications. The website will have a search menu with filters, such as Cat/Dog, breed, color, etc. This will allow users to narrow down their search to find their desired pet. Users will be able to favorite animals they are interested in adopting and can view them from their profile. The website will have a login function, that will allow a user to store all of their information that would be needed for an application. This way, users can place an adoption application without filling out a form with their information. The application is stored in a database. They can see which applications they have submitted. Users can also post animals for adoption.  
 
 ## Vision Statement  
-For animal lovers who want to find a new best friend. NAME_ is a website that allows people to search for animals, submit adoption applications, and post pets for adoption. Unlike petfinder, our website allows users to post pet adoption profiles.  
+For animal lovers who want to find a new best friend. Fur-ever Friend Finder is a website that allows people to search for animals, submit adoption applications, and post pets for adoption. Unlike Petfinder, our website allows users to post pet adoption profiles.  
 
 ## Version Control  
 PUBLIC Repo Link:  [Github Repo](https://github.com/Yasi5914/Final_project_3308_team_1)
@@ -28,14 +28,14 @@ PUBLIC Repo Link:  [Github Repo](https://github.com/Yasi5914/Final_project_3308_
 See Project Board. Agile Methodology.
 
 ## Communication Plan  
-We plan to comunicate over discord and text.  
+We plan to communicate over Discord and text.  
 
 ## Meeting Plan  
 ### Team Meeting  
-We plan meet for an hour every Tuesday before the meeting with our TA (4:45pm-5:45pm) virtually or in person depending on the week. 
+We plan to meet for an hour every Tuesday before the meeting with our TA (4:45 pm-5:45 pm) virtually or in person depending on the week. 
 
 ### Weekly meeting with TA  
-5:45pm-6:00pm on Tuesday virtually.  
+5:45 pm-6:00 pm on Tuesday virtually.  
 
 ## Use Case Diagram  
 Link to Use Case Diagram: [Use Case Diagram](https://lucid.app/lucidchart/27ed698d-9a18-4e6a-8cb1-cd2ad1836d60/edit?page=0_0&invitationId=inv_65993088-bd12-45c4-986e-26d9f9c52fd8#)  
