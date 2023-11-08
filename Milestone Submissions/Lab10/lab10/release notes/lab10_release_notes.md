@@ -24,7 +24,8 @@ Created docker.yaml file and .emv file with the pet-finder api.
 Researched similar pet adoption applications to decide which elements we will incorporate in our application
 Set up docker-compose.yaml and .env files with Yash
 
-###Andrew:
+### Andrew:
+Created project skeleton of src/ and added blank docker-compose.yaml.
 
 ### Plan for next week:  
 Lindy: Complete Login page functionality and UI, refine the UI of all pages in our application.
@@ -32,6 +33,6 @@ Lucy: Make tables and insert statements
 Yash: Complete registration page functionality and its UI.
 Matt:
 Vince:
-Andrew:
+Andrew: Create, format, and finish header, footer and menu partials. Begin progress on profile page.
 
 
