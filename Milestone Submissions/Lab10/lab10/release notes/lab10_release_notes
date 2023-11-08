@@ -4,6 +4,12 @@ Updated the readme
 Edited the project structure to match project guide expectations  
 Began working on Login page
 
+### Lucy:
+Created Epics and User stories
+Designed Databse
+created Issues
+Helped with wireframe
+
 ### Vince:  
 Created Petfinder developer account   
 Read through API documentation  
@@ -19,7 +25,8 @@ Researched similar pet adoption applications to decide which elements we will in
 Set up docker-compose.yaml and .env files with Yash
 
 ## Plan for next week:  
-Lindy: Complete Login page functionality and UI, refine the UI of all pages in our application.  
+Lindy: Complete Login page functionality and UI, refine the UI of all pages in our application.
+Lucy: Make tables and insert statements
 Yash: Complete registration page functionality and its UI. 
 
 
