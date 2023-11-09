@@ -16,8 +16,8 @@ Read through API documentation
 Started making axios get call for View Pets page
 
 ### Yash:
-Created the repo, and project. Helped create the case diagram. Went through the whole proposal document and engaged teamates to get ideas for the proposal.
-Updated the reamde, and porject proposal.
+Created the repo, and project. Helped create the case diagram. Went through the whole proposal document.
+Updated the reamde, and project proposal.
 Created docker.yaml file and .emv file with the pet-finder api.
 
 ### Matthew: 
