@@ -10,9 +10,10 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 
 |Program| Intent|
 | --- | --- |
-| EJS | Templating|
-| Express | Back End|
-|PostgreSQL | Database Management|
+| EJS | Templating |
+| Node.js | Server Environment |
+| Express | Server Framework |
+| PostgreSQL | Database Management |
 
 ## Prerequisites to Run:  
 
