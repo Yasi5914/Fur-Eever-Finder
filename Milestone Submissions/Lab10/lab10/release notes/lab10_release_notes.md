@@ -35,7 +35,7 @@ Lucy: Make tables and insert statements
 #
 Yash: Complete registration page functionality and its UI.
 #
-Matt: Work on views page
+Matthew: Complete the UI for My Posts page
 #
 Vince:  Organize explore page with search parameters, add search parameter functionality
 #
