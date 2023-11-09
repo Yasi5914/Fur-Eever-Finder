@@ -8,6 +8,13 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 
 ## Tech Stack:  
 
+|Program| Intent|
+| --- | --- |
+| EJS | Templating |
+| Node.js | Server Environment |
+| Express | Server Framework |
+| PostgreSQL | Database Management |
+
 ## Prerequisites to Run:  
 
 ## Running the Application Locally:  
