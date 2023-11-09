@@ -29,10 +29,16 @@ Created project skeleton of src/ and added blank docker-compose.yaml.
 
 ### Plan for next week:  
 Lindy: Complete Login page functionality and UI, refine the UI of all pages in our application.
+
 Lucy: Make tables and insert statements
+
 Yash: Complete registration page functionality and its UI.
+
 Matt:
+
 Vince:  Organize explore page with search parameters, add search parameter functionality
+
 Andrew: Create, format, and finish header, footer and menu partials. Begin progress on profile page.
+
 
 
