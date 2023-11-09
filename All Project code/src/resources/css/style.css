@@ -1,0 +1,13 @@
+.navbar {
+    background-color: #D9D9D9;
+}
+.footer {
+    background-color: #D9D9D9;
+}
+.navbar .active a {
+    color:rgb(0, 0, 255);
+}
+.navbar-brand {
+    font-weight: bold;
+    font-size: x-large;
+}
