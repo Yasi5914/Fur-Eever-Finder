@@ -129,5 +129,12 @@ app.post('/register', async (req, res) => {
   }
 });
 
+//test endpoint
+app.get('/welcome', (req, res) => {
+  res.json({status: 'success', message: 'Welcome!'});
+});
+
+module.exports = app.listen(3000);
 app.listen(3000);
+
 console.log("Listening on port 3000")
