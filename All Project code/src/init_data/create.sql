@@ -40,7 +40,7 @@ CREATE TABLE UserFavorites(
     petID INT,
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
-)
+);
 
 DROP TABLE IF EXISTS UserPosts CASCADE;
 CREATE TABLE UserPosts(
@@ -48,4 +48,4 @@ CREATE TABLE UserPosts(
     petID INT,
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
-)
+);
