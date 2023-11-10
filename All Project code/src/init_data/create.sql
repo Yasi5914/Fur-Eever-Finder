@@ -26,7 +26,6 @@ CREATE TABLE PetInfo(
 DROP TABLE IF EXISTS Applications CASCADE;
 CREATE TABLE Applications(
     applicationID SERIAL PRIMARY KEY NOT NULL,
-    date DATE,
     status INT NOT NULL,
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
@@ -36,14 +35,6 @@ CREATE TABLE Applications(
 
 DROP TABLE IF EXISTS UserFavorites CASCADE;
 CREATE TABLE UserFavorites(
-    username VARCHAR(25) NOT NULL,
-    petID INT NOT NULL,
-    FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
-);
-
-DROP TABLE IF EXISTS UserPosts CASCADE;
-CREATE TABLE UserPosts(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
