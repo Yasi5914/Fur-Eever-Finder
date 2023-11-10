@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE Users(
-    username VARCHAR(25) PRIMARY KEY,
+    username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),
     address VARCHAR(255),
     hashPW CHAR(60) NOT NULL,
@@ -9,7 +9,7 @@ CREATE TABLE Users(
 );
 DROP TABLE IF EXISTS PetInfo CASCADE;
 CREATE TABLE PetInfo(
-    petID INT PRIMARY KEY,
+    petID SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(45),
     animalType INT NOT NULL,
     breed VARCHAR(45),
@@ -25,27 +25,18 @@ CREATE TABLE PetInfo(
 
 DROP TABLE IF EXISTS Applications CASCADE;
 CREATE TABLE Applications(
-    applicationID INT PRIMARY KEY,
-    date DATE,
+    applicationID SERIAL PRIMARY KEY NOT NULL,
     status INT NOT NULL,
-    username VARCHAR(25),
-    petID INT,
+    username VARCHAR(25) NOT NULL,
+    petID INT NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
 );
 
 DROP TABLE IF EXISTS UserFavorites CASCADE;
 CREATE TABLE UserFavorites(
-    username VARCHAR(25),
-    petID INT,
-    FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
-);
-
-DROP TABLE IF EXISTS UserPosts CASCADE;
-CREATE TABLE UserPosts(
-    username VARCHAR(25),
-    petID INT,
+    username VARCHAR(25) NOT NULL,
+    petID INT NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
 );
