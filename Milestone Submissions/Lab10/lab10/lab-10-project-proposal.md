@@ -39,6 +39,8 @@ We plan to meet for an hour every Tuesday before the meeting with our TA (4:45 p
 
 ## Use Case Diagram  
 Link to Use Case Diagram: [Use Case Diagram](https://lucid.app/lucidchart/27ed698d-9a18-4e6a-8cb1-cd2ad1836d60/edit?page=0_0&invitationId=inv_65993088-bd12-45c4-986e-26d9f9c52fd8#)  
-
+![](./Use_Case_Diagram.png)
 ## Wireframes  
 Link to Figma Wireframes: [Figma WireFrame](https://www.figma.com/file/ipDZK7vtjWuAJnoHbtUEAD/CSCI-3308-Final-Project-Wireframe?type=design&node-id=0-1&mode=design&t=f7B9hL8IEtgZUWxA-0)  
+
+![](./Wireframe.png)
