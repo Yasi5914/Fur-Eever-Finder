@@ -3,7 +3,7 @@ CREATE TABLE Users(
     username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),
     address VARCHAR(255),
-    hashPW CHAR(60) NOT NULL,
+    password CHAR(60) NOT NULL,
     adminID INT,
     photoURL VARCHAR(255)
 );
