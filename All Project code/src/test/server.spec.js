@@ -24,13 +24,47 @@ describe('Server!', () => {
   });
   // ===========================================================================
   // TO-DO: Part A Login unit test case
+
+  // Positive test for register: both username and password fields have values, expect redirect to login
+  it('positive : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'login_testing', hashPW: 'testing'})
+      .end((err, res) => {
+        if (err){
+          console.error(err);
+          done(err);
+        }
+        expect(res).to.have.status(200);
+        expect(res.redirects[0]).to.include('/login');
+        done();
+      });
+  });
+
+  // negative register test. The password field is empty, expect to reload register to have them try again
+  it('negative : /register', done => {
+    chai
+      .request(server)
+      .post('/register')
+      .send({username: 'login_test', hashPW: ''})
+      .end((err, res) => {
+        if (err){
+          console.error(err);
+          done(err);
+        }
+        expect(res).to.redirect;
+        done();
+      });
+  });
+
   // We are checking POST /add_user API by passing the user info in the correct order. This test case should pass and return a status 200 along with a "Success" message.
   // Positive cases
   it('positive : /login', done => {
     chai
       .request(server)
       .post('/login')
-      .send({username: 'andrew', hashPW: 'password'})
+      .send({username: 'login_testing', hashPW: 'testing'})
       .end((err, res) => {
         if (err){
           console.error(err);
