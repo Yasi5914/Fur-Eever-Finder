@@ -99,8 +99,8 @@ app.get('/', (req, res) => {
     }
   });
   
-  app.get('/home', (req, res) => {
-    res.render("pages/home");
+  app.get('/explore', (req, res) => {
+    res.render("pages/explore");
   });
 
   app.get('/login', (req, res) => {
@@ -110,22 +110,23 @@ app.get('/', (req, res) => {
 app.post("/login", async (req, res) => {
   console.log("request body:", req.body);
   try {
+    // if the username or password field is empty, notify the user
     if (!req.body.username || !req.body.hashPW) {
       return res.render('pages/login', {
         message: "Missing username or password"
       });
     }
-
+    // query the Users table for the username entered
     const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
     const user = await db.oneOrNone(query, [req.body.username]);
-
+    // if the user is not found in the table, redirect to register page
     console.log(user);
     if (user === null) {
       return res.render('pages/register', {
         message: "Please register an account."
       });
     }
-    console.log(typeof(req.body.hashPW), typeof(user.hashpw));
+    // if the user is found, check if the password entered matches the database.
     let match;
     if (req.body.hashPW.trim() === user.hashpw.trim()){
       match = true;
@@ -133,16 +134,13 @@ app.post("/login", async (req, res) => {
     else{
       match = false;
     }
-
-    console.log('Hash from request:', req.body.hashPW.trim());
-    console.log('Hash from database:', user.hashpw.trim());
-    console.log('Hash lengths:', req.body.hashPW.trim().length, user.hashpw.trim().length);
-    console.log('Match:', match);
-
+    // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
       return res.redirect('/explore');
-    } else {
+    } 
+    // otherwise, re-render the login and notify them of the incorrect password
+    else {
       return res.render('pages/login', {
         message: "Wrong password!"
       });
