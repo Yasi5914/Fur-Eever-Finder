@@ -77,7 +77,6 @@ app.get('/', (req, res) => {
     try {
       // Hash the password using bcrypt library
       const hash = await bcrypt.hash(req.body.hashPW, 10);
-      console.log(hash);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
       
@@ -100,18 +99,20 @@ app.get('/', (req, res) => {
   });
   
   app.get('/explore', (req, res) => {
+    res.status(200)
     res.render("pages/explore");
   });
 
   app.get('/login', (req, res) => {
+    res.status(200)
     res.render("pages/login");
 });
 
 app.post("/login", async (req, res) => {
   try {
-    console.log(req.body)
     // if the username or password field is empty, notify the user
     if (!req.body.username || !req.body.hashPW) {
+      res.status(401)
       return res.render('pages/login', {
         message: "Missing username or password"
       });
@@ -120,29 +121,30 @@ app.post("/login", async (req, res) => {
     const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
     const user = await db.oneOrNone(query, [req.body.username]);
     // if the user is not found in the table, redirect to register page
-    console.log(user);
     if (user === null) {
+      res.status(401)
       return res.redirect('pages/register', {
         message: "Please register an account."
       });
     }
     // if the user is found, check if the password entered matches the database.
-    console.log(req.body.hashPW)
-    console.log(user.hashpw)
-    const match = bcrypt.compare(req.body.hashPW, user.hashPW); //PROBLEM HERE
+    const match = await bcrypt.compare(req.body.hashPW, user.hashpw)
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
+      res.status(200)
       return res.redirect('/explore');
     } 
     // otherwise, re-render the login and notify them of the incorrect password
     else {
+      res.status(401)
       return res.render('pages/login', {
         message: "Wrong password!"
       });
     }
   } catch (error) {
     console.log("Login error:", error);
+    res.status(500)
     return res.render('pages/login', {
       message: "An error occurred during login"
     });
@@ -152,6 +154,7 @@ app.post("/login", async (req, res) => {
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
+    res.status(200)
     return res.redirect('/login');
   }
   next();

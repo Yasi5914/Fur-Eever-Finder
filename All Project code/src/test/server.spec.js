@@ -37,6 +37,7 @@ describe('Server!', () => {
           done(err);
         }
         expect(res).to.have.status(200);
+        console.log(res.redirects)
         expect(res.redirects[0]).to.include('/explore');
         done();
       });
@@ -48,7 +49,10 @@ describe('Server!', () => {
       .post('/login')
       .send({ username: 'not_username', hashPW: 'no_password' })
       .end((err, res) => {
-        console.log(res.text);
+        if (err){
+          console.error(err);
+          done(err);
+        }
         expect(res).to.have.status(200);
         expect(res.redirects[0]).to.include('/register');
         done();
