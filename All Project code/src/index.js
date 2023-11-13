@@ -83,7 +83,7 @@ app.get('/', (req, res) => {
       
       // Replace the following SQL query with the one that inserts data into your 'users' table
       const insertQuery = `
-        INSERT INTO Users (username, password)
+        INSERT INTO Users (username, hashPW)
         VALUES ($1, $2)
         RETURNING username
       `;
@@ -121,10 +121,9 @@ app.post("/login", async (req, res) => {
     const user = await db.oneOrNone(query, [req.body.username]);
     // if the user is not found in the table, redirect to register page
     console.log(user);
-    if (user === null) {
-      return res.render('pages/register', {
-        message: "Please register an account."
-      });
+    if (!user) {
+      console.log('in');
+      return res.redirect(301, '/register');
     }
     // if the user is found, check if the password entered matches the database.
     let match;
@@ -163,4 +162,5 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 module.exports = app.listen(3000);
+//app.listen(3000);
 console.log("Listening on port 3000")

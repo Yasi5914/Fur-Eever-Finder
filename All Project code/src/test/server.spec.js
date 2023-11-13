@@ -48,8 +48,9 @@ describe('Server!', () => {
       .post('/login')
       .send({ username: 'not_username', hashPW: 'no_password' })
       .end((err, res) => {
-        console.log(res.text);
-        expect(res).to.have.status(200);
+        if (err){
+          done(err);
+        }
         expect(res.redirects[0]).to.include('/register');
         done();
       });
