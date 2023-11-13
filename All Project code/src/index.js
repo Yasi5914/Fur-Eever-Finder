@@ -102,38 +102,63 @@ app.get('/', (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  console.log("request body:", req.body);
-  try {
-    if (!req.body.username || !req.body.hashPW) {
-      return res.render('pages/login', {
-        message: "Missing username or password"
-      });
-    }
 
-    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
-    const user = await db.oneOrNone(query, [req.body.username]);
-    
-    console.log(user);
-    if (user === null) {
-      return res.render('pages/register', {
-        message: "Please register an account."
-      });
-    }
-    const match = await bcrypt.compare(req.body.hashPW, user.hashPW);
+  //Query to check if the username from the input is inside the database
+  const query = `SELECT * from Users where username = $1`;
 
-    if (match) {
-      req.session.user = user;
-      return res.redirect('/home');
-    } else {
-      return res.render('pages/login', {
-        message: "Wrong password!"
+  //Create a user obe
+  var user = {
+    username:undefined,
+    hashPW:undefined
+  }
+
+  //run the query to retrive the user associated with the input username
+  db.one(query,[req.body.username])
+
+      //if username is in database then we update the user object.
+      .then((data)=>{
+        user.username = data.username;
+        user.hashPW = data.hashpw;
+      })
+
+      //if username is not in database then we return a sutiable message to the client
+      .catch((err)=>{
+
+        console.log(err);
+
+        return res.render('pages/login',{
+
+          status : err,
+          message : "The username you have entered is not registered. Please consider registering."
+
+        });
+
       });
-    }
-  } catch (error) {
-    console.log("Login error:", error);
-    return res.render('pages/login', {
-      message: "An error occurred during login"
+
+  //Check if the credentials are valid through bcrypt. If they are valid redirect to the home page. If not send a sutiable message to the client.
+  try{
+
+    const match = await bcrypt.compare(req.body.hashPW, user,hashPW, function(err, isValid) {
+
+      if(isValid){
+
+        req.session.user = user;
+        req.session.save();
+        res.redirect("/home");
+      }
+
     });
+  }
+
+  catch{
+    console.log(err);
+
+    return res.render('pages/login',{
+
+      status : err,
+      message: "Incorrect Password"
+
+    })
   }
 });
 
