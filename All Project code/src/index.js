@@ -99,8 +99,8 @@ app.get('/', (req, res) => {
     }
   });
   
-  app.get('/home', (req, res) => {
-    res.render("pages/home");
+  app.get('/explore', (req, res) => {
+    res.render("pages/explore");
   });
 
   app.get('/login', (req, res) => {
@@ -150,7 +150,7 @@ app.post("/login", async (req, res) => {
 
         req.session.user = user;
         req.session.save();
-        res.redirect("/home");
+        res.redirect("/explore");
       }
 
     });
