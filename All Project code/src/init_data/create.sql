@@ -4,7 +4,7 @@ CREATE TABLE Users(
     name VARCHAR(45),
     address VARCHAR(255),
     hashPW CHAR(60) NOT NULL,
-    adminID INT,
+    adminID BOOLEAN,
     photoURL VARCHAR(255)
 );
 DROP TABLE IF EXISTS PetInfo CASCADE;

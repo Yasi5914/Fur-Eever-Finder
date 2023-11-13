@@ -8,24 +8,30 @@ const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
-const axios = require('axios');
-
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
-  const dbConfig = {
-    host: 'db', // the database server
-    port: 5432, // the database port
-    database: process.env.POSTGRES_DB, // the database name
-    user: process.env.POSTGRES_USER, // the user account to connect with
-    password: process.env.POSTGRES_PASSWORD, // the password of the user account
-  };
-  
-  const db = pgp(dbConfig);
 
-  pgp.end();
+// database configuration
+const dbConfig = {
+  host: 'db', // the database server
+  port: 5432, // the database port
+  database: process.env.POSTGRES_DB, // the database name
+  user: process.env.POSTGRES_USER, // the user account to connect with
+  password: process.env.POSTGRES_PASSWORD, // the password of the user account
+};
 
+const db = pgp(dbConfig);
 
+// test your database
+db.connect()
+  .then(obj => {
+    console.log('Database connection successful'); // you can view this message in the docker compose logs
+    obj.done(); // success, release the connection;
+  })
+  .catch(error => {
+    console.log('ERROR:', error.message || error);
+  });
 
 // *****************************************************
 // <!-- Section 3 : App Settings -->
@@ -70,7 +76,7 @@ app.get('/', (req, res) => {
   app.post('/register', async (req, res) => {
     try {
       // Hash the password using bcrypt library
-      const hash = await bcrypt.hash(req.body.hashPW, 10);
+      const hash = await bcrypt(req.body.hashPW, 10);
       console.log(hash);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
@@ -102,67 +108,53 @@ app.get('/', (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-
-  //Query to check if the username from the input is inside the database
-  const query = `SELECT * from Users where username = $1`;
-
-  //Create a user obe
-  var user = {
-    username:undefined,
-    hashPW:undefined
-  }
-
-  //run the query to retrive the user associated with the input username
-  db.one(query,[req.body.username])
-
-      //if username is in database then we update the user object.
-      .then((data)=>{
-        user.username = data.username;
-        user.hashPW = data.hashpw;
-      })
-
-      //if username is not in database then we return a sutiable message to the client
-      .catch((err)=>{
-
-        console.log(err);
-
-        return res.render('pages/login',{
-
-          status : err,
-          message : "The username you have entered is not registered. Please consider registering."
-
-        });
-
+  console.log("request body:", req.body);
+  try {
+    if (!req.body.username || !req.body.hashPW) {
+      return res.render('pages/login', {
+        message: "Missing username or password"
       });
+    }
 
-  //Check if the credentials are valid through bcrypt. If they are valid redirect to the home page. If not send a sutiable message to the client.
-  try{
+    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
+    const user = await db.oneOrNone(query, [req.body.username]);
 
-    const match = await bcrypt.compare(req.body.hashPW, user,hashPW, function(err, isValid) {
+    console.log(user);
+    if (user === null) {
+      return res.render('pages/register', {
+        message: "Please register an account."
+      });
+    }
+    console.log(typeof(req.body.hashPW), typeof(user.hashpw));
+    let match;
+    if (req.body.hashPW.trim() === user.hashpw.trim()){
+      match = true;
+    }
+    else{
+      match = false;
+    }
 
-      if(isValid){
+    console.log('Hash from request:', req.body.hashPW.trim());
+    console.log('Hash from database:', user.hashpw.trim());
+    console.log('Hash lengths:', req.body.hashPW.trim().length, user.hashpw.trim().length);
+    console.log('Match:', match);
 
-        req.session.user = user;
-        req.session.save();
-        res.redirect("/home");
-      }
-
+    if (match) {
+      req.session.user = user;
+      return res.redirect('/explore');
+    } else {
+      return res.render('pages/login', {
+        message: "Wrong password!"
+      });
+    }
+  } catch (error) {
+    console.log("Login error:", error);
+    return res.render('pages/login', {
+      message: "An error occurred during login"
     });
-  }
-
-  catch{
-    console.log(err);
-
-    return res.render('pages/login',{
-
-      status : err,
-      message: "Incorrect Password"
-
-    })
   }
 });
 
-// Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
@@ -170,9 +162,7 @@ const auth = (req, res, next) => {
   }
   next();
 };
-
 // Authentication Required
 app.use(auth);
-
 module.exports = app.listen(3000);
 console.log("Listening on port 3000")

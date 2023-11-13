@@ -30,15 +30,14 @@ describe('Server!', () => {
     chai
       .request(server)
       .post('/login')
-      .send({username: 'Puppies123', password: 'puppies4life'})
+      .send({username: 'Puppies123', hashPW: 'puppies4life'})
       .end((err, res) => {
         if (err){
           console.error(err);
           done(err);
         }
         expect(res).to.have.status(200);
-        expect(res).to.redirect;
-        expect(res.redirects[0]).to.include('/home');
+        expect(res.redirects[0]).to.include('/explore');
         done();
       });
   });
@@ -47,8 +46,9 @@ describe('Server!', () => {
     chai
       .request(server)
       .post('/login')
-      .send({ username: 'not_username', password: 'no_password' })
+      .send({ username: 'not_username', hashPW: 'no_password' })
       .end((err, res) => {
+        console.log(res.text);
         expect(res).to.have.status(200);
         expect(res.redirects[0]).to.include('/register');
         done();

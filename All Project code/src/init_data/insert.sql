@@ -1,10 +1,10 @@
 INSERT INTO Users(username, name, hashPW, adminID) VALUES
-('lucy', 'Lucy', 'password', 1),
-('lindy', 'Lindy', 'password', 2),
-('yash', 'Yash', 'password', 3),
-('matt', 'Matt', 'password', 4),
-('andrew', 'Andrew', 'password', 5),
-('vince', 'Vince', 'password', 6);
+('lucy', 'Lucy', 'password', true),
+('lindy', 'Lindy', 'password', true),
+('yash', 'Yash', 'password', true),
+('matt', 'Matt', 'password', true),
+('andrew', 'Andrew', 'password', true),
+('vince', 'Vince', 'password', true);
 
 INSERT INTO Users(username, name, address, hashPW, photoURL) VALUES
 ('Puppies123', 'Mary Smith', '710 Smith Road', 'puppies4life', 'http://dummyimage.com/162x100.png/dddddd/000000'),
