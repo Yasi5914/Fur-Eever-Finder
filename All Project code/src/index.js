@@ -76,14 +76,14 @@ app.get('/', (req, res) => {
   app.post('/register', async (req, res) => {
     try {
       // Hash the password using bcrypt library
-      const hash = await bcrypt(req.body.hashPW, 10);
+      const hash = await bcrypt.hash(req.body.hashPW, 10);
       console.log(hash);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
       
       // Replace the following SQL query with the one that inserts data into your 'users' table
       const insertQuery = `
-        INSERT INTO Users (username, password)
+        INSERT INTO Users (username, hashPW)
         VALUES ($1, $2)
         RETURNING username
       `;
@@ -108,8 +108,8 @@ app.get('/', (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
-  console.log("request body:", req.body);
   try {
+    console.log(req.body)
     // if the username or password field is empty, notify the user
     if (!req.body.username || !req.body.hashPW) {
       return res.render('pages/login', {
@@ -122,18 +122,14 @@ app.post("/login", async (req, res) => {
     // if the user is not found in the table, redirect to register page
     console.log(user);
     if (user === null) {
-      return res.render('pages/register', {
+      return res.redirect('pages/register', {
         message: "Please register an account."
       });
     }
     // if the user is found, check if the password entered matches the database.
-    let match;
-    if (req.body.hashPW.trim() === user.hashpw.trim()){
-      match = true;
-    }
-    else{
-      match = false;
-    }
+    console.log(req.body.hashPW)
+    console.log(user.hashpw)
+    const match = bcrypt.compare(req.body.hashPW, user.hashPW); //PROBLEM HERE
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
