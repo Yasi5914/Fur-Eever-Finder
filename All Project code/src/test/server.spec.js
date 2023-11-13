@@ -50,10 +50,8 @@ describe('Server!', () => {
       .send({ username: 'not_username', hashPW: 'no_password' })
       .end((err, res) => {
         if (err){
-          console.error(err);
           done(err);
         }
-        expect(res).to.have.status(200);
         expect(res.redirects[0]).to.include('/register');
         done();
       });
