@@ -1,12 +1,12 @@
-INSERT INTO Users(username, name, hashpw, adminID) VALUES
-('lucy', 'Lucy', 'password', 1),
-('lindy', 'Lindy', 'password', 2),
-('yash', 'Yash', 'password', 3),
-('matt', 'Matt', 'password', 4),
-('andrew', 'Andrew', 'password', 5),
-('vince', 'Vince', 'password', 6);
+INSERT INTO Users(username, name, hashPW, adminID) VALUES
+('lucy', 'Lucy', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true),
+('lindy', 'Lindy', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true),
+('yash', 'Yash', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true),
+('matt', 'Matt', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true),
+('andrew', 'Andrew', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true),
+('vince', 'Vince', '$2b$10$iSW9GnHr.8YQyc5unfskdeF2EI/pj/GJhqVP45pkrHfzcJhxG3qPa', true);
 
-INSERT INTO Users(username, name, address, hashpw, photoURL) VALUES
+INSERT INTO Users(username, name, address, hashPW, photoURL) VALUES
 ('Puppies123', 'Mary Smith', '710 Smith Road', 'puppies4life', 'http://dummyimage.com/162x100.png/dddddd/000000'),
 ('BunnyLuvr', 'Carter Watts', '12 Bluebell Lane', 'bunnys4life', 'http://dummyimage.com/162x100.png/dddddd/000000'),
 ('TooManyCats', 'Abby Greer', '2345 Goldfish Ave', 'kittens4like', 'http://dummyimage.com/162x100.png/dddddd/000000');

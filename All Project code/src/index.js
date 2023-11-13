@@ -65,7 +65,7 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/register');
+    res.redirect('/login');
   });
 
   app.get('/register', (req, res) => {
@@ -77,7 +77,6 @@ app.get('/', (req, res) => {
     try {
       // Hash the password using bcrypt library
       const hash = await bcrypt.hash(req.body.hashPW, 10);
-  
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
       
@@ -100,86 +99,65 @@ app.get('/', (req, res) => {
   });
   
   app.get('/explore', (req, res) => {
+    res.status(200)
     res.render("pages/explore");
   });
 
   app.get('/login', (req, res) => {
+    res.status(200)
     res.render("pages/login");
 });
 
 app.post("/login", async (req, res) => {
-
-  //Query to check if the username from the input is inside the database
-  const query = `SELECT * from Users where username = $1`;
-
-  //Create a user obe
-  var user = {
-    username:undefined,
-    hashPW:undefined
-  }
-
-  //run the query to retrive the user associated with the input username
-  db.one(query,[req.body.username])
-
-      //if username is in database then we update the user object.
-      .then((data)=>{
-        user.username = data.username;
-        user.hashPW = data.hashpw;
-      })
-
-      //if username is not in database then we return a sutiable message to the client
-      .catch((err)=>{
-
-        console.log(err);
-
-        return res.render('pages/login',{
-
-          status : err,
-          message : "The username you have entered is not registered. Please consider registering."
-
-        });
-
+  try {
+    // if the username or password field is empty, notify the user
+    if (!req.body.username || !req.body.hashPW) {
+      res.status(401)
+      return res.render('pages/login', {
+        message: "Missing username or password"
       });
-
-  //Check if the credentials are valid through bcrypt. If they are valid redirect to the home page. If not send a sutiable message to the client.
-  try{
-
-    const match = await bcrypt.compare(req.body.hashPW, user,hashPW, function(err, isValid) {
-
-      if(isValid){
-
-        req.session.user = user;
-        req.session.save();
-        res.redirect("/explore");
-      }
-
+    }
+    // query the Users table for the username entered
+    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
+    const user = await db.oneOrNone(query, [req.body.username]);
+    // if the user is not found in the table, redirect to register page
+    if (!user) {
+      return res.redirect(301, '/register');
+    }
+    // if the user is found, check if the password entered matches the database.
+    const match = await bcrypt.compare(req.body.hashPW, user.hashpw.trim());
+    // if there is a match, let them login and be redirected to the explore page
+    if (match) {
+      req.session.user = user;
+      res.status(200)
+      return res.redirect('/explore');
+    } 
+    // otherwise, re-render the login and notify them of the incorrect password
+    else {
+      res.status(401)
+      return res.render('pages/login', {
+        message: "Wrong password!"
+      });
+    }
+  } catch (error) {
+    console.log("Login error:", error);
+    res.status(500)
+    return res.render('pages/login', {
+      message: "An error occurred during login"
     });
-  }
-
-  catch(err){
-    console.log(err);
-
-    return res.render('pages/login',{
-
-      status : err,
-      message: "Incorrect Password"
-
-    })
   }
 });
 
-// Authentication Middleware.
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
+    res.status(200)
     return res.redirect('/login');
   }
   next();
 };
-
 // Authentication Required
 app.use(auth);
-
-// module.exports = app.listen(3000);
-app.listen(3000);
+module.exports = app.listen(3000);
+//app.listen(3000);
 console.log("Listening on port 3000")
