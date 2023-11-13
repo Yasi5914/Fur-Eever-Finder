@@ -121,14 +121,11 @@ app.post("/login", async (req, res) => {
     const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
     const user = await db.oneOrNone(query, [req.body.username]);
     // if the user is not found in the table, redirect to register page
-    if (user === null) {
-      res.status(401)
-      return res.redirect('pages/register', {
-        message: "Please register an account."
-      });
+    if (!user) {
+      return res.redirect(301, '/register');
     }
     // if the user is found, check if the password entered matches the database.
-    const match = await bcrypt.compare(req.body.hashPW, user.hashpw)
+    const match = await bcrypt.compare(req.body.hashPW, user.hashpw.trim());
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
