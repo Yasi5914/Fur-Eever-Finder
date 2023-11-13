@@ -9,30 +9,23 @@ const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
 const axios = require('axios');
+
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
+  const dbConfig = {
+    host: 'db', // the database server
+    port: 5432, // the database port
+    database: process.env.POSTGRES_DB, // the database name
+    user: process.env.POSTGRES_USER, // the user account to connect with
+    password: process.env.POSTGRES_PASSWORD, // the password of the user account
+  };
+  
+  const db = pgp(dbConfig);
 
-// database configuration
-const dbConfig = {
-  host: 'db', // the database server
-  port: 5432, // the database port
-  database: process.env.POSTGRES_DB, // the database name
-  user: process.env.POSTGRES_USER, // the user account to connect with
-  password: process.env.POSTGRES_PASSWORD, // the password of the user account
-};
+  pgp.end();
 
-const db = pgp(dbConfig);
 
-// test your database
-db.connect()
-  .then(obj => {
-    console.log('Database connection successful'); // you can view this message in the docker compose logs
-    obj.done(); // success, release the connection;
-  })
-  .catch(error => {
-    console.log('ERROR:', error.message || error);
-  });
 
 // *****************************************************
 // <!-- Section 3 : App Settings -->
@@ -77,7 +70,7 @@ app.get('/', (req, res) => {
   app.post('/register', async (req, res) => {
     try {
       // Hash the password using bcrypt library
-      const hash = await bcrypt.hash(req.body.password, 10);
+      const hash = await bcrypt.hash(req.body.hashPW, 10);
       console.log(hash);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
@@ -111,7 +104,7 @@ app.get('/', (req, res) => {
 app.post("/login", async (req, res) => {
   console.log("request body:", req.body);
   try {
-    if (!req.body.username || !req.body.password) {
+    if (!req.body.username || !req.body.hashPW) {
       return res.render('pages/login', {
         message: "Missing username or password"
       });
@@ -119,14 +112,14 @@ app.post("/login", async (req, res) => {
 
     const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
     const user = await db.oneOrNone(query, [req.body.username]);
-    const user_password = await bcrypt.hash(req.body.password, 10);
+    
     console.log(user);
     if (user === null) {
       return res.render('pages/register', {
         message: "Please register an account."
       });
     }
-    const match = await bcrypt.compare(req.body.password, user_password);
+    const match = await bcrypt.compare(req.body.hashPW, user.hashPW);
 
     if (match) {
       req.session.user = user;
