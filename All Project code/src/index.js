@@ -8,6 +8,7 @@ const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
@@ -65,7 +66,7 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/register');
+    res.redirect('/login');
   });
 
   app.get('/register', (req, res) => {
@@ -76,14 +77,14 @@ app.get('/', (req, res) => {
   app.post('/register', async (req, res) => {
     try {
       // Hash the password using bcrypt library
-      const hash = await bcrypt.hash(req.body.hashPW, 10);
-  
+      const hash = await bcrypt.hash(req.body.password, 10);
+      console.log(hash);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
       
       // Replace the following SQL query with the one that inserts data into your 'users' table
       const insertQuery = `
-        INSERT INTO Users (username, hashPW)
+        INSERT INTO Users (username, password)
         VALUES ($1, $2)
         RETURNING username
       `;
@@ -108,34 +109,37 @@ app.get('/', (req, res) => {
 });
 
 app.post("/login", async (req, res) => {
+  console.log("request body:", req.body);
   try {
-    const username = req.body.username;
-    const query = "select * from Users where username = $1";
-
-    const user = await db.oneOrNone(query, [username]);
-
-    if (!user) {
-      // If the user is not found, display an error message
-      return res.redirect('/register', {
-        message: `Incorrect username or password.`,
+    if (!req.body.username || !req.body.password) {
+      return res.render('pages/login', {
+        message: "Missing username or password"
       });
     }
-    console.log(req.body.hashPW, user.hashPW);
-    const match = await bcrypt.compare(req.body.hashPW, user.hashPW);
 
-    if (!match) {
-      // If the password is incorrect, display an error message
-      return res.render("pages/login", {
-        message: "Incorrect username or password.",
-      });      
+    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
+    const user = await db.oneOrNone(query, [req.body.username]);
+    const user_password = await bcrypt.hash(req.body.password, 10);
+    console.log(user);
+    if (user === null) {
+      return res.render('pages/register', {
+        message: "Please register an account."
+      });
     }
-    req.session.user = user;
-    req.session.save();
-    res.redirect("/home");
-  } catch (err) {
-    console.error('Login error:', err);
-    return res.render("pages/login", {
-    message: "An error occurred during login.",
+    const match = await bcrypt.compare(req.body.password, user_password);
+
+    if (match) {
+      req.session.user = user;
+      return res.redirect('/home');
+    } else {
+      return res.render('pages/login', {
+        message: "Wrong password!"
+      });
+    }
+  } catch (error) {
+    console.log("Login error:", error);
+    return res.render('pages/login', {
+      message: "An error occurred during login"
     });
   }
 });
@@ -152,6 +156,5 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
-// module.exports = app.listen(3000);
-app.listen(3000);
+module.exports = app.listen(3000);
 console.log("Listening on port 3000")

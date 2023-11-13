@@ -1,4 +1,4 @@
-INSERT INTO Users(username, name, hashpw, adminID) VALUES
+INSERT INTO Users(username, name, password, adminID) VALUES
 ('lucy', 'Lucy', 'password', 1),
 ('lindy', 'Lindy', 'password', 2),
 ('yash', 'Yash', 'password', 3),
@@ -6,7 +6,7 @@ INSERT INTO Users(username, name, hashpw, adminID) VALUES
 ('andrew', 'Andrew', 'password', 5),
 ('vince', 'Vince', 'password', 6);
 
-INSERT INTO Users(username, name, address, hashpw, photoURL) VALUES
+INSERT INTO Users(username, name, address, password, photoURL) VALUES
 ('Puppies123', 'Mary Smith', '710 Smith Road', 'puppies4life', 'http://dummyimage.com/162x100.png/dddddd/000000'),
 ('BunnyLuvr', 'Carter Watts', '12 Bluebell Lane', 'bunnys4life', 'http://dummyimage.com/162x100.png/dddddd/000000'),
 ('TooManyCats', 'Abby Greer', '2345 Goldfish Ave', 'kittens4like', 'http://dummyimage.com/162x100.png/dddddd/000000');
