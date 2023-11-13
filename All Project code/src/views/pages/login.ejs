@@ -2,23 +2,29 @@
 <%- include ('../partials/menu') %>
 
 <main>
-    <div>
-        <div>
-            <form action="/login" method="post">
-                <h2>Login</h2>
+    <div class="container">
+        <h1>Login</h1>
+        <form action ='/login' method ="POST">
 
+            <div class="form-group">
                 <label for="username">Username:</label>
-                <input type="text" id="username" name="username" placeholder="Enter your username" required />
+                <input class="form-control form-control-sm" type="text" id="username" name="username"/>
+            </div>
 
+            <div class="form-group">
                 <label for="hashPW">Password:</label>
-                <input type="text" id="hashPW" name="hashPW" placeholder="Enter your password" required />
+                <input class="form-control form-control-sm" type="text" id="hashPW" name="hashPW"/>
+            </div>
 
-                <button type="submit">Login</button>
-            </form>
+            <p>Already registered? <a href="/login">Login here</a></p>
 
-            <p>Not registered? <a href="/register">Register here</a></p>
-        </div>
+            <div >
+                <input  type="submit" class="btn btn-primary" value="Login">
+            </div>
+
+        </form>
     </div>
 </main>
+
 
 <%- include ('../partials/footer') %>
