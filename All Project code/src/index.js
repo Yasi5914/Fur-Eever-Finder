@@ -75,11 +75,16 @@ app.get('/', (req, res) => {
   // Register
   app.post('/register', async (req, res) => {
     try {
+      if (!req.body.username || !req.body.hashPW) {
+        return res.redirect(301, '/register', {
+          message: "Missing username or password. Failed to register"
+        });
+      }
       // Hash the password using bcrypt library
       const hash = await bcrypt.hash(req.body.hashPW, 10);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
-      
+
       // Replace the following SQL query with the one that inserts data into your 'users' table
       const insertQuery = `
         INSERT INTO Users (username, hashPW)
