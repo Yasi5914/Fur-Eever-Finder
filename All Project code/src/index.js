@@ -156,7 +156,7 @@ app.post("/login", async (req, res) => {
     });
   }
 
-  catch{
+  catch(err){
     console.log(err);
 
     return res.render('pages/login',{
