@@ -1,10 +1,33 @@
 <%- include ('../partials/head') %>
 <%- include ('../partials/menu') %>
 
+<head>
+  <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+</head>
+
 <main>
-  <div class="col"><%- include ('../partials/message') %></div>
   <div class="container">
-    <h1><center>Explore Page</center></h1>
+    <h1><center>Explore Pets</center></h1>
+    <div class="row">
+      <% for (let i = 0; i < animals.length; i++) { %>
+        <div class="col-md-4 mb-4">
+          <div class="card">
+            <% if (animals[i].photos && animals[i].photos.length > 0) { %>
+              <img src="<%= animals[i].photos[0].medium %>" class="card-img-top" alt="Pet Image">
+            <% } else { %>
+              <!-- Add a default image or placeholder if no photo is available -->
+              <img src="/path/to/default-image.jpg" class="card-img-top" alt="Default Image">
+            <% } %>
+            <div class="card-body">
+              <h5 class="card-title"><%= animals[i].name %></h5>
+              <p class="card-text"><%= animals[i].description %></p>
+              <a class="btn btn-primary">Favorite</a>
+            </div>
+          </div>
+        </div>
+      <% } %>
+    </div>
+  </div>
 </main>
 
 <%- include ('../partials/footer') %>

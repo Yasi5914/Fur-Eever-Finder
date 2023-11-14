@@ -1,5 +1,4 @@
--- DROP TABLE IF EXISTS Users CASCADE;
--- maybe remove adminID?
+DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE Users(
     username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),
@@ -8,7 +7,7 @@ CREATE TABLE Users(
     adminID BOOLEAN,
     photoURL VARCHAR(255)
 );
--- DROP TABLE IF EXISTS PetInfo CASCADE;
+DROP TABLE IF EXISTS PetInfo CASCADE;
 CREATE TABLE PetInfo(
     petID SERIAL PRIMARY KEY NOT NULL,
     name VARCHAR(45),
@@ -22,7 +21,7 @@ CREATE TABLE PetInfo(
     photoURL VARCHAR(255)
 );
 
--- DROP TABLE IF EXISTS User_to_Pet CASCADE;
+DROP TABLE IF EXISTS User_to_Pet CASCADE;
 CREATE TABLE User_to_Pet(
     username VARCHAR(25),
     petID INT,
@@ -31,7 +30,7 @@ CREATE TABLE User_to_Pet(
 );
 
 -- the user in this table is the one trying to adopt
--- DROP TABLE IF EXISTS Applications CASCADE;
+DROP TABLE IF EXISTS Applications CASCADE;
 CREATE TABLE Applications(
     applicationID SERIAL PRIMARY KEY NOT NULL,
     status INT NOT NULL,
@@ -41,7 +40,7 @@ CREATE TABLE Applications(
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
 );
 
--- DROP TABLE IF EXISTS UserFavorites CASCADE;
+DROP TABLE IF EXISTS UserFavorites CASCADE;
 CREATE TABLE UserFavorites(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,

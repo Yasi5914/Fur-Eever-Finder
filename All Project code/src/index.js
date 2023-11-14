@@ -2,12 +2,14 @@
 // <!-- Section 1 : Import Dependencies -->
 // *****************************************************
 
-const express = require("express");
+const express = require('express'); // To build an application server or API
 const app = express();
-const pgp = require("pg-promise")();
-const bodyParser = require("body-parser");
-const session = require("express-session");
-const bcrypt = require('bcrypt');
+const pgp = require('pg-promise')(); // To connect to the Postgres DB from the node server
+const bodyParser = require('body-parser');
+const session = require('express-session'); // To set the session object. To store or access session data, use the `req.session`, which is (generally) serialized as JSON by the store.
+const bcrypt = require('bcrypt'); //  To hash passwords
+const axios = require('axios'); // To make HTTP requests from our server. We'll learn more about it in Part B.
+
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
@@ -119,11 +121,6 @@ app.get('/', (req, res) => {
       res.redirect('/register');
     }
   });
-  
-  app.get('/explore', (req, res) => {
-    res.status(200)
-    res.render("pages/explore");
-  });
 
   app.get('/login', (req, res) => {
     res.status(200)
@@ -181,11 +178,42 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
+app.get('/explore', async (req, res) => {
+  try {
+    const apiEndpoint = 'https://api.petfinder.com/v2/animals';
+    const apiKey = process.env.API_KEY;
+    const type = 'dog';
+    const page = req.query.page || 1; // Get the page from the query parameters
+
+    const response = await axios.get(apiEndpoint, {
+      params: {
+        apikey: apiKey,
+        type: type,
+        page: page,
+        limit: 12,
+      },
+      headers: {
+        Authorization: `Bearer ${process.env.ACCESS_TOKEN}`,
+      },
+    });
+
+    if (response.status === 200) {
+      const { animals } = response.data;
+      res.render('pages/explore', { animals});
+    } else {
+      res.render('pages/explore', { animals: [], error: 'API call failed.' });
+    }
+  } catch (error) {
+    console.error('API call error:', error);
+    res.render('pages/explore', { animals: [], error: 'An error occurred while fetching data from the API.' });
+  }
+});
+
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.render("pages/login");
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
