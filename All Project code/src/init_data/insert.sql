@@ -1,4 +1,4 @@
--- use this for testing:
+-- used this for testing:
 -- username: login_testing
 -- password: testing
 
