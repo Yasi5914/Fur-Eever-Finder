@@ -1,4 +1,5 @@
 -- DROP TABLE IF EXISTS Users CASCADE;
+-- maybe remove adminID?
 CREATE TABLE Users(
     username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),

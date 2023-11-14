@@ -71,6 +71,21 @@ app.get('/', (req, res) => {
   app.get('/register', (req, res) => {
     res.render('pages/register');
   });
+  app.get('/account', (req, res) => {
+    res.render('pages/account');
+  });
+  app.get('/admin_access', (req, res) => {
+    res.render('pages/admin_access');
+  });
+  app.get('/favorites', (req, res) => {
+    res.render('pages/favorites');
+  });
+  app.get('/my_posts', (req, res) => {
+    res.render('pages/my_posts');
+  });
+  app.get('/post_pets', (req, res) => {
+    res.render('pages/post_pets');
+  });
   
   // Register
   app.post('/register', async (req, res) => {
@@ -84,15 +99,17 @@ app.get('/', (req, res) => {
       const hash = await bcrypt.hash(req.body.hashPW, 10);
       // Insert the username and hashed password into the 'users' table
       const username = req.body.username;
+      const name = req.body.name;
+      const address = req.body.address;
 
       // Replace the following SQL query with the one that inserts data into your 'users' table
       const insertQuery = `
-        INSERT INTO Users (username, hashPW)
-        VALUES ($1, $2)
+        INSERT INTO Users (username, hashPW, name, address)
+        VALUES ($1, $2, $3, $4)
         RETURNING username
       `;
       
-       const result = await db.one(insertQuery, [username, hash]);
+       const result = await db.one(insertQuery, [username, hash, name, address]);
   
       // Registration successful, redirect to the login page
       res.redirect('/login');
@@ -163,6 +180,12 @@ const auth = (req, res, next) => {
 };
 // Authentication Required
 app.use(auth);
+
+app.get("/logout", (req, res) => {
+  req.session.destroy();
+  res.render("pages/login");
+});
+
 module.exports = app.listen(3000);
 //app.listen(3000);
 console.log("Listening on port 3000")

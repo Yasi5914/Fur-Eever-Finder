@@ -1,30 +1,32 @@
 <%- include ('../partials/head') %>
-<%- include ('../partials/menu') %>
+<%- include ('../partials/login_register_menu') %>
 
 <main>
     <div class="container">
-        <h1>Login</h1>
-        <form action ='/login' method ="POST">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <h1><center>Login</center></h1>
+                <form action="/login" method="POST">
 
-            <div class="form-group">
-                <label for="username">Username:</label>
-                <input class="form-control form-control-sm" type="text" id="username" name="username"/>
+                    <div class="form-group">
+                        <label for="username">Username:</label>
+                        <input class="form-control form-control-sm" type="text" id="username" name="username"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="hashPW">Password:</label>
+                        <input class="form-control form-control-sm" type="password" id="hashPW" name="hashPW"/>
+                    </div>
+
+                    <div class="text-center">
+                        <p>Not registered yet? <a href="/register">Register here</a></p>
+                        <input type="submit" class="btn btn-primary" value="Login">
+                    </div>
+
+                </form>
             </div>
-
-            <div class="form-group">
-                <label for="hashPW">Password:</label>
-                <input class="form-control form-control-sm" type="text" id="hashPW" name="hashPW"/>
-            </div>
-
-            <p>Already registered? <a href="/register">Register here</a></p>
-
-            <div >
-                <input  type="submit" class="btn btn-primary" value="Login">
-            </div>
-
-        </form>
+        </div>
     </div>
 </main>
-
 
 <%- include ('../partials/footer') %>
