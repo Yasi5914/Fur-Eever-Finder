@@ -189,7 +189,6 @@ app.get('/explore', async (req, res) => {
       params: {
         apikey: apiKey,
         type: type,
-        page: page,
         limit: 12,
       },
       headers: {
@@ -214,6 +213,6 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-//module.exports = app.listen(3000);
-app.listen(3000);
+module.exports = app.listen(3000);
+//app.listen(3000);
 console.log("Listening on port 3000")
