@@ -15,10 +15,16 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 | Express | Server Framework |
 | PostgreSQL | Database Management |
 
-## Prerequisites to Run:  
+## Prerequisites to Run: 
+Have Docker installed and running in the background
 
 ## Running the Application Locally:  
+docker compose up
+(for website to run locally, "app.listen(3000);" needs to be at the bottom of index.js instead of "module.exports = app.listen(3000);")
 
-## Running Tests:  
+## Running Tests: 
+docker compose down -v
+docker compose up
+(for tests to pass, "module.exports = app.listen(3000);" needs to be at the bottom of index.js instead of "app.listen(3000);")
 
 ## Link to Deployed Application:  

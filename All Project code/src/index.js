@@ -90,10 +90,14 @@ app.get('/', (req, res) => {
   // Register
   app.post('/register', async (req, res) => {
     try {
-      if (!req.body.username || !req.body.hashPW) {
-        return res.redirect(301, '/register', {
-          message: "Missing username or password. Failed to register"
+      console.log(req.body);
+      if (req.body.username === '' || req.body.hashPW === '' || req.body.name === '' || req.body.address === '') {
+        return res.render('pages/register', {
+          message: "Missing one of the fields. Failed to register"
         });
+      }
+      else{
+
       }
       // Hash the password using bcrypt library
       const hash = await bcrypt.hash(req.body.hashPW, 10);
@@ -189,3 +193,42 @@ app.get("/logout", (req, res) => {
 module.exports = app.listen(3000);
 //app.listen(3000);
 console.log("Listening on port 3000")
+
+// code for my_posts has been stored here because program won't run if it is commented out in the my_posts
+{/* <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Pets</title>
+  <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+</head>
+
+<body>
+<% if (petInfo && petInfo.length > 0) { %>
+  <% petInfo.forEach(function(pet) { %>
+    <div class="user-pet-card">
+      <img src="<%= pet.photoURL %>" alt="<%= pet.name %>">
+      <div class="user-pet-card-content">
+        <h2><%= pet.name %></h2>
+        <p><%= pet.description %></p>
+        Additional information fields
+        <p>Name: <%= pet.name || 'N/A' %></p>
+        <p>Animal Type: <%= pet.animalType || 'N/A' %></p>
+        <p>Breed: <%= pet.breed || 'N/A' %></p>
+        <p>Size: <%= pet.size || 'N/A' %></p>
+        <p>Age: <%= pet.age || 'N/A' %></p>
+        <p>Sex: <%= pet.sex || 'N/A' %></p>
+      </div>
+    </div>
+  <% }); %>
+<% } else { %>
+  <div class="user-pet-card">
+    <div class="user-pet-card-content">
+      <h2>You have no posts yet</h2>
+    </div>
+  </div>
+<% } %>
+
+"Create Post" button
+<a href="/post_pets" class="create-post-button">Create Post</a>
+
+</body> */}
