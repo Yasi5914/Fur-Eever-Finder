@@ -48,3 +48,19 @@ CREATE TABLE UserFavorites(
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
 );
+
+--Table to store pet information for each user
+CREATE TABLE UserPetInfo (
+  petID SERIAL PRIMARY KEY NOT NULL,
+  name VARCHAR(45),
+  animalType INT NOT NULL,
+  breed VARCHAR(45),
+  size INT NOT NULL,
+  age INT NOT NULL,
+  sex INT NOT NULL,
+  description VARCHAR(500),
+  adoptionFee INT,
+  photoURL VARCHAR(255),
+  username VARCHAR(25),
+  FOREIGN KEY(username) REFERENCES Users(username)
+);

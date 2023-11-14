@@ -4,7 +4,44 @@
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class="container">
-    <h1><center>My Posts</center></h1>
+    <h1>My Pet Posts</h1>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Your Pets</title>
+      <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    </head>
+
+    <body>
+    <% if (petInfo && petInfo.length > 0) { %>
+      <% petInfo.forEach(function(pet) { %>
+        <div class="user-pet-card">
+          <img src="<%= pet.photoURL %>" alt="<%= pet.name %>">
+          <div class="user-pet-card-content">
+            <h2><%= pet.name %></h2>
+            <p><%= pet.description %></p>
+            <!-- Additional information fields -->
+            <p>Name: <%= pet.name || 'N/A' %></p>
+            <p>Animal Type: <%= pet.animalType || 'N/A' %></p>
+            <p>Breed: <%= pet.breed || 'N/A' %></p>
+            <p>Size: <%= pet.size || 'N/A' %></p>
+            <p>Age: <%= pet.age || 'N/A' %></p>
+            <p>Sex: <%= pet.sex || 'N/A' %>
+          </div>
+        </div>
+      <% }); %>
+    <% } else { %>
+      <div class="user-pet-card">
+        <div class="user-pet-card-content">
+          <h2>You have no posts yet</h2>
+        </div>
+      </div>
+    <% } %>
+
+    <!-- "Create Post" button -->
+    <a href="/post_pets" class="create-post-button">Create Post</a>
+
+    </body>
   </div>
 </main>
 
