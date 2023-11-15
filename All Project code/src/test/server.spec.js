@@ -43,21 +43,25 @@ describe('Server!', () => {
   });
 
   // negative register test. The password field is empty, expect to reload register to have them try again
-  it('negative : /register', done => {
+  it('negative: /register', done => {
     chai
       .request(server)
       .post('/register')
-      .send({username: 'login_test', hashPW: ''})
+      .send({ username: 'login_test', hashPW: '' , name: '', address: ''})
       .end((err, res) => {
-        if (err){
+        if (err) {
           console.error(err);
           done(err);
         }
-        expect(res).to.redirect;
+  
+        // Assuming you set the HTTP status code for rendering the register page in case of validation errors
+        expect(res).to.have.status(200); // Adjust the status code as needed
+        expect(res.text).to.include('Missing one of the fields. Failed to register'); // Adjust the expected message
+  
         done();
       });
   });
-
+  
   // We are checking POST /add_user API by passing the user info in the correct order. This test case should pass and return a status 200 along with a "Success" message.
   // Positive cases
   it('positive : /login', done => {
