@@ -1,0 +1,18 @@
+Week of 11/14/2023
+
+Main Decisions:
+We decided to create a more detailed page with all of the pet info, that can be clicked on to view more info.
+Admin accounts and controls are going to be put into the icebox until and if we have time.
+
+Roles for the upcoming week:
+Yash - Pet Page
+Lucy and Vince - Explore Page, (boulder and anywhere)
+Lindy - Filters
+Andrew - Profile page and updating profile. 
+Matt- My Posts and Post Pets. 
+
+Filters need to change based on pet type.
+The Boulder explore page needs to be updated to display images correctly and have same format as explore anywhere.
+User profile pages needs to have edit features. 
+My Posts and Posts Pets routes need fixing. 
+Individual Pet pages need to be created to display all info and choices for the pet specified.
