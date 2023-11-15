@@ -91,7 +91,7 @@ app.post('/account', async (req, res) => {
       name = '${req.body.new_name}'
       WHERE username = '${req.session.user.username}'`
 
-      await db.one(query)
+      await db.none(query)
     }
     if (req.body.new_password)
     {
@@ -101,7 +101,7 @@ app.post('/account', async (req, res) => {
       hashpw = '${new_hash}'
       WHERE username = '${req.session.user.username}'`
 
-      await db.one(query)
+      await db.none(query)
     }
     if (req.body.new_photoURL)
     {
@@ -111,17 +111,17 @@ app.post('/account', async (req, res) => {
       photoURL = '${req.body.new_photoURL}'
       WHERE username = '${req.session.user.username}'`
 
-      await db.one(query)
+      await db.none(query)
     }
     if (req.body.new_address)
     {
-      req.session.address = req.body.new_address
+      req.session.user.address = req.body.new_address
 
       query = `UPDATE users SET
       address = '${req.body.new_address}'
       WHERE username = '${req.session.user.username}'`
 
-      await db.one(query)
+      await db.none(query)
     }
   } catch (error) {
     console.log(error)
