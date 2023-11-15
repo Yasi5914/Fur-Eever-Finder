@@ -7,7 +7,7 @@ Updated database structure and changed insert files to make password hashing com
 ### Vince:  
 
 ### Yash:
-
+Worked on login API and updated the UI for login and register. Debugged why the test cases were failing for login, and registerz
 ### Matthew: 
 My posts page UI is complete and I am currently working on functionality.
 
@@ -19,7 +19,7 @@ Lindy: Filters/Favorites page
 #
 Lucy: Make tables and insert statements
 #
-Yash: Complete registration page functionality and its UI.
+Yash: Make a pet page, which pops up when you click on a pet's card on the explore page
 #
 Matthew: Complete the UI for My Posts page and start on Create Posts function
 #
