@@ -89,13 +89,14 @@ app.get('/post_pets', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
+/*
 app.get('/account', (req, res) => {
   res.render('pages/account', {
     username: req.session.user.username,
     name: req.session.user.name,
     address: req.session.user.address,
     adminID: req.session.user.adminID,
-    photoURL: req.session.user.photoURL,
+    photoURL: req.session.user.photoURL
   });
 });
 app.post('/account', async (req, res) => {
@@ -153,7 +154,7 @@ app.post('/account', async (req, res) => {
     message: "Information successfully updated!"
   });
 });
-
+*/
 // Register
 app.post('/register', async (req, res) => {
   try {
@@ -217,7 +218,7 @@ app.post("/login", async (req, res) => {
       return res.redirect(301, '/register');
     }
     // if the user is found, check if the password entered matches the database.
-    const match = await bcrypt.compare(req.body.hashPW, user.hashpw.trim());
+    const match = await bcrypt.compare(req.body.hashPW, user.hashpw);
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
