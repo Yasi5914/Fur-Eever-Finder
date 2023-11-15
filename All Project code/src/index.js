@@ -55,14 +55,6 @@ app.use(
   })
 );
 
-const user = {
-  username: undefined,
-  name: undefined,
-  address: undefined,
-  adminID: undefined,
-  photoURL: undefined,
-};
-
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
@@ -76,70 +68,121 @@ app.get('/', (req, res) => {
     res.redirect('/login');
   });
 
-  app.get('/register', (req, res) => {
-    res.render('pages/register');
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+app.get('/account', (req, res) => {
+  res.render('pages/account', {
+    username: req.session.user.username,
+    name: req.session.user.name,
+    address: req.session.user.address,
+    adminID: req.session.user.adminID,
+    photoURL: req.session.user.photoURL,
   });
-  app.get('/account', (req, res) => {
-    res.render('pages/account', {
-      username: req.session.user.username,
-      name: req.session.user.name,
-      address: req.session.user.address,
-      adminID: req.session.user.adminID,
-      photoURL: req.session.user.photoURL,
-    });
-  });
-  app.get('/admin_access', (req, res) => {
-    res.render('pages/admin_access');
-  });
-  app.get('/favorites', (req, res) => {
-    res.render('pages/favorites');
-  });
-  app.get('/my_posts', (req, res) => {
-    res.render('pages/my_posts');
-  });
-  app.get('/post_pets', (req, res) => {
-    res.render('pages/post_pets');
-  });
-  
-  // Register
-  app.post('/register', async (req, res) => {
-    try {
-      if (!req.body.username || !req.body.hashPW) {
-        return res.redirect(301, '/register', {
-          message: "Missing username or password. Failed to register"
-        });
-      }
-      // Hash the password using bcrypt library
-      const hash = await bcrypt.hash(req.body.hashPW, 10);
-      // Insert the username and hashed password into the 'users' table
-      const username = req.body.username;
-      const name = req.body.name;
-      const address = req.body.address;
+});
+app.post('/account', async (req, res) => {
+  let query
+  try {
+    if (req.body.new_name)
+    {
+      req.session.user.name = req.body.new_name
 
-      // Replace the following SQL query with the one that inserts data into your 'users' table
-      const insertQuery = `
-        INSERT INTO Users (username, hashPW, name, address)
-        VALUES ($1, $2, $3, $4)
-        RETURNING username
-      `;
-      
-       const result = await db.one(insertQuery, [username, hash, name, address]);
-  
-      // Registration successful, redirect to the login page
-      res.redirect('/login');
-    } catch (error) {
-      // If the insert fails, redirect to the registration page
-      console.error('Registration error:', error);
-      res.redirect('/register');
+      query = `UPDATE users SET
+      name = '${req.body.new_name}'
+      WHERE username = '${req.session.user.username}';`
+
+      db.one(query)
     }
-  });
-  
-  app.get('/explore', (req, res) => {
-    res.status(200)
-    res.render("pages/explore");
-  });
+    if (req.body.new_password)
+    {
+      const new_hash = await bcrypt.hash(req.body.new_password, 10)
 
-  app.get('/login', (req, res) => {
+      query = `UPDATE users SET
+      hashpw = '${new_hash}'
+      WHERE username = '${req.session.user.username}'`
+
+    }
+    if (req.body.new_photoURL)
+    {
+      req.session.user.photoURL = req.body.new_photoURL
+
+      query = `UPDATE users SET
+      photoURL = '${req.body.new_photoURL}'
+      WHERE username = '${req.session.user.username}'`
+    }
+    if (req.body.new_address)
+    {
+      req.session.address = req.body.new_address
+
+      query = `UPDATE users SET
+      address = '${req.body.new_address}'
+      WHERE username = '${req.session.user.username}'`
+    }
+  } catch (error) {
+    console.log(error)
+  }
+  res.render('pages/account', {
+    username: req.session.user.username,
+    name: req.session.user.name,
+    address: req.session.user.address,
+    adminID: req.session.user.adminID,
+    photoURL: req.session.user.photoURL,
+    message: "Information successfully updated!"
+  });
+});
+
+app.get('/admin_access', (req, res) => {
+  res.render('pages/admin_access');
+});
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
+app.get('/my_posts', (req, res) => {
+  res.render('pages/my_posts');
+});
+app.get('/post_pets', (req, res) => {
+  res.render('pages/post_pets');
+});
+
+// Register
+app.post('/register', async (req, res) => {
+  try {
+    if (!req.body.username || !req.body.hashPW) {
+      return res.redirect(301, '/register', {
+        message: "Missing username or password. Failed to register"
+      });
+    }
+    // Hash the password using bcrypt library
+    const hash = await bcrypt.hash(req.body.hashPW, 10);
+    // Insert the username and hashed password into the 'users' table
+    const username = req.body.username;
+    const name = req.body.name;
+    const address = req.body.address;
+
+    // Replace the following SQL query with the one that inserts data into your 'users' table
+    const insertQuery = `
+      INSERT INTO Users (username, hashPW, name, address)
+      VALUES ($1, $2, $3, $4)
+      RETURNING username
+    `;
+    
+      const result = await db.one(insertQuery, [username, hash, name, address]);
+
+    // Registration successful, redirect to the login page
+    res.redirect('/login');
+  } catch (error) {
+    // If the insert fails, redirect to the registration page
+    console.error('Registration error:', error);
+    res.redirect('/register');
+  }
+});
+
+app.get('/explore', (req, res) => {
+  res.status(200)
+  res.render("pages/explore");
+});
+
+app.get('/login', (req, res) => {
     res.status(200)
     res.render("pages/login");
 });
