@@ -2,7 +2,7 @@
 Login and Register pages are completed with UI and routes. They are fully tested with both positive and negative test cases.  
 Updated database structure and changed insert files to make password hashing comparisons possible in login.  
 
-### Lucy:
+### Lucy: Created first draft of tables and insert statements, and updated database design diagram. Created Explore Boulder page, which displays all pets in the database and information. 
 
 ### Vince:  
 
