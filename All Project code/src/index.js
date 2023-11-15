@@ -55,6 +55,14 @@ app.use(
   })
 );
 
+const user = {
+  username: undefined,
+  name: undefined,
+  address: undefined,
+  adminID: undefined,
+  photoURL: undefined,
+};
+
 // *****************************************************
 // <!-- Section 4 : API Routes -->
 // *****************************************************
@@ -72,7 +80,13 @@ app.get('/', (req, res) => {
     res.render('pages/register');
   });
   app.get('/account', (req, res) => {
-    res.render('pages/account');
+    res.render('pages/account', {
+      username: req.session.user.username,
+      name: req.session.user.name,
+      address: req.session.user.address,
+      adminID: req.session.user.adminID,
+      photoURL: req.session.user.photoURL,
+    });
   });
   app.get('/admin_access', (req, res) => {
     res.render('pages/admin_access');
@@ -151,6 +165,7 @@ app.post("/login", async (req, res) => {
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
+      req.session.save();
       res.status(200)
       return res.redirect('/explore');
     } 
@@ -186,6 +201,6 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
