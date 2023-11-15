@@ -9,6 +9,7 @@ Updated database structure and changed insert files to make password hashing com
 ### Yash:
 
 ### Matthew: 
+My posts page UI is complete and I am currently working on functionality.
 
 ### Andrew:
 
@@ -20,7 +21,7 @@ Lucy: Make tables and insert statements
 #
 Yash: Complete registration page functionality and its UI.
 #
-Matthew: Complete the UI for My Posts page
+Matthew: Complete the UI for My Posts page and start on Create Posts function
 #
 Vince:  Organize explore page with search parameters, add search parameter functionality
 #
