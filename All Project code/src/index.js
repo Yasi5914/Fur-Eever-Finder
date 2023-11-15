@@ -61,12 +61,30 @@ app.use(
 
 //test endpoint
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+  res.json({ status: 'success', message: 'Welcome!' });
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/login');
-  });
+  res.redirect('/login');
+});
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+app.get('/account', (req, res) => {
+  res.render('pages/account');
+});
+app.get('/admin_access', (req, res) => {
+  res.render('pages/admin_access');
+});
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
+app.get('/my_posts', (req, res) => {
+  res.render('pages/my_posts');
+});
+app.get('/post_pets', (req, res) => {
+  res.render('pages/post_pets');
+});
 
 app.get('/register', (req, res) => {
   res.render('pages/register');
@@ -167,13 +185,13 @@ app.post('/register', async (req, res) => {
     const address = req.body.address;
 
     // Replace the following SQL query with the one that inserts data into your 'users' table
-    const insertQuery = `
-      INSERT INTO Users (username, hashPW, name, address)
-      VALUES ($1, $2, $3, $4)
-      RETURNING username
-    `;
-    
-      const result = await db.one(insertQuery, [username, hash, name, address]);
+    const insertQuery =
+        INSERT INTO Users (username, hashPW, name, address)
+        VALUES ($1, $2, $3, $4)
+        RETURNING username
+      `;
+
+    const result = await db.one(insertQuery, [username, hash, name, address]);
 
     // Registration successful, redirect to the login page
     res.redirect('/login');
@@ -185,13 +203,16 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/explore', (req, res) => {
-  res.status(200)
-  res.render("pages/explore");
+  const petQuery = 'SELECT * FROM PetInfo;'
+  db.any(petQuery)
+    .then((PetInfo) => {
+      res.status(200).render("pages/explore", { PetInfo });
+    })
 });
 
 app.get('/login', (req, res) => {
-    res.status(200)
-    res.render("pages/login");
+  res.status(200)
+  res.render("pages/login");
 });
 
 app.post("/login", async (req, res) => {
@@ -218,7 +239,7 @@ app.post("/login", async (req, res) => {
       req.session.save();
       res.status(200)
       return res.redirect('/explore');
-    } 
+    }
     // otherwise, re-render the login and notify them of the incorrect password
     else {
       res.status(401)
@@ -254,3 +275,42 @@ app.get("/logout", (req, res) => {
 //module.exports = app.listen(3000);
 app.listen(3000);
 console.log("Listening on port 3000")
+
+// code for my_posts has been stored here because program won't run if it is commented out in the my_posts
+{/* <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Pets</title>
+  <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+</head>
+
+<body>
+<% if (petInfo && petInfo.length > 0) { %>
+  <% petInfo.forEach(function(pet) { %>
+    <div class="user-pet-card">
+      <img src="<%= pet.photoURL %>" alt="<%= pet.name %>">
+      <div class="user-pet-card-content">
+        <h2><%= pet.name %></h2>
+        <p><%= pet.description %></p>
+        Additional information fields
+        <p>Name: <%= pet.name || 'N/A' %></p>
+        <p>Animal Type: <%= pet.animalType || 'N/A' %></p>
+        <p>Breed: <%= pet.breed || 'N/A' %></p>
+        <p>Size: <%= pet.size || 'N/A' %></p>
+        <p>Age: <%= pet.age || 'N/A' %></p>
+        <p>Sex: <%= pet.sex || 'N/A' %></p>
+      </div>
+    </div>
+  <% }); %>
+<% } else { %>
+  <div class="user-pet-card">
+    <div class="user-pet-card-content">
+      <h2>You have no posts yet</h2>
+    </div>
+  </div>
+<% } %>
+
+"Create Post" button
+<a href="/post_pets" class="create-post-button">Create Post</a>
+
+</body> */}
