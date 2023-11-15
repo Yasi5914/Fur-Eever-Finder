@@ -61,73 +61,76 @@ app.use(
 
 //test endpoint
 app.get('/welcome', (req, res) => {
-  res.json({status: 'success', message: 'Welcome!'});
+  res.json({ status: 'success', message: 'Welcome!' });
 });
 
 app.get('/', (req, res) => {
-    res.redirect('/login');
-  });
+  res.redirect('/login');
+});
 
-  app.get('/register', (req, res) => {
-    res.render('pages/register');
-  });
-  app.get('/account', (req, res) => {
-    res.render('pages/account');
-  });
-  app.get('/admin_access', (req, res) => {
-    res.render('pages/admin_access');
-  });
-  app.get('/favorites', (req, res) => {
-    res.render('pages/favorites');
-  });
-  app.get('/my_posts', (req, res) => {
-    res.render('pages/my_posts');
-  });
-  app.get('/post_pets', (req, res) => {
-    res.render('pages/post_pets');
-  });
-  
-  // Register
-  app.post('/register', async (req, res) => {
-    try {
-      if (!req.body.username || !req.body.hashPW) {
-        return res.redirect(301, '/register', {
-          message: "Missing username or password. Failed to register"
-        });
-      }
-      // Hash the password using bcrypt library
-      const hash = await bcrypt.hash(req.body.hashPW, 10);
-      // Insert the username and hashed password into the 'users' table
-      const username = req.body.username;
-      const name = req.body.name;
-      const address = req.body.address;
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+app.get('/account', (req, res) => {
+  res.render('pages/account');
+});
+app.get('/admin_access', (req, res) => {
+  res.render('pages/admin_access');
+});
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
+app.get('/my_posts', (req, res) => {
+  res.render('pages/my_posts');
+});
+app.get('/post_pets', (req, res) => {
+  res.render('pages/post_pets');
+});
 
-      // Replace the following SQL query with the one that inserts data into your 'users' table
-      const insertQuery = `
+// Register
+app.post('/register', async (req, res) => {
+  try {
+    if (!req.body.username || !req.body.hashPW) {
+      return res.redirect(301, '/register', {
+        message: "Missing username or password. Failed to register"
+      });
+    }
+    // Hash the password using bcrypt library
+    const hash = await bcrypt.hash(req.body.hashPW, 10);
+    // Insert the username and hashed password into the 'users' table
+    const username = req.body.username;
+    const name = req.body.name;
+    const address = req.body.address;
+
+    // Replace the following SQL query with the one that inserts data into your 'users' table
+    const insertQuery = `
         INSERT INTO Users (username, hashPW, name, address)
         VALUES ($1, $2, $3, $4)
         RETURNING username
       `;
-      
-       const result = await db.one(insertQuery, [username, hash, name, address]);
-  
-      // Registration successful, redirect to the login page
-      res.redirect('/login');
-    } catch (error) {
-      // If the insert fails, redirect to the registration page
-      console.error('Registration error:', error);
-      res.redirect('/register');
-    }
-  });
-  
-  app.get('/explore', (req, res) => {
-    res.status(200)
-    res.render("pages/explore");
-  });
 
-  app.get('/login', (req, res) => {
-    res.status(200)
-    res.render("pages/login");
+    const result = await db.one(insertQuery, [username, hash, name, address]);
+
+    // Registration successful, redirect to the login page
+    res.redirect('/login');
+  } catch (error) {
+    // If the insert fails, redirect to the registration page
+    console.error('Registration error:', error);
+    res.redirect('/register');
+  }
+});
+
+app.get('/explore', (req, res) => {
+  const petQuery = 'SELECT * FROM PetInfo;'
+  db.any(petQuery)
+    .then((PetInfo) => {
+      res.status(200).render("pages/explore", { PetInfo });
+    })
+});
+
+app.get('/login', (req, res) => {
+  res.status(200)
+  res.render("pages/login");
 });
 
 app.post("/login", async (req, res) => {
@@ -153,7 +156,7 @@ app.post("/login", async (req, res) => {
       req.session.user = user;
       res.status(200)
       return res.redirect('/explore');
-    } 
+    }
     // otherwise, re-render the login and notify them of the incorrect password
     else {
       res.status(401)
