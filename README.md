@@ -16,7 +16,7 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 | PostgreSQL | Database Management |
 
 ## Prerequisites to Run: 
-Have Docker installed 
+Have Docker installed and running in the background
 
 ## Running the Application Locally:  
 docker compose up
