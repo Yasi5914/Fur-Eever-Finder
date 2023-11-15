@@ -1,10 +1,31 @@
 <%- include ('../partials/head') %>
-<%- include ('../partials/menu') %>
+  <%- include ('../partials/menu') %>
 
-<main>
-  <div class="col"><%- include ('../partials/message') %></div>
-  <div class="container">
-    <h1><center>Explore Page</center></h1>
-</main>
+    <main>
+      <div class="col"><%- include ('../partials/message') %></div>
+      <div class="container">
+        <h1>
+          <center>Explore Page</center>
+        </h1>
+        <%PetInfo.forEach(function(pet){%>
+        <div class="card" style="width: 18rem;">
+          <img class="card-img-top" src="<%- pet.photoURL %>" alt="Pet Image">
+          <div class="card-body">
+            <h5 class="card-title"><%- pet.name%></h5>
+            <p class="card-text"><%- pet.description%></p>
+          </div>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Breed: <%- pet.breed%></li>
+            <li class="list-group-item">Age: <%- pet.age %>, Gender: <%- pet.sex%></li>
+            <li class="list-group-item">Adoption Fee: $<%- pet.adoptionFee%></li>
+          </ul>
+          <div class="card-body">
+            <a href="#" class="card-link">Add Favorite</a>
+            <a href="#" class="card-link">Send Application</a>
+          </div>
+        </div>
+      <%})%>
+      </div>
+    </main>
 
-<%- include ('../partials/footer') %>
+    <%- include ('../partials/footer') %>
