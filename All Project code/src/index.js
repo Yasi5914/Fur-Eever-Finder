@@ -86,6 +86,89 @@ app.get('/post_pets', (req, res) => {
   res.render('pages/post_pets');
 });
 
+app.get('/register', (req, res) => {
+  res.render('pages/register');
+});
+app.get('/account', (req, res) => {
+  res.render('pages/account', {
+    username: req.session.user.username,
+    name: req.session.user.name,
+    address: req.session.user.address,
+    adminID: req.session.user.adminID,
+    photoURL: req.session.user.photoURL,
+  });
+});
+app.post('/account', async (req, res) => {
+  let query
+  try {
+    /*
+    if (req.body.new_name)
+    {
+      req.session.user.name = req.body.new_name
+
+      query = `UPDATE users SET
+      name = '${req.body.new_name}'
+      WHERE username = '${req.session.user.username}'`
+
+      await db.one(query)
+    }
+    if (req.body.new_password)
+    {
+      const new_hash = await bcrypt.hash(req.body.new_password, 10)
+
+      query = `UPDATE users SET
+      hashpw = '${new_hash}'
+      WHERE username = '${req.session.user.username}'`
+
+      await db.one(query)
+    }
+    if (req.body.new_photoURL)
+    {
+      req.session.user.photoURL = req.body.new_photoURL
+
+      query = `UPDATE users SET
+      photoURL = '${req.body.new_photoURL}'
+      WHERE username = '${req.session.user.username}'`
+
+      await db.one(query)
+    }
+    if (req.body.new_address)
+    {
+      req.session.address = req.body.new_address
+
+      query = `UPDATE users SET
+      address = '${req.body.new_address}'
+      WHERE username = '${req.session.user.username}'`
+
+      await db.one(query)
+    }
+    */
+  } catch (error) {
+    console.log(error)
+  }
+  res.render('pages/account', {
+    username: req.session.user.username,
+    name: req.session.user.name,
+    address: req.session.user.address,
+    adminID: req.session.user.adminID,
+    photoURL: req.session.user.photoURL,
+    message: "Information successfully updated!"
+  });
+});
+
+app.get('/admin_access', (req, res) => {
+  res.render('pages/admin_access');
+});
+app.get('/favorites', (req, res) => {
+  res.render('pages/favorites');
+});
+app.get('/my_posts', (req, res) => {
+  res.render('pages/my_posts');
+});
+app.get('/post_pets', (req, res) => {
+  res.render('pages/post_pets');
+});
+
 // Register
 app.post('/register', async (req, res) => {
   try {
@@ -153,6 +236,7 @@ app.post("/login", async (req, res) => {
     // if there is a match, let them login and be redirected to the explore page
     if (match) {
       req.session.user = user;
+      req.session.save();
       res.status(200)
       return res.redirect('/explore');
     }
@@ -188,8 +272,8 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
 
 // code for my_posts has been stored here because program won't run if it is commented out in the my_posts

@@ -5,7 +5,31 @@
   <div class="col"><%- include ('../partials/message') %></div>
   <div class="container">
     <!-- Display User Data -->
-    <h1><center>Your Account Info</center></h1>
+    <h1><center>Welcome <%- name%></center></h1>
+  </div>
+  <div class = "container">
+    <div class = "container row">
+      <div class="container col-sm">
+        <img src=" <%=photoURL %>", width="500">
+      </div>
+      <div class="container col-sm">
+        <form action="/account" method="POST">
+          <label for="new_name">Update Name</label>
+          <input type="text" name="new_name" id="new_name"> <br>
+
+          <label for = "new_password">Update Password</label>
+          <input type="password" name = "new_password" id="new_password"> <br>
+
+          <label for= "new_photoURL">Update Photo</label>
+          <input type="text" name="new_photoURL" id="new_photoURL"> <br>
+
+          <label for="new_address">Update Address</label>
+          <input type="text" name="new_address" id="new_address"> <br>
+
+          <input type="submit" class="btn btn-primary" value="Update Information">
+        </form>
+      </div>
+    </div>
   </div>
 </main>
 
