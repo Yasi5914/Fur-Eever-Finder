@@ -14,6 +14,7 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 | Node.js | Server Environment |
 | Express | Server Framework |
 | PostgreSQL | Database Management |
+| Mocha/Chai | Testing | 
 
 ## Prerequisites to Run: 
 Have Docker installed and running in the background
