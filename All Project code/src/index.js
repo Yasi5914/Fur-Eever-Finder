@@ -170,6 +170,35 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get('/my_posts', async (req, res) => {
+  try {
+    // Check if the user is logged in
+    if (!req.session.user) {
+      return res.redirect('/login');
+    }
+
+    // Fetch pet information for the logged-in user
+    const username = req.session.user.username;
+
+    // Query the database only if the user is logged in
+    const petInfo = await db.any(`
+      SELECT pi.*, u.username
+      FROM PetInfo pi
+      INNER JOIN User_to_Pet utp ON pi.petID = utp.petID
+      INNER JOIN Users u ON utp.username = u.username
+      WHERE u.username = $1
+    `, [username]);
+
+    console.log(petInfo);
+    // Render the my_posts page with pet information
+    res.render('pages/my_posts', { petInfo });
+  } catch (error) {
+    console.error('Error fetching pet information:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
@@ -186,6 +215,6 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+// module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")

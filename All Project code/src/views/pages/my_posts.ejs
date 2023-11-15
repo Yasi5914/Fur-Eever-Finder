@@ -13,8 +13,8 @@
     </head>
 
     <body>
-    <% if (petInfo && petInfo.length > 0) { %>
-      <% petInfo.forEach(function(pet) { %>
+    <% if (locals.petInfo && locals.petInfo.length > 0) { %>
+      <% locals.petInfo.forEach(function(pet) { %>
         <div class="user-pet-card">
           <img src="<%= pet.photoURL %>" alt="<%= pet.name %>">
           <div class="user-pet-card-content">
