@@ -83,6 +83,7 @@ app.get('/account', (req, res) => {
 app.post('/account', async (req, res) => {
   let query
   try {
+    /*
     if (req.body.new_name)
     {
       req.session.user.name = req.body.new_name
@@ -123,6 +124,7 @@ app.post('/account', async (req, res) => {
 
       await db.one(query)
     }
+    */
   } catch (error) {
     console.log(error)
   }
