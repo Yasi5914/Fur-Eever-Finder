@@ -14,7 +14,7 @@ Worked on login API and updated the UI for login and register. Debugged why the 
 My posts page UI is complete and I am currently working on functionality.
 
 ### Andrew:
-
+Created, formatted, and finished header, footer and menu partials. Begin progress on profile page.
 ### Plan for next week:  
 #
 Lindy: Filters/Favorites page
@@ -27,7 +27,7 @@ Matthew: Complete the UI for My Posts page and start on Create Posts function
 #
 Vince:  Implement Automatic Axios Authorization key call, add pet specific parameters
 #
-Andrew: Create, format, and finish header, footer and menu partials. Begin progress on profile page.
-
+Andrew:
+Complete profile and change profile pages: back front and back end
 
 
