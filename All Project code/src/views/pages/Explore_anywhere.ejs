@@ -30,15 +30,23 @@
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Breed
                         </button>
-                        <ul class="dropdown-menu">
-                        <% if(species = 'dog'){%>
-                        <li><a class="dropdown-item" href="/discover?species=dog&breed=chihuahua">Chihuahua</a></li>
-                        <li><a class="dropdown-item" href="/discover?species=dog">Any</a></li>
-                        <%}
-                            else{%>
-                            <li><a class="dropdown-item" href="/discover?species=cat&breed=Domestic Short Hair">Domestic Short Hair</a></li>
-                            <li><a class="dropdown-item" href="/discover?species=cat">Any</a></li>
-                        <%}%>
+                        <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
+                        <% dogBreeds.forEach(breed =>{%>
+                        <li><a class="dropdown-item" href="/discover?species=dog&breed=<%=breed%>"><%=breed%></a></li>
+                        <%});%>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 10%;">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Age
+                        </button>
+                        <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
+                        <li><a class="dropdown-item" href="/discover?species=dog&age=baby">Puppy</a></li>
+                        <li><a class="dropdown-item" href="/discover?species=dog&age=young">Young</a></li>
+                        <li><a class="dropdown-item" href="/discover?species=dog&age=adult">Adult</a></li>
+                        <li><a class="dropdown-item" href="/discover?species=dog&age=senior">Senior</a></li>
                         </ul>
                     </div>
                 </div>
