@@ -8,6 +8,7 @@ const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
@@ -89,6 +90,7 @@ app.get('/post_pets', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
+
 /*
 app.get('/account', (req, res) => {
   res.render('pages/account', {
@@ -287,7 +289,7 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-app.get('/discover', async (req, res) => {
+app.get('/explore_anywhere', async (req, res) => {
   const species_param = req.query.species;
   const breed_param = req.query.breed;
   const age_param = req.query.age;
@@ -316,7 +318,7 @@ app.get('/discover', async (req, res) => {
   })
     .then(results => {
       console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-      res.render('pages/discover',{
+      res.render('pages/explore_anywhere',{
         results,
         dogBreeds
       })
@@ -325,7 +327,7 @@ app.get('/discover', async (req, res) => {
       // Handle errors
 
       console.log(error);
-      res.render('pages/discover', {
+      res.render('pages/explore_anywhere', {
         results: [],
         dogBreeds
         })

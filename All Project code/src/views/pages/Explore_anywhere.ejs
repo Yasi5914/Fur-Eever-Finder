@@ -19,9 +19,9 @@
                         Type of Pet
                         </button>
                         <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="/discover?species=dog">Dog</a></li>
-                        <li><a class="dropdown-item" href="/discover?species=cat">Cat</a></li>
-                        <li><a class="dropdown-item" href="/discover">Any</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog">Dog</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=cat">Cat</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere">Any</a></li>
                         </ul>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
                         </button>
                         <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
                         <% dogBreeds.forEach(breed =>{%>
-                        <li><a class="dropdown-item" href="/discover?species=dog&breed=<%=breed%>"><%=breed%></a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&breed=<%=breed%>"><%=breed%></a></li>
                         <%});%>
                         </ul>
                     </div>
@@ -43,10 +43,10 @@
                         Age
                         </button>
                         <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
-                        <li><a class="dropdown-item" href="/discover?species=dog&age=baby">Puppy</a></li>
-                        <li><a class="dropdown-item" href="/discover?species=dog&age=young">Young</a></li>
-                        <li><a class="dropdown-item" href="/discover?species=dog&age=adult">Adult</a></li>
-                        <li><a class="dropdown-item" href="/discover?species=dog&age=senior">Senior</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=baby">Puppy</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=young">Young</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=adult">Adult</a></li>
+                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=senior">Senior</a></li>
                         </ul>
                     </div>
                 </div>
