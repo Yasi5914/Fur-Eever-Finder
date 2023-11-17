@@ -8,6 +8,7 @@ const pgp = require("pg-promise")();
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const bcrypt = require('bcrypt');
+const axios = require('axios');
 // *****************************************************
 // <!-- Section 2 : Connect to DB -->
 // *****************************************************
@@ -259,7 +260,8 @@ app.get('/my_posts', async (req, res) => {
       WHERE u.username = $1
     `, [username]);
 
-    console.log(petInfo);
+    console.log('Fetched Pet Info:', petInfo);
+
     // Render the my_posts page with pet information
     res.render('pages/my_posts', { petInfo });
   } catch (error) {
@@ -267,6 +269,48 @@ app.get('/my_posts', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+app.get('/post_pets', (req, res) => {
+  // Check if the user is logged in
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.render('pages/post_pets');
+});
+
+app.post('/post_pets', async (req, res) => {
+  try {
+    // Extract data from the form submission
+    const { name, animalType, breed, size, age, sex, description, adoptionFee, photoURL } = req.body;
+    const username = req.session.user.username;
+
+    // Insert the pet information into the database
+    const insertQuery = `
+      INSERT INTO PetInfo (name, animalType, breed, size, age, sex, description, adoptionFee, photoURL)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING petID
+    `;
+
+    const result = await db.one(insertQuery, [name, animalType, breed, size, age, sex, description, adoptionFee, photoURL]);
+
+    // Link the user to the created pet
+    const linkQuery = `
+      INSERT INTO User_to_Pet (username, petID)
+      VALUES ($1, $2)
+    `;
+
+    await db.none(linkQuery, [username, result.petID]);
+
+    console.log('Post creation successful');
+    res.redirect('/my_posts');
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 
 const auth = (req, res, next) => {
@@ -285,7 +329,51 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
+app.get('/explore_anywhere', async (req, res) => {
+  const species_param = req.query.species;
+  const breed_param = req.query.breed;
+  const age_param = req.query.age;
+  console.log(age_param);
+  const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
+  const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
+  const token_response = await axios.post(
+    `https://api.petfinder.com/v2/oauth2/token`,
+    `grant_type=client_credentials&client_id=${client_id}&client_secret=${secret}`,
+  );
+  const key = token_response.data.access_token;
+  const header = { 'Authorization': `Bearer ${key}` };
+  const dogBreeds = ["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"];
+  axios({
+    url: `https://api.petfinder.com/v2/animals`,
+    method: 'GET',
+    headers: header,
+    params: {
+      limit: 100,
+      type: species_param,
+      breed: breed_param,
+      age: age_param,
+      location: "80310",
+      sort: "distance"
+    },
+  })
+    .then(results => {
+      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+      res.render('pages/explore_anywhere',{
+        results,
+        dogBreeds
+      })
+    })
+    .catch(error => {
+      // Handle errors
 
+      console.log(error);
+      res.render('pages/explore_anywhere', {
+        results: [],
+        dogBreeds
+        })
+    });
+
+});
 // module.exports = app.listen(3000);
 //module.exports = app.listen(3000);
 app.listen(3000);

@@ -4,6 +4,7 @@ CREATE TABLE Users(
     username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),
     address VARCHAR(255),
+    email VARCHAR(60),
     hashPW CHAR(60) NOT NULL,
     adminID BOOLEAN,
     photoURL VARCHAR(255)
@@ -42,9 +43,16 @@ CREATE TABLE Applications(
 );
 
 -- DROP TABLE IF EXISTS UserFavorites CASCADE;
-CREATE TABLE UserFavorites(
+CREATE TABLE UserFavoritesBoulder(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
     FOREIGN KEY(petID) REFERENCES PetInfo(petID)
+);
+
+-- DROP TABLE IF EXISTS UserFavorites CASCADE;
+CREATE TABLE UserFavoritesAnywhere(
+    username VARCHAR(25) NOT NULL,
+    petID INT NOT NULL,
+    FOREIGN KEY(username) REFERENCES Users(username)
 );
