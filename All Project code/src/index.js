@@ -71,9 +71,6 @@ app.get('/', (req, res) => {
 app.get('/register', (req, res) => {
   res.render('pages/register');
 });
-app.get('/account', (req, res) => {
-  res.render('pages/account');
-});
 app.get('/admin_access', (req, res) => {
   res.render('pages/admin_access');
 });
@@ -91,14 +88,14 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
-/*
 app.get('/account', (req, res) => {
+  res.status(200)
   res.render('pages/account', {
     username: req.session.user.username,
     name: req.session.user.name,
     address: req.session.user.address,
     adminID: req.session.user.adminID,
-    photoURL: req.session.user.photoURL
+    photoURL: req.session.user.photoURL,
   });
 });
 app.post('/account', async (req, res) => {
@@ -156,7 +153,7 @@ app.post('/account', async (req, res) => {
     message: "Information successfully updated!"
   });
 });
-*/
+
 // Register
 app.post('/register', async (req, res) => {
   try {
