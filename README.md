@@ -8,24 +8,28 @@ Vince Frazzini, Lucy Profeta, Matthew Simpson, Yash Singh, Andrew Wang, Lindy Zh
 
 ## Tech Stack:  
 
-|Program| Intent|
+| Program | Reason for Use |
 | --- | --- |
 | EJS | Templating |
 | Node.js | Server Environment |
 | Express | Server Framework |
 | PostgreSQL | Database Management |
 | Mocha/Chai | Testing | 
+| Bootstrap | CSS Framework |
 
 ## Prerequisites to Run: 
 Have Docker installed and running in the background
 
 ## Running the Application Locally:  
 docker compose up
-(for website to run locally, "app.listen(3000);" needs to be at the bottom of index.js instead of "module.exports = app.listen(3000);")
+
+(for website to run locally, `app.listen(3000);` needs to be at the bottom of index.js instead of `module.exports = app.listen(3000);`)
 
 ## Running Tests: 
 docker compose down -v
+
 docker compose up
-(for tests to pass, "module.exports = app.listen(3000);" needs to be at the bottom of index.js instead of "app.listen(3000);")
+
+(for tests to run, `module.exports = app.listen(3000);` needs to be at the bottom of index.js instead of `app.listen(3000);`)
 
 ## Link to Deployed Application:  
