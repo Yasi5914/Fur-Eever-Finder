@@ -4,7 +4,59 @@
 <main>
   <div class="col"><%- include ('../partials/message') %></div>
   <div class="container">
-    <h1><center>Post A Pet</center></h1>
+    <h1>Create Pet Post</h1>
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Create Pet Post</title>
+      <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
+    </head>
+
+    <body>
+    <!-- Pet Post Form -->
+    <form action="/post_pets" method="post">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="animalType">Animal Type:</label>
+      <select id="animalType" name="animalType" required>
+        <option value="1">Dog</option>
+        <option value="2">Cat</option>
+        <option value="3">Other</option>
+      </select>
+
+      <label for="breed">Breed:</label>
+      <input type="text" id="breed" name="breed" required>
+
+      <label for="size">Size:</label>
+      <select id="size" name="size" required>
+        <option value="1">Small</option>
+        <option value="2">Medium</option>
+        <option value="3">Large</option>
+      </select>
+
+      <label for="age">Age:</label>
+      <input type="text" id="age" name="age" required>
+
+      <label for="sex">Sex:</label>
+      <select id="sex" name="sex" required>
+        <option value="1">Female</option>
+        <option value="2">Male</option>
+      </select>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" rows="4" required></textarea>
+
+      <label for="adoptionFee">Adoption Fee:</label>
+      <input type="number" id="adoptionFee" name="adoptionFee">
+
+      <label for="photoURL">Photo URL:</label>
+      <input type="text" id="photoURL" name="photoURL">
+
+      <!-- Submit Button -->
+      <button type="submit">Create Post</button>
+    </form>
+    </body>
   </div>
 </main>
 

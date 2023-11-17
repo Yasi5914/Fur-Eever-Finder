@@ -261,7 +261,8 @@ app.get('/my_posts', async (req, res) => {
       WHERE u.username = $1
     `, [username]);
 
-    console.log(petInfo);
+    console.log('Fetched Pet Info:', petInfo);
+
     // Render the my_posts page with pet information
     res.render('pages/my_posts', { petInfo });
   } catch (error) {
@@ -269,6 +270,48 @@ app.get('/my_posts', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
+
+
+app.get('/post_pets', (req, res) => {
+  // Check if the user is logged in
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+  res.render('pages/post_pets');
+});
+
+app.post('/post_pets', async (req, res) => {
+  try {
+    // Extract data from the form submission
+    const { name, animalType, breed, size, age, sex, description, adoptionFee, photoURL } = req.body;
+    const username = req.session.user.username;
+
+    // Insert the pet information into the database
+    const insertQuery = `
+      INSERT INTO PetInfo (name, animalType, breed, size, age, sex, description, adoptionFee, photoURL)
+      VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+      RETURNING petID
+    `;
+
+    const result = await db.one(insertQuery, [name, animalType, breed, size, age, sex, description, adoptionFee, photoURL]);
+
+    // Link the user to the created pet
+    const linkQuery = `
+      INSERT INTO User_to_Pet (username, petID)
+      VALUES ($1, $2)
+    `;
+
+    await db.none(linkQuery, [username, result.petID]);
+
+    console.log('Post creation successful');
+    res.redirect('/my_posts');
+  } catch (error) {
+    console.error('Error creating post:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
+
 
 
 const auth = (req, res, next) => {
