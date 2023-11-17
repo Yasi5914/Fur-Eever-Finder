@@ -5,27 +5,32 @@
       <div class="col"><%- include ('../partials/message') %></div>
       <div class="container">
         <h1>
-          <center>Explore Page</center>
+          <center>Explore Pets in Boulder!</center>
         </h1>
-        <%PetInfo.forEach(function(pet){%>
-        <div class="card" style="width: 18rem;">
-          <img class="card-img-top" src="<%- pet.photoURL %>" alt="Pet Image">
-          <div class="card-body">
-            <h5 class="card-title"><%- pet.name%></h5>
-            <p class="card-text"><%- pet.description%></p>
+        <div class="col-10">
+          <div class="row">
+            <%PetInfo.forEach(function(pet){%>
+              <div class="col" style="padding-top: 5%;">
+                  <div class="card" style="width: 18rem; text-align: center;" id="PetCards">
+                      <img src="http://dummyimage.com/162x100.png/dddddd/000000" class="card-img-top" alt="Image not available" width="275" height="183">
+                      <div class="card-img-overlay" style = "text-align: right;">
+                        <a type="button" class="btn btn-light rounded-circle bg-opacity-10" style="color: pink; background-color: grey;" target="_blank">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                            </svg>
+                        </a>
+                    </div>
+                      <div class="card-body">
+                        <a href="#" class="card-title"></h5><%- pet.name %></a>
+                        <a> | <%- pet.age %> years</a>
+                      </div>
+                  </div>
+              </div>
+              <%
+          });%>
           </div>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">Breed: <%- pet.breed%></li>
-            <li class="list-group-item">Age: <%- pet.age %>, Gender: <%- pet.sex%></li>
-            <li class="list-group-item">Adoption Fee: $<%- pet.adoptionFee%></li>
-          </ul>
-          <div class="card-body">
-            <a href="#" class="card-link">Add Favorite</a>
-            <a href="#" class="card-link">Send Application</a>
-          </div>
-        </div>
-      <%})%>
       </div>
-    </main>
+    </div>
 
-    <%- include ('../partials/footer') %>
+
+<%- include ('../partials/footer') %>
