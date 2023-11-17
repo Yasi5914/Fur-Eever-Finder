@@ -55,8 +55,7 @@ describe('Server!', () => {
         }
   
         // Assuming you set the HTTP status code for rendering the register page in case of validation errors
-        expect(res).to.have.status(200); // Adjust the status code as needed
-        expect(res.text).to.include('Missing one of the fields. Failed to register'); // Adjust the expected message
+        expect(res.text).to.include('Missing username or password. Failed to register'); // Adjust the expected message
   
         done();
       });

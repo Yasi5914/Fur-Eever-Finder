@@ -157,8 +157,10 @@ app.post('/account', async (req, res) => {
 // Register
 app.post('/register', async (req, res) => {
   try {
-    if (!req.body.username || !req.body.hashPW) {
-      return res.redirect(301, '/register', {
+    console.log(req.body);
+    if (req.body.username == '' || req.body.hashPW == '') {
+      console.log("in");
+      return res.render('pages/register', {
         message: "Missing username or password. Failed to register"
       });
     }
@@ -374,8 +376,8 @@ app.get('/explore_anywhere', async (req, res) => {
     });
 
 });
-// module.exports = app.listen(3000);
-//module.exports = app.listen(3000);
-app.listen(3000);
+
+module.exports = app.listen(3000);
+//app.listen(3000);
 console.log("Listening on port 3000")
 
