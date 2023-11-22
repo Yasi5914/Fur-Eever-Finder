@@ -77,12 +77,6 @@ app.get('/admin_access', (req, res) => {
 app.get('/favorites', (req, res) => {
   res.render('pages/favorites');
 });
-app.get('/my_posts', (req, res) => {
-  res.render('pages/my_posts');
-});
-app.get('/post_pets', (req, res) => {
-  res.render('pages/post_pets');
-});
 
 app.get('/register', (req, res) => {
   res.render('pages/register');
