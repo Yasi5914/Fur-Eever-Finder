@@ -14,10 +14,11 @@
                   <div class="card" style="width: 18rem; text-align: center;" id="PetCards">
                       <img src="http://dummyimage.com/162x100.png/dddddd/000000" class="card-img-top" alt="Image not available" width="275" height="183">
                       <div class="card-img-overlay" style = "text-align: right;">
-                        <a type="button" class="btn btn-light rounded-circle bg-opacity-10" style="color: pink; background-color: grey;" target="_blank">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
-                            </svg>
+                        <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: pink; background-color: grey;" 
+                          data-pet-id="<%- pet.id %>" data-favorite="<%- pet.isFavorite %>" onclick="addToFavorites('<%- pet.id %>')">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                          </svg>
                         </a>
                     </div>
                       <div class="card-body">
@@ -31,6 +32,25 @@
           </div>
       </div>
     </div>
-
-
+    <script>
+      async function addToFavorites(petId) {
+        
+        try {
+          const response = await fetch('/add_favorite', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username, petId }),
+          });
+    
+          const data = await response.json();
+    
+          // Handle the response, update UI, etc.
+          console.log('Response:', data);
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+    </script>
 <%- include ('../partials/footer') %>

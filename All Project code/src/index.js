@@ -74,9 +74,6 @@ app.get('/register', (req, res) => {
 app.get('/admin_access', (req, res) => {
   res.render('pages/admin_access');
 });
-app.get('/favorites', (req, res) => {
-  res.render('pages/favorites');
-});
 
 app.get('/register', (req, res) => {
   res.render('pages/register');
@@ -184,11 +181,35 @@ app.post('/register', async (req, res) => {
 });
 
 app.get('/explore', (req, res) => {
-  const petQuery = 'SELECT * FROM PetInfo;'
+  const petQuery = 'SELECT * FROM PetInfo;';
+  const username = req.session.user.username;
+  console.log(req.user);
+  console.log(username);
   db.any(petQuery)
     .then((PetInfo) => {
-      res.status(200).render("pages/explore", { PetInfo });
+      res.status(200).render("pages/explore", { PetInfo , username });
     })
+    .catch((error) => {
+      console.error('Error fetching pet info:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+app.get('/favorites', (req, res) => {
+  const username_fav = req.session.user.username;
+  const favQuery = 'SELECT * FROM UserFavoritesBoulder WHERE username = $1';
+
+  // Fetch favorite pet information for the logged-in user
+  db.any(favQuery, [username_fav])
+    .then((FavPetInfo) => {
+      // Render the favorites page with pet information
+      console.log(FavPetInfo);
+      res.status(200).render("pages/favorites", { FavPetInfo, username: username_fav });
+    })
+    .catch((error) => {
+      console.error('Error fetching pet info:', error);
+      res.status(500).send('Internal Server Error');
+    });
 });
 
 app.get('/login', (req, res) => {
@@ -306,8 +327,29 @@ app.post('/post_pets', async (req, res) => {
   }
 });
 
+app.post('/add_favorite', async (req, res) => {
+  try {
+    const { username, petId } = req.body;
+    console.log(username);
+    console.log(petId);
+    // Check if the pet is already in favorites for the user
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petId]);
 
-
+    if (existingFavorite) {
+      // The pet is already a favorite, handle this case as needed
+      console.log('Pet is already a favorite.');
+      res.json({ success: false, message: 'Pet is already a favorite.' });
+    } else {
+      // The pet is not in favorites, add it
+      await db.none('INSERT INTO User_to_Pet(username, petID) VALUES($1, $2)', [username, petId]);
+      console.log('Pet added to favorites.');
+      res.json({ success: true, message: 'Pet added to favorites.' });
+    }
+  } catch (error) {
+    console.error('Error adding favorite:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
 
 const auth = (req, res, next) => {
   if (!req.session.user) {
@@ -371,7 +413,7 @@ app.get('/explore_anywhere', async (req, res) => {
 
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
 
