@@ -164,21 +164,22 @@ app.post('/register', async (req, res) => {
     const username = req.body.username;
     const name = req.body.name;
     const address = req.body.address;
+    const email = req.body.email;
 
     // Replace the following SQL query with the one that inserts data into your 'users' table
     const insertQuery =
-        `INSERT INTO Users (username, hashPW, name, address)
-        VALUES ($1, $2, $3, $4)
-        RETURNING username
+        `INSERT INTO Users (username, hashPW, name, address, email)
+        VALUES ($1, $2, $3, $4, $5)
       `;
-
-    const result = await db.one(insertQuery, [username, hash, name, address]);
+    console.log('should be login');
+    const result = await db.one(insertQuery, [username, hash, name, address, email]);
 
     // Registration successful, redirect to the login page
     res.redirect('/login');
   } catch (error) {
     // If the insert fails, redirect to the registration page
     console.error('Registration error:', error);
+    console.log("what is happening");
     res.redirect('/register');
   }
 });
