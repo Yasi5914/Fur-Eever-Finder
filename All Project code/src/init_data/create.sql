@@ -1,12 +1,12 @@
--- DROP TABLE IF EXISTS Users CASCADE;
--- maybe remove adminID?
+DROP TABLE IF EXISTS Users CASCADE;
 CREATE TABLE Users(
     username VARCHAR(25) PRIMARY KEY NOT NULL,
     name VARCHAR(45),
     address VARCHAR(255),
     hashPW CHAR(60) NOT NULL,
     adminID BOOLEAN,
-    photoURL VARCHAR(255)
+    photoURL VARCHAR(255),
+    email VARCHAR(55)
 );
 -- DROP TABLE IF EXISTS PetInfo CASCADE;
 CREATE TABLE PetInfo(
