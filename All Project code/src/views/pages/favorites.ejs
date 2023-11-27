@@ -14,9 +14,10 @@
                 <img src="http://dummyimage.com/162x100.png/dddddd/000000" class="card-img-top" alt="Image not available" width="275" height="183">
                 <div class="card-img-overlay" style = "text-align: right;">
                   <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: pink; background-color: grey;" 
-                    data-pet-id="<%- pet.id %>" data-favorite="<%- pet.isFavorite %>" onclick="addToFavorites('<%- pet.id %>')">
+                    data-pet-id="<%- pet.petid %>" data-favorite="<%- pet.isFavorite %>" 
+                    data-action="removeFromFavorites" onclick="removeFromFavorites('<%- pet.petid %>', '<%= username %>')">
                     <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
-                      <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                     </svg>
                   </a>
               </div>
@@ -31,5 +32,32 @@
     </div>
 </div>
 </main>
+<script>
+  async function removeFromFavorites(petID, username) {
+    console.log('Pet ID:', petID);
 
+    try {
+      const response = await fetch('/remove_favorite', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, petID }),
+      });
+
+      const data = await response.json();
+
+      // Handle the response, update UI, etc.
+      console.log('Response:', data);
+
+      // Check if the pet was successfully removed
+      if (data.success) {
+        // Refresh the page after removing the pet from favorites
+        window.location.reload();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+</script>
 <%- include ('../partials/footer') %>
