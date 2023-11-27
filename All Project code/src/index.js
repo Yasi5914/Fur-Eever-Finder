@@ -307,9 +307,6 @@ app.post('/post_pets', async (req, res) => {
   }
 });
 
-
-
-
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
@@ -372,7 +369,35 @@ app.get('/explore_anywhere', async (req, res) => {
 
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+app.get('/petpage', async (req,res)=> {
+
+  const pet_id = req.body.id;
+
+  axios({
+    url: `https://api.petfinder.com/v2/animals`,
+    method: 'GET',
+    headers: header,
+    params: {
+      limit: 1,
+      id: pet_id,
+    },
+  })
+      .then(results =>{
+        console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+        res.render('pages/pet_page',{
+          results
+        })
+      })
+      .catch(err =>{
+        console.log(err);
+        res.render('pages/explore_anywhere',{
+          message:  "Pet not found!"
+        })
+      });
+
+})
+
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
 

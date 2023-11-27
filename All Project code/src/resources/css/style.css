@@ -69,3 +69,38 @@ body {
 .create-post-btn:hover {
     background-color: #45a049;
 }
+
+/* stat of pet page css*/
+
+#aboutme{
+    float:right;
+}
+#self-image{
+    width:300px;
+}
+
+#self-desc{
+    text-align: center;
+    align-self: center;
+}
+.float-container {
+
+    background-color: pink;
+    border: 40px solid #fff;
+    padding: 20px;
+    align-content: center;
+}
+
+.float-child-1 {
+    width: 30%;
+    float: left;
+    align-content:center;
+    padding: 20px;
+}
+.float-child-2 {
+    width: 70%;
+    float:left;
+    padding:20px;
+}
+
+/* end of petpage css */
