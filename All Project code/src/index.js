@@ -446,7 +446,53 @@ app.get("/logout", (req, res) => {
   res.render("pages/login");
 });
 
-//module.exports = app.listen(3000);
-app.listen(3000);
+app.get('/explore_anywhere', async (req, res) => {
+  const species_param = req.query.species;
+  const breed_param = req.query.breed;
+  const age_param = req.query.age;
+  console.log(age_param);
+  const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
+  const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
+  const token_response = await axios.post(
+    `https://api.petfinder.com/v2/oauth2/token`,
+    `grant_type=client_credentials&client_id=${client_id}&client_secret=${secret}`,
+  );
+  const key = token_response.data.access_token;
+  const header = { 'Authorization': `Bearer ${key}` };
+  const dogBreeds = ["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"];
+  axios({
+    url: `https://api.petfinder.com/v2/animals`,
+    method: 'GET',
+    headers: header,
+    params: {
+      limit: 100,
+      type: species_param,
+      breed: breed_param,
+      age: age_param,
+      location: "80310",
+      sort: "distance"
+    },
+  })
+    .then(results => {
+      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+      res.render('pages/explore_anywhere',{
+        results,
+        dogBreeds
+      })
+    })
+    .catch(error => {
+      // Handle errors
+
+      console.log(error);
+      res.render('pages/explore_anywhere', {
+        results: [],
+        dogBreeds
+        })
+    });
+
+});
+
+module.exports = app.listen(3000);
+//app.listen(3000);
 console.log("Listening on port 3000")
 
