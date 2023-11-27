@@ -1,61 +1,55 @@
 <header>
-    <nav class="navbar navbar-expand-sm border-bottom">
-      <div class="container">
-        <button
-          class="navbar-toggler ms-auto"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbar-collapse"
-          aria-controls="navbar"
-          aria-expanded="false"
-          aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbar-collapse">
-          <!-- Website name justified left -->
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item ">
-                <div class="container">
-                  <a class="navbar-brand" href="/explore">Fur-Ever Friend Finder</a>
-                </div>
-            </li>
-          </ul>
-          <!-- Navigation elements justified right -->
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item dropdown">
-              <div class="container">
-                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Explore
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item" href="/explore">Boulder</a></li>
-                  <li><a class="dropdown-item" href="/explore_anywhere">Anywhere</a></li>
-                </ul>
-              </div>
-            </li>
-  
-            <li class="nav-item" id="favorites" >
-                <div class="container">
-                  <a class = "nav-link" href="/favorites">My Favorites</a>
-                </div>
-            </li>
-            <li class="nav-item" id="posts_self">
-              <div class="container">
-                <a class = "nav-link" href="/my_posts">My Posts</a>
-              </div>
-            </li>
-            <li class="nav-item" id="settings">
-              <div class="container">
-                <a class = "nav-link" href="/account">My Account Info</a>
-              </div>
-            </li>
-            <li class="nav-item">
-              <div class="container">
-                <a class = "nav-link" href="/logout">Log Out</a>
-              </div>
-            </li>
-          </ul>
-        </div>
+  <nav class="navbar navbar-expand-sm border-bottom" id="navbarnav">
+    <div class="container-fluid">
+      <button class="navbar-toggler ms-auto" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-collapse"
+        aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbar-collapse">
+        <!-- Website name justified left -->
+        <ul class="navbar-nav ml-auto">
+          <div class="container">
+            <a class="navbar-brand" href="/explore">
+              <img src="../../resources/img/logo.png" alt="Fur-Ever Friend Finder">
+            </a>
+          </div>
+        </ul>
+        <!-- Navigation elements justified right -->
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item dropdown">
+            <div class="container">
+              <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Explore
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/explore">Boulder</a></li>
+                <li><a class="dropdown-item" href="/explore_anywhere">Anywhere</a></li>
+              </ul>
+            </div>
+          </li>
+
+          <li class="nav-item" id="favorites">
+            <div class="container">
+              <a class="nav-link" href="/favorites">My Favorites</a>
+            </div>
+          </li>
+          <li class="nav-item" id="posts_self">
+            <div class="container">
+              <a class="nav-link" href="/my_posts">My Posts</a>
+            </div>
+          </li>
+          <li class="nav-item" id="settings">
+            <div class="container">
+              <a class="nav-link" href="/account">My Account Info</a>
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="container">
+              <a class="nav-link" href="/logout">Log Out</a>
+            </div>
+          </li>
+        </ul>
       </div>
-    </nav>
-   </header>
+    </div>
+  </nav>
+</header>

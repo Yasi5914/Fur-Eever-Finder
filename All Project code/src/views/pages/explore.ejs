@@ -31,11 +31,10 @@
           });%>
           </div>
       </div>
-    </div>
+    </main>
     <script>
       async function addToFavorites(petID, username) {
         console.log('Pet ID:', petID);
-
         try {
           const response = await fetch('/add_favorite', {
             method: 'POST',
@@ -46,6 +45,7 @@
           });
 
           const data = await response.json();
+          
 //should we redirect to favorites after successfully adding to favorites?
           console.log('Response:', data);
         } catch (error) {
