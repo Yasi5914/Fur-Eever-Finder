@@ -40,6 +40,7 @@ db.connect()
 
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
+app.use(express.static(path.join(__dirname, "resources/img")));
 
 // initialize session variables
 app.use(
@@ -372,7 +373,7 @@ app.get('/explore_anywhere', async (req, res) => {
 
 });
 
-module.exports = app.listen(3000);
-//app.listen(3000);
+//module.exports = app.listen(3000);
+app.listen(3000);
 console.log("Listening on port 3000")
 
