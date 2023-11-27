@@ -1,0 +1,40 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/login_register_menu') %>
+
+<div>
+    <div id="aboutme" class="float-container">
+
+        <div class="float-child-1">
+
+            <img src= <%= pet.photos[2]%> id="self-image">
+
+        </div>
+
+        <div id="self-desc" class="float-child-2">
+            <h2>About <%= pet.name%></h2>
+
+            <h5> Breed : <%= pet.breeds.primary%>
+            </h5>
+            <h5> Color: <%= pet.colors.primary%>
+            </h5>
+            <h5> Age : <%= pet.age%>
+            </h5>
+            <h5> Gender : <%= pet.gender%>
+            </h5>
+            <h5> size : <%= pet.size%>
+            </h5>
+            <h5> Coat : <%= pet.coat%>
+            </h5>
+            <h5> description : <%= pet.description%>
+            </h5>
+            <h5> status : <%= pet.status%>
+            </h5>
+            <h5> Contact : <%= pet.contct.phone%>
+            </h5>
+
+        </div>
+
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>
