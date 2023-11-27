@@ -79,6 +79,198 @@ app.get('/register', (req, res) => {
   res.render('pages/register');
 });
 
+// Register
+app.post('/register', async (req, res) => {
+  try {
+    console.log(req.body);
+    if (req.body.username == '' || req.body.hashPW == '') {
+      console.log("in");
+      return res.render('pages/register', {
+        message: "Missing username or password. Failed to register"
+      });
+    }
+    // Hash the password using bcrypt library
+    const hash = await bcrypt.hash(req.body.hashPW, 10);
+    // Insert the username and hashed password into the 'users' table
+    const username = req.body.username;
+    const name = req.body.name;
+    const address = req.body.address;
+    const email = req.body.email;
+
+    // Replace the following SQL query with the one that inserts data into your 'users' table
+    const insertQuery =
+        `INSERT INTO Users (username, hashPW, name, address, email)
+        VALUES ($1, $2, $3, $4, $5)
+      `;
+    console.log('should be login');
+    const result = await db.one(insertQuery, [username, hash, name, address, email]);
+
+    // Registration successful, redirect to the login page
+    res.redirect('/login');
+  } catch (error) {
+    // If the insert fails, redirect to the registration page
+    console.error('Registration error:', error);
+    console.log("what is happening");
+    res.redirect('/register');
+  }
+});
+
+app.get('/login', (req, res) => {
+  res.status(200)
+  res.render("pages/login");
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    // if the username or password field is empty, notify the user
+    if (!req.body.username || !req.body.hashPW) {
+      res.status(401)
+      return res.render('pages/login', {
+        message: "Missing username or password"
+      });
+    }
+    // query the Users table for the username entered
+    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
+    const user = await db.oneOrNone(query, [req.body.username]);
+    // if the user is not found in the table, redirect to register page
+    if (!user) {
+      return res.redirect(301, '/register');
+    }
+    // if the user is found, check if the password entered matches the database.
+    const match = await bcrypt.compare(req.body.hashPW, user.hashpw);
+    // if there is a match, let them login and be redirected to the explore page
+    if (match) {
+      req.session.user = user;
+      req.session.save();
+      res.status(200)
+      return res.redirect('/explore');
+    }
+    // otherwise, re-render the login and notify them of the incorrect password
+    else {
+      res.status(401)
+      return res.render('pages/login', {
+        message: "Wrong password!"
+      });
+    }
+  } catch (error) {
+    console.log("Login error:", error);
+    res.status(500)
+    return res.render('pages/login', {
+      message: "An error occurred during login"
+    });
+  }
+});
+
+app.get('/explore', (req, res) => {
+  const petQuery = 'SELECT * FROM PetInfo;';
+  const username = req.session.user.username;
+  console.log(username);
+  db.any(petQuery)
+    .then((PetInfo) => {
+      console.log(PetInfo);
+      res.status(200).render("pages/explore", { PetInfo , username });
+    })
+    .catch((error) => {
+      console.error('Error fetching pet info:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
+app.get('/explore_anywhere', async (req, res) => {
+  const species_param = req.query.species;
+  const breed_param = req.query.breed;
+  const age_param = req.query.age;
+  console.log(age_param);
+  const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
+  const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
+  const token_response = await axios.post(
+    `https://api.petfinder.com/v2/oauth2/token`,
+    `grant_type=client_credentials&client_id=${client_id}&client_secret=${secret}`,
+  );
+  const key = token_response.data.access_token;
+  const header = { 'Authorization': `Bearer ${key}` };
+  const dogBreeds = ["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"];
+  axios({
+    url: `https://api.petfinder.com/v2/animals`,
+    method: 'GET',
+    headers: header,
+    params: {
+      limit: 100,
+      type: species_param,
+      breed: breed_param,
+      age: age_param,
+      location: "80310",
+      sort: "distance"
+    },
+  })
+    .then(results => {
+      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+      res.render('pages/explore_anywhere',{
+        results,
+        dogBreeds
+      })
+    })
+    .catch(error => {
+      // Handle errors
+
+      console.log(error);
+      res.render('pages/explore_anywhere', {
+        results: [],
+        dogBreeds
+        })
+    });
+});
+
+app.post('/add_favorite', async (req, res) => {
+  try {
+    const username = req.session.user.username;
+    const petID = req.body.petID;
+    const petQuery = await db.oneOrNone('SELECT * FROM PetInfo WHERE petID = $1;', [petID]);
+    const name = petQuery.name;
+    const animalType = petQuery.animalType;
+    const breed = petQuery.breed;
+    const size = petQuery.size;
+    const age = petQuery.age;
+    const sex = petQuery.sex;
+    const description = petQuery.description;
+    const adoptionFee = petQuery.adoptionFee;
+    const photoURL = petQuery.photoURL;
+    // Check if the pet is already in favorites for the user
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);  // <-- Use petID here
+
+    if (existingFavorite) {
+      // The pet is already a favorite, handle this case as needed
+      console.log('Pet is already a favorite.');
+      res.json({ success: false, message: 'Pet is already a favorite.' });
+    } else {
+      // The pet is not in favorites, add it
+      await db.none('INSERT INTO UserFavoritesBoulder (username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)', [username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL]);  // <-- Use petID here
+      console.log('Pet added to favorites.');
+      res.json({ success: true, message: 'Pet added to favorites.' });
+    }
+  } catch (error) {
+    console.error('Error adding favorite:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
+app.get('/favorites', (req, res) => {
+  const username = req.session.user.username;
+  const favQuery = 'SELECT * FROM UserFavoritesBoulder WHERE username = $1';
+  console.log(favQuery);
+  // Fetch favorite pet information for the logged-in user
+  db.any(favQuery, [username])
+    .then((FavPetInfo) => {
+      // Render the favorites page with pet information
+      console.log(FavPetInfo);
+      res.status(200).render("pages/favorites", { FavPetInfo, username: username });
+    })
+    .catch((error) => {
+      console.error('Error fetching pet info:', error);
+      res.status(500).send('Internal Server Error');
+    });
+});
+
 app.get('/account', (req, res) => {
   res.status(200)
   res.render('pages/account', {
@@ -143,120 +335,6 @@ app.post('/account', async (req, res) => {
     photoURL: req.session.user.photoURL,
     message: "Information successfully updated!"
   });
-});
-
-// Register
-app.post('/register', async (req, res) => {
-  try {
-    console.log(req.body);
-    if (req.body.username == '' || req.body.hashPW == '') {
-      console.log("in");
-      return res.render('pages/register', {
-        message: "Missing username or password. Failed to register"
-      });
-    }
-    // Hash the password using bcrypt library
-    const hash = await bcrypt.hash(req.body.hashPW, 10);
-    // Insert the username and hashed password into the 'users' table
-    const username = req.body.username;
-    const name = req.body.name;
-    const address = req.body.address;
-    const email = req.body.email;
-
-    // Replace the following SQL query with the one that inserts data into your 'users' table
-    const insertQuery =
-        `INSERT INTO Users (username, hashPW, name, address, email)
-        VALUES ($1, $2, $3, $4, $5)
-      `;
-    console.log('should be login');
-    const result = await db.one(insertQuery, [username, hash, name, address, email]);
-
-    // Registration successful, redirect to the login page
-    res.redirect('/login');
-  } catch (error) {
-    // If the insert fails, redirect to the registration page
-    console.error('Registration error:', error);
-    console.log("what is happening");
-    res.redirect('/register');
-  }
-});
-
-app.get('/explore', (req, res) => {
-  const petQuery = 'SELECT * FROM PetInfo;';
-  const username = req.session.user.username;
-  console.log(req.user);
-  console.log(username);
-  db.any(petQuery)
-    .then((PetInfo) => {
-      res.status(200).render("pages/explore", { PetInfo , username });
-    })
-    .catch((error) => {
-      console.error('Error fetching pet info:', error);
-      res.status(500).send('Internal Server Error');
-    });
-});
-
-app.get('/favorites', (req, res) => {
-  const username_fav = req.session.user.username;
-  const favQuery = 'SELECT * FROM UserFavoritesBoulder WHERE username = $1';
-
-  // Fetch favorite pet information for the logged-in user
-  db.any(favQuery, [username_fav])
-    .then((FavPetInfo) => {
-      // Render the favorites page with pet information
-      console.log(FavPetInfo);
-      res.status(200).render("pages/favorites", { FavPetInfo, username: username_fav });
-    })
-    .catch((error) => {
-      console.error('Error fetching pet info:', error);
-      res.status(500).send('Internal Server Error');
-    });
-});
-
-app.get('/login', (req, res) => {
-  res.status(200)
-  res.render("pages/login");
-});
-
-app.post("/login", async (req, res) => {
-  try {
-    // if the username or password field is empty, notify the user
-    if (!req.body.username || !req.body.hashPW) {
-      res.status(401)
-      return res.render('pages/login', {
-        message: "Missing username or password"
-      });
-    }
-    // query the Users table for the username entered
-    const query = `SELECT * FROM Users WHERE username = $1 LIMIT 1;`;
-    const user = await db.oneOrNone(query, [req.body.username]);
-    // if the user is not found in the table, redirect to register page
-    if (!user) {
-      return res.redirect(301, '/register');
-    }
-    // if the user is found, check if the password entered matches the database.
-    const match = await bcrypt.compare(req.body.hashPW, user.hashpw);
-    // if there is a match, let them login and be redirected to the explore page
-    if (match) {
-      req.session.user = user;
-      req.session.save();
-      res.status(200)
-      return res.redirect('/explore');
-    }
-    // otherwise, re-render the login and notify them of the incorrect password
-    else {
-      res.status(401)
-      return res.render('pages/login', {
-        message: "Wrong password!"
-      });
-    }
-  } catch (error) {
-    console.log("Login error:", error);
-    res.status(500)
-    return res.render('pages/login', {
-      message: "An error occurred during login"
-    });
-  }
 });
 
 app.get('/my_posts', async (req, res) => {
@@ -328,30 +406,6 @@ app.post('/post_pets', async (req, res) => {
   }
 });
 
-app.post('/add_favorite', async (req, res) => {
-  try {
-    const { username, petId } = req.body;
-    console.log(username);
-    console.log(petId);
-    // Check if the pet is already in favorites for the user
-    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petId]);
-
-    if (existingFavorite) {
-      // The pet is already a favorite, handle this case as needed
-      console.log('Pet is already a favorite.');
-      res.json({ success: false, message: 'Pet is already a favorite.' });
-    } else {
-      // The pet is not in favorites, add it
-      await db.none('INSERT INTO User_to_Pet(username, petID) VALUES($1, $2)', [username, petId]);
-      console.log('Pet added to favorites.');
-      res.json({ success: true, message: 'Pet added to favorites.' });
-    }
-  } catch (error) {
-    console.error('Error adding favorite:', error);
-    res.status(500).json({ success: false, error: 'Internal server error' });
-  }
-});
-
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
@@ -366,52 +420,6 @@ app.use(auth);
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.render("pages/login");
-});
-
-app.get('/explore_anywhere', async (req, res) => {
-  const species_param = req.query.species;
-  const breed_param = req.query.breed;
-  const age_param = req.query.age;
-  console.log(age_param);
-  const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
-  const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
-  const token_response = await axios.post(
-    `https://api.petfinder.com/v2/oauth2/token`,
-    `grant_type=client_credentials&client_id=${client_id}&client_secret=${secret}`,
-  );
-  const key = token_response.data.access_token;
-  const header = { 'Authorization': `Bearer ${key}` };
-  const dogBreeds = ["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"];
-  axios({
-    url: `https://api.petfinder.com/v2/animals`,
-    method: 'GET',
-    headers: header,
-    params: {
-      limit: 100,
-      type: species_param,
-      breed: breed_param,
-      age: age_param,
-      location: "80310",
-      sort: "distance"
-    },
-  })
-    .then(results => {
-      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-      res.render('pages/explore_anywhere',{
-        results,
-        dogBreeds
-      })
-    })
-    .catch(error => {
-      // Handle errors
-
-      console.log(error);
-      res.render('pages/explore_anywhere', {
-        results: [],
-        dogBreeds
-        })
-    });
-
 });
 
 //module.exports = app.listen(3000);
