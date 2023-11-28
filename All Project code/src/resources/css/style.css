@@ -20,15 +20,15 @@
     float:right;
 }
 #self-image{
-    width:300px;
+    width: 400px;
+    border-style: solid;
 }
 
 #self-desc{
-    text-align: center;
+    text-align: left;
     align-self: center;
 }
 .float-container {
-    background-color: pink;
     border: 40px solid #fff;
     padding: 20px;
     align-content: center;
@@ -42,7 +42,7 @@
 }
 .float-child-2 {
     width: 70%;
-    float:left;
+    float:right;
     padding:20px;
 }
 

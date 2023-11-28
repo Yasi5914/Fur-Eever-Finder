@@ -169,8 +169,6 @@ app.post("/login", async (req, res) => {
 });
 
 app.get('/petpage', async (req,res)=> {
-
-
   const pet_id = req.query.pet_id;
   const pet_name = req.query.pet_name;
   console.log(pet_id);
@@ -189,16 +187,21 @@ app.get('/petpage', async (req,res)=> {
     method: 'GET',
     headers:header,
     params: {
-      id: pet_id,
-      name: pet_name,
+      id: req.query.pet_id,
+      name: req.query.pet_name,
+      url: req.query.pet_url,
+      age: req.query.pet_age,
+      species: req.query.pet_species,
+      type: req.query.pet_type,
+      organization_id: req.query.pet_organization_id,
+      gender: req.query.pet_gender,
+      size: req.query.pet_size,
       limit: 1,
     },
   })
-      .then(pet =>{
-        console.log("haha");
-        console.log(pet.data);
+      .then(results =>{
          res.render('pages/pet_page',{
-          pet
+          results
         })
       })
       .catch(err =>{

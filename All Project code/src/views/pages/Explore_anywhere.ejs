@@ -79,15 +79,24 @@
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                     </svg>
                                 </a>
+                                <form action="/petpage" method="GET">
+                                    <input type="hidden" name ="pet_id" value= <%= pet.id %> />
+                                    <input type="hidden" name ="pet_name" value= <%= pet.name%> />
+                                    <input type="hidden" name ="pet_age" value= <%= pet.age%> />
+                                    <input type="hidden" name ="pet_url" value= <%= pet.url%> />
+                                    <input type="hidden" name ="pet_species" value= <%= pet.species%> />
+                                    <input type="hidden" name ="pet_type" value= <%= pet.type%> />
+                                    <input type="hidden" name ="pet_organization_id" value= <%= pet.organization_id%> />
+                                    <input type="hidden" name ="pet_gender" value= <%= pet.gender%> />
+                                    <input type="hidden" name ="pet_size" value= <%= pet.size%> />
+                                    <input type="hidden" name ="pet" value= <%= pet %> />
+                                    <input class="btn btn-primary" type="submit" value="More Info">
+                                </form>
                             </div>
                             <div class="card-body">
                                 <h5 class="card-title"><%=pet.name.split(" ")[0]%></h5>
                                 <p><%=pet.age%> | <%=pet.breeds.primary%></p>
                                 <p><%=pet.distance%> Miles Away</p>
-                                <<form action="/petpage" method="GET">
-                                    <input type="hidden" name ="pet_id" value= <%= pet.id%> />
-                                    <input class="btn btn-primary" pet_id ="<%= pet.id%>" type="button" value="More Info">
-                                </form>
                             </div>
                         </div>
                     </div>
