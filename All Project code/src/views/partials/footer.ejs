@@ -4,5 +4,11 @@
       &copy; Copyright 2023: Fur-Ever Friend Finder Team
     </p>
   </footer>
+  
+  <% if (locals.page) { %>
+    <script>
+    document.getElementById( "<%= locals.page %>" ).classList.add("active")     
+    </script>
+`<% } %>
 </body>
 </html>

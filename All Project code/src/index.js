@@ -40,7 +40,7 @@ db.connect()
 
 app.set('view engine', 'ejs'); // set the view engine to EJS
 app.use(bodyParser.json()); // specify the usage of JSON for parsing request body.
-
+app.use('/static', express.static('resources'))
 // initialize session variables
 app.use(
   session({
@@ -201,7 +201,7 @@ app.get('/explore', (req, res) => {
   const username = req.session.user.username;
   db.any(petQuery)
     .then((PetInfo) => {
-      res.status(200).render("pages/explore", { PetInfo , username });
+      res.status(200).render("pages/explore", { PetInfo , username , page: "explore"});
     })
     .catch((error) => {
       console.error('Error fetching pet info:', error);
@@ -240,7 +240,8 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
       res.render('pages/explore_anywhere',{
         results,
-        dogBreeds
+        dogBreeds,
+        page: "explore"
       })
     })
     .catch(error => {
@@ -249,7 +250,8 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        dogBreeds
+        dogBreeds,
+        page: "explore"
         })
     });
 });
@@ -311,7 +313,8 @@ app.get('/favorites', (req, res) => {
   db.any(favQuery, [username])
     .then((FavPetInfo) => {
       // Render the favorites page with pet information
-      res.status(200).render("pages/favorites", { FavPetInfo, username: username });
+      console.log(FavPetInfo);
+      res.status(200).render("pages/favorites", { FavPetInfo, username: username, page: "favorites"});
     })
     .catch((error) => {
       console.error('Error fetching pet info:', error);
@@ -327,6 +330,7 @@ app.get('/account', (req, res) => {
     address: req.session.user.address,
     adminID: req.session.user.adminID,
     photoURL: req.session.user.photoURL,
+    page: "settings"
   });
 });
 app.post('/account', async (req, res) => {
@@ -407,7 +411,7 @@ app.get('/my_posts', async (req, res) => {
     console.log('Fetched Pet Info:', petInfo);
 
     // Render the my_posts page with pet information
-    res.render('pages/my_posts', { petInfo });
+    res.render('pages/my_posts', { petInfo , page: "posts_self"});
   } catch (error) {
     console.error('Error fetching pet information:', error);
     res.status(500).send('Internal Server Error');
