@@ -84,7 +84,10 @@
                                 <h5 class="card-title"><%=pet.name.split(" ")[0]%></h5>
                                 <p><%=pet.age%> | <%=pet.breeds.primary%></p>
                                 <p><%=pet.distance%> Miles Away</p>
-                                <a type="button" href="<%=pet.url%>" class="btn btn-primary" target="_blank">More Info</a> 
+                                <<form action="/petpage" method="GET">
+                                    <input type="hidden" name ="pet_id" value= <%= pet.id%> />
+                                    <input class="btn btn-primary" pet_id ="<%= pet.id%>" type="button" value="More Info">
+                                </form>
                             </div>
                         </div>
                     </div>
