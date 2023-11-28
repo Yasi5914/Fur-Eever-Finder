@@ -428,11 +428,11 @@ app.get('/my_posts', async (req, res) => {
       INNER JOIN Users u ON utp.username = u.username
       WHERE u.username = $1
     `, [username]);
-
+    console.log('User: ', username);
     console.log('Fetched Pet Info:', petInfo);
 
     // Render the my_posts page with pet information
-    res.render('pages/my_posts', { petInfo , page: "posts_self"});
+    res.render('pages/my_posts', { petInfo });
   } catch (error) {
     console.error('Error fetching pet information:', error);
     res.status(500).send('Internal Server Error');
@@ -454,25 +454,30 @@ app.post('/post_pets', async (req, res) => {
     const { name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto } = req.body;
     const username = req.session.user.username;
 
-    // Insert the pet information into the database
-    const insertQuery = `
+    // Insert the pet information into the database and return all columns for the newly inserted record
+    const result = await db.one(`
       INSERT INTO PetInfo (name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-      RETURNING petID
-    `;
+      RETURNING *
+    `, [name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto || null]);
+    // Check if the result has the expected properties
+    if ('petid' in result && 'name' in result) {
+      // Link the user to the created pet
+      const linkQuery = `
+        INSERT INTO User_to_Pet (username, petID)
+        VALUES ($1, $2)
+      `;
 
-    const result = await db.one(insertQuery, [name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto]);
+      await db.none(linkQuery, [username, result.petid]);
 
-    // Link the user to the created pet
-    const linkQuery = `
-      INSERT INTO User_to_Pet (username, petID)
-      VALUES ($1, $2)
-    `;
+      console.log('Post creation successful');
+      console.log('Linked user to pet:', username, result.petid);
 
-    await db.none(linkQuery, [username, result.petID]);
-
-    console.log('Post creation successful');
-    res.redirect('/my_posts');
+      res.redirect('/my_posts');
+    } else {
+      console.error('Error creating post: Result does not have expected properties');
+      res.status(500).send('Internal Server Error');
+    }
   } catch (error) {
     console.error('Error creating post:', error);
     res.status(500).send('Internal Server Error');
