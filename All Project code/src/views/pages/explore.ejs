@@ -4,18 +4,18 @@
     <main>
       <div class="col"><%- include ('../partials/message') %></div>
       <div class="container">
-        <h1>
+        <h1 style="padding-top: 5%;">
           <center>Explore Pets in Boulder!</center>
         </h1>
         <div class="col-10">
           <div class="row">
-            <%PetInfo.forEach(function(pet){%>
+            <%PetInfo.forEach(pet=>{%>
               <div class="col" style="padding-top: 5%;">
-                  <div class="card" style="width: 18rem; text-align: center;" id="PetCards">
-                      <img src="http://dummyimage.com/162x100.png/dddddd/000000" class="card-img-top" alt="Image not available" width="275" height="183">
+                  <div class="card" style="width: 18rem; text-align: center;">
+                      <img src="<% pet.petPhoto %>", class="card-img-top" alt="Image not available" width="275" height="183">
                       <div class="card-img-overlay" style = "text-align: right;">
                         <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: white; background-color: grey;" 
-                          data-pet-id="<%- pet.petid %>" data-favorite="<%- pet.isFavorite %>" onclick="addToFavorites('<%- pet.petid %>', '<%= username %>')">
+                          data-pet-id="<%= pet.petid %>" data-favorite="<%= pet.isFavorite %>" onclick="addToFavorites('<%= pet.petid %>', '<%= username %>')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                           </svg>
