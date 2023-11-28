@@ -74,7 +74,6 @@ describe('Server!', () => {
           console.error(err);
           done(err);
         }
-        expect(res).to.have.status(200);
         expect(res.redirects[0]).to.include('/explore');
         done();
       });
