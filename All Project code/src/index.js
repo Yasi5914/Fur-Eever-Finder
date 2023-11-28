@@ -170,28 +170,40 @@ app.post("/login", async (req, res) => {
 
 app.get('/petpage', async (req,res)=> {
 
-  const pet_id = req.body.id;
+
+  const pet_id = req.query.pet_id;
+  const pet_name = req.query.pet_name;
+  console.log(pet_id);
+  console.log(pet_name);
+  const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
+  const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
+  const token_response = await axios.post(
+      `https://api.petfinder.com/v2/oauth2/token`,
+      `grant_type=client_credentials&client_id=${client_id}&client_secret=${secret}`,
+  );
+  const key = token_response.data.access_token;
+  const header = { 'Authorization': `Bearer ${key}` };
 
   axios({
     url: `https://api.petfinder.com/v2/animals`,
     method: 'GET',
-    headers: header,
+    headers:header,
     params: {
-      limit: 1,
       id: pet_id,
+      name: pet_name,
+      limit: 1,
     },
   })
-      .then(results =>{
-        console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-        res.render('pages/pet_page',{
-          results
+      .then(pet =>{
+        console.log("haha");
+        console.log(pet.data);
+         res.render('pages/pet_page',{
+          pet
         })
       })
       .catch(err =>{
+        console.log("fuaashjkafs");
         console.log(err);
-        res.render('pages/explore_anywhere',{
-          message:  "Pet not found!"
-        })
       });
 
 })
