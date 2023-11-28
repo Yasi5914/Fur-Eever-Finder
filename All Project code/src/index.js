@@ -426,17 +426,17 @@ app.get('/post_pets', (req, res) => {
 app.post('/post_pets', async (req, res) => {
   try {
     // Extract data from the form submission
-    const { name, animalType, breed, size, age, sex, description, adoptionFee, photoURL } = req.body;
+    const { name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto } = req.body;
     const username = req.session.user.username;
 
     // Insert the pet information into the database
     const insertQuery = `
-      INSERT INTO PetInfo (name, animalType, breed, size, age, sex, description, adoptionFee, photoURL)
+      INSERT INTO PetInfo (name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
       RETURNING petID
     `;
 
-    const result = await db.one(insertQuery, [name, animalType, breed, size, age, sex, description, adoptionFee, photoURL]);
+    const result = await db.one(insertQuery, [name, animalType, breed, size, age, sex, description, adoptionFee, petPhoto]);
 
     // Link the user to the created pet
     const linkQuery = `
