@@ -241,7 +241,8 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        dogBreeds
+        dogBreeds,
+        page: "explore"
         })
     });
 });
@@ -309,7 +310,7 @@ app.get('/favorites', (req, res) => {
     .then((FavPetInfo) => {
       // Render the favorites page with pet information
       console.log(FavPetInfo);
-      res.status(200).render("pages/favorites", { FavPetInfo, username: username });
+      res.status(200).render("pages/favorites", { FavPetInfo, username: username, page: "favorites"});
     })
     .catch((error) => {
       console.error('Error fetching pet info:', error);
@@ -472,4 +473,3 @@ app.get("/logout", (req, res) => {
 //module.exports = app.listen(3000);
 app.listen(3000);
 console.log("Listening on port 3000")
-console.log(__dirname)
