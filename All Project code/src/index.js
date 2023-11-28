@@ -102,7 +102,7 @@ app.post('/register', async (req, res) => {
         `INSERT INTO Users (username, hashPW, name, address, email)
         VALUES ($1, $2, $3, $4, $5)
       `;
-    const result = await db.one(insertQuery, [username, hash, name, address, email]);
+    await db.none(insertQuery, [username, hash, name, address, email]);
 
     // Registration successful, redirect to the login page
     res.redirect('/login');
