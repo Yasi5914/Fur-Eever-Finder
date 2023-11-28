@@ -1,11 +1,12 @@
 .navbar {
-    background-color: #45a049;
+    background-color: #fff2f5;
+    color: #537791;
 }
 .footer {
-    background-color: #860e2a;
+    background-color: #faf2eb;
 }
 .navbar.active a {
-    color:rgb(0, 0, 255);
+    color:#d98294;
 }
 .navbar-brand {
     font-weight: bold;
@@ -14,6 +15,7 @@
 /* Styles for my_posts page*/
 
 body{
+    background-color: #faf2eb;
     display: flex;
     flex-direction: column;
     align-items: center;
