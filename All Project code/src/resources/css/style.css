@@ -1,77 +1,21 @@
 .navbar {
-    background-color: #D9D9D9;
+    background-color: #fff2f5;
+    height: 80px;
+    color: #537791;
 }
 .footer {
-    background-color: #D9D9D9;
+    background-color: #fff2f5;
+    height:30px;
 }
-.navbar .active a {
-    color:rgb(0, 0, 255);
+
+.active a {
+    background-color: #ffe2e5;
 }
 .navbar-brand {
     font-weight: bold;
     font-size: x-large;
 }
-
-
-/* Styles for my_posts page*/
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-}
-
-.user-pet-card {
-    display: flex;
-    width: 80%;
-    margin-bottom: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.user-pet-card img {
-    width: 40%;
-    object-fit: cover;
-}
-
-.user-pet-card-content {
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.user-pet-card-content h2,
-.user-pet-card-content p {
-    margin: 0;
-}
-
-.user-pet-card-content p {
-    margin-top: 10px;
-}
-
-.create-post-btn {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.create-post-btn:hover {
-    background-color: #45a049;
-}
-
 /* stat of pet page css*/
-
 #aboutme{
     float:right;
 }
@@ -84,7 +28,6 @@ body {
     align-self: center;
 }
 .float-container {
-
     background-color: pink;
     border: 40px solid #fff;
     padding: 20px;

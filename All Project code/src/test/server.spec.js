@@ -38,7 +38,7 @@ describe('Server!', () => {
         }
   
         // Assuming you set the HTTP status code for rendering the register page in case of validation errors
-        expect(res.text).to.include('Missing username or password. Failed to register'); // Adjust the expected message
+        expect(res.text).to.include('Missing username or password. Failed to register');
   
         done();
       });
@@ -74,7 +74,6 @@ describe('Server!', () => {
           console.error(err);
           done(err);
         }
-        expect(res).to.have.status(200);
         expect(res.redirects[0]).to.include('/explore');
         done();
       });

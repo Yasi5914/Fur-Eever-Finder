@@ -19,7 +19,7 @@ CREATE TABLE PetInfo(
     sex INT NOT NULL,
     description VARCHAR(500),
     adoptionFee INT,
-    photoURL VARCHAR(255)
+    petPhoto VARCHAR(255)
 );
 
 -- DROP TABLE IF EXISTS User_to_Pet CASCADE;
@@ -53,5 +53,6 @@ CREATE TABLE UserFavoritesBoulder(
 CREATE TABLE UserFavoritesAnywhere(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
-    FOREIGN KEY(username) REFERENCES Users(username)
+    FOREIGN KEY(username) REFERENCES Users(username),
+    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
 );
