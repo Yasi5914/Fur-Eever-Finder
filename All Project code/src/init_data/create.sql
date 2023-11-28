@@ -55,7 +55,7 @@ CREATE TABLE UserFavoritesBoulder(
     -- adoptionFee INT,
     -- photoURL VARCHAR(255)
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID),
+    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
     -- FOREIGN KEY(name) REFERENCES PetInfo(name),
     -- FOREIGN KEY(animalType) REFERENCES PetInfo(animalType),
     -- FOREIGN KEY(breed) REFERENCES PetInfo(breed),
@@ -81,7 +81,7 @@ CREATE TABLE UserFavoritesAnywhere(
     -- adoptionFee INT,
     -- photoURL VARCHAR(255)
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID),
+    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
     -- FOREIGN KEY(name) REFERENCES PetInfo(name),
     -- FOREIGN KEY(animalType) REFERENCES PetInfo(animalType),
     -- FOREIGN KEY(breed) REFERENCES PetInfo(breed),
