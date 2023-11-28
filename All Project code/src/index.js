@@ -84,11 +84,20 @@ app.post('/register', async (req, res) => {
   try {
     console.log(req.body);
     if (req.body.username == '' || req.body.hashPW == '') {
-      console.log("in");
       return res.render('pages/register', {
         message: "Missing username or password. Failed to register"
       });
     }
+
+    const existingUser = await db.oneOrNone('SELECT * FROM Users WHERE username = $1', [req.body.username]);
+
+    if (existingUser) {
+      // Username already exists, display a message
+      return res.render('pages/register', {
+        message: "Username is already in use. Please choose a different username."
+      });
+    }
+    
     // Hash the password using bcrypt library
     const hash = await bcrypt.hash(req.body.hashPW, 10);
     // Insert the username and hashed password into the 'users' table
