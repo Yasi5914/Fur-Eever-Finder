@@ -6,7 +6,10 @@
     background-color: #faf2eb;
 }
 .navbar.active a {
-    color:#d98294;
+    color:rgb(99, 1, 21);
+}
+.active {
+    background-color: #000000;
 }
 .navbar-brand {
     font-weight: bold;
