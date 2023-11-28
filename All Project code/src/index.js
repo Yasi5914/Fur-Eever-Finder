@@ -225,7 +225,6 @@ app.get('/explore_anywhere', async (req, res) => {
   const species_param = req.query.species;
   const breed_param = req.query.breed;
   const age_param = req.query.age;
-  console.log(age_param);
   const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
   const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
   const token_response = await axios.post(
@@ -234,7 +233,15 @@ app.get('/explore_anywhere', async (req, res) => {
   );
   const key = token_response.data.access_token;
   const header = { 'Authorization': `Bearer ${key}` };
-  const dogBreeds = ["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"];
+  filtersDogs = [["Breeds",["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"]],["Age",["Puppy","Young","Adult","Senior"]],["Size",["Small","Medium","Large","Extra Large"]],["Gender",["Male","Female"]],["Good With",["Kids", "Other Dogs", "Cats"]],["Coat Length",["Hairless","Short","Medium","Long"]],["Color",["Beige","Black"]], ["Care & Behavior",["House-trained","Special needs"]],["Days since posted",[1,2,3,4]]];
+  filtersCats = [["Breeds",["American Shorthair","British Shorthair","Burmese","Calico","Domestic Long Hair","Domestic Medium Hair","Domestic Short Hair","Maine Coon","Persian","Russian Blue","Siamese","Tabby","Tortoiseshell","Turkish Van","Tuxedo"]],["Age",["Kitten","Young","Adult","Senior"]],["Size",["Small","Medium","Large","Extra Large"]],["Gender",["Male","Female"]],["Good With",["Kids", "Dogs", "Other Cats"]],["Coat Length",["Hairless","Short","Medium","Long"]],["Color",["Beige","Black"]], ["Care & Behavior",["House-trained","Declawed","Special needs"]],["Days since posted",[1,2,3,4]]];  
+  var filter = [];
+  if(species_param == "dog"){
+    filter = filtersDogs;
+  }
+  else if(species_param == "cat"){
+    filter = filtersCats;
+  }
   axios({
     url: `https://api.petfinder.com/v2/animals`,
     method: 'GET',
@@ -249,12 +256,11 @@ app.get('/explore_anywhere', async (req, res) => {
     },
   })
     .then(results => {
-      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
-      res.render('pages/explore_anywhere',{
-        results,
-        dogBreeds,
-        page: "explore"
-      })
+      //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+        res.render('pages/explore_anywhere',{
+          results,
+          filter
+        })
     })
     .catch(error => {
       // Handle errors
@@ -262,10 +268,10 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        dogBreeds,
-        page: "explore"
+        breeds
         })
     });
+
 });
 
 app.post('/add_favorite', async (req, res) => {

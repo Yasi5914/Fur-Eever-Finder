@@ -5,11 +5,26 @@
   <div class="container">
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <div class="d-flex justify-content-center" style="margin-top: 2%;margin-bottom: 5%;"id="hobbies">
+        <%if(filter.length == 0){%>
+        <div class="row">
+            <div class="dropdown">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Type of Pet 
+                </button>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="/explore_anywhere?species=dog">Dog</a></li>
+                <li><a class="dropdown-item" href="/explore_anywhere?species=cat">Cat</a></li>
+                <li><a class="dropdown-item" href="/explore_anywhere">Any</a></li>
+                </ul>
+            </div>
+        </div>
+        <%}
+            else{%>
             <div class="col-2" style="padding-top: 5%;">
                 <div class="row">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Type of Pet
+                        Type of Pet 
                         </button>
                         <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="/explore_anywhere?species=dog">Dog</a></li>
@@ -18,18 +33,7 @@
                         </ul>
                     </div>
                 </div>
-                <div class="row" style="padding-top: 10%;">
-                    <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Breed
-                        </button>
-                        <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
-                        <% dogBreeds.forEach(breed =>{%>
-                        <li><a class="dropdown-item" href="/explore_anywhere?species=dog&breed=<%=breed%>"><%=breed%></a></li>
-                        <%});%>
-                        </ul>
-                    </div>
-                </div>
+
                 <div class="row" style="padding-top: 10%;">
                     <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -43,11 +47,29 @@
                         </ul>
                     </div>
                 </div>
+                <%   filter.forEach(filter =>{%>
+                    <div class="row" style="padding-top: 10%;">
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <%=filter[0]%>
+                            </button>
+                            <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
+                                <% filter[1].forEach(parameter =>{%>
+                            <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=<%=parameter%>"><%=parameter%></a></li>
+                                <%});%>
+                            </ul>
+                        </div>
+                    </div>
+                <%});%>
+                <div class="row" style="padding-top: 15%;padding-right: 10%;">
+                    <button type="button" class="btn btn-primary" style="--bs-btn-font-size: 1.25rem;">Apply Filters</button>
+                </div>
             </div>
+            <%}%>
             <div class="col-10">
                 <div class="row">
                     <%results.data.animals.forEach(pet =>{
-                        if(pet.photos.length >0){%>
+                        if(pet.primary_photo_cropped != null){%>
                     <div class="col" style="padding-top: 5%;">
                         <div class="card" style="width: 18rem; text-align: center;" id="hobby-card-3">
                             <img src="<%=pet.primary_photo_cropped.small%>" class="card-img-top" alt="..." width="275" height="183">
