@@ -102,7 +102,6 @@ app.post('/register', async (req, res) => {
         `INSERT INTO Users (username, hashPW, name, address, email)
         VALUES ($1, $2, $3, $4, $5)
       `;
-    console.log('should be login');
     const result = await db.one(insertQuery, [username, hash, name, address, email]);
 
     // Registration successful, redirect to the login page
@@ -110,7 +109,6 @@ app.post('/register', async (req, res) => {
   } catch (error) {
     // If the insert fails, redirect to the registration page
     console.error('Registration error:', error);
-    console.log("what is happening");
     res.redirect('/register');
   }
 });
@@ -251,18 +249,11 @@ app.post('/add_favorite', async (req, res) => {
   try {
     const username = req.session.user.username;
     const petID = req.body.petID;
-    const petQuery = await db.oneOrNone('SELECT * FROM PetInfo WHERE petID = $1;', [petID]);
-    // const name = petQuery.name;
-    // const animalType = petQuery.animalType;
-    // const breed = petQuery.breed;
-    // const size = petQuery.size;
-    // const age = petQuery.age;
-    // const sex = petQuery.sex;
-    // const description = petQuery.description;
-    // const adoptionFee = petQuery.adoptionFee;
-    // const photoURL = petQuery.photoURL;
-    // Check if the pet is already in favorites for the user
-    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);  // <-- Use petID here
+    const petQuery = await db.oneOrNone('SELECT fav_b.*, pi.name, pi.age FROM UserFavoritesBoulder fav_b ' +
+    'JOIN PetInfo pi ON fav_b.petID = pi.petID ' + 
+    'WHERE fav_b.username = $1 AND fav_b.petID = $2', [username, petID]);
+    
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
 
     if (existingFavorite) {
       // The pet is already a favorite, handle this case as needed
@@ -273,7 +264,7 @@ app.post('/add_favorite', async (req, res) => {
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
       await db.none('INSERT INTO UserFavoritesBoulder (username, petID) VALUES($1, $2)', [username, petID]);
       console.log('Pet added to favorites.');
-      res.json({ success: true, message: 'Pet added to favorites.' });
+      res.json({ success: true, message: 'Pet added to favorites.', petInfo: {name: petQuery.name, age:petQuery.age}, });
     }
   } catch (error) {
     console.error('Error adding favorite:', error);
@@ -308,7 +299,9 @@ app.post('/remove_favorite', async (req, res) => {
 
 app.get('/favorites', (req, res) => {
   const username = req.session.user.username;
-  const favQuery = 'SELECT * FROM UserFavoritesBoulder WHERE username = $1';
+  const favQuery = 'SELECT fav_b.*, pi.name, pi.age FROM UserFavoritesBoulder fav_b ' +
+  'JOIN PetInfo pi ON fav_b.petID = pi.petID ' + 
+  'WHERE fav_b.username = $1';
   console.log(favQuery);
   // Fetch favorite pet information for the logged-in user
   db.any(favQuery, [username])
