@@ -169,10 +169,8 @@ app.post("/login", async (req, res) => {
 });
 
 app.get('/petpage', async (req,res)=> {
-  const pet_id = req.query.pet_id;
+  let pet_id = parseInt(req.query.pet_id);
   const pet_name = req.query.pet_name;
-  console.log(pet_id);
-  console.log(pet_name);
   const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
   const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
   const token_response = await axios.post(
@@ -181,23 +179,11 @@ app.get('/petpage', async (req,res)=> {
   );
   const key = token_response.data.access_token;
   const header = { 'Authorization': `Bearer ${key}` };
-
+  
   axios({
-    url: `https://api.petfinder.com/v2/animals`,
+    url: `https://api.petfinder.com/v2/animals/${pet_id}`,
     method: 'GET',
     headers:header,
-    params: {
-      id: req.query.pet_id,
-      name: req.query.pet_name,
-      url: req.query.pet_url,
-      age: req.query.pet_age,
-      species: req.query.pet_species,
-      type: req.query.pet_type,
-      organization_id: req.query.pet_organization_id,
-      gender: req.query.pet_gender,
-      size: req.query.pet_size,
-      limit: 1,
-    },
   })
       .then(results =>{
          res.render('pages/pet_page',{
@@ -226,9 +212,6 @@ app.get('/explore', (req, res) => {
 
 app.get('/explore_anywhere', async (req, res) => {
   const species_param = req.query.species;
-  console.log(species_param);
-  const breed_param = req.query.breed;
-  const age_param = req.query.age;
   const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
   const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
   const token_response = await axios.post(
@@ -253,8 +236,10 @@ app.get('/explore_anywhere', async (req, res) => {
     params: {
       limit: 100,
       type: species_param,
-      breed: breed_param,
-      age: age_param,
+      breed: req.query.breed,
+      age: req.query.age,
+      gender: req.query.gender,
+      size: req.query.pet_size,
       location: "80310",
       sort: "distance"
     },
@@ -270,10 +255,10 @@ app.get('/explore_anywhere', async (req, res) => {
     .catch(error => {
       // Handle errors
 
-      console.log(error);
+      //console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        breeds,
+        filter,
         species_param
         })
     });

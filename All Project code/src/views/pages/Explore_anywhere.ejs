@@ -99,7 +99,7 @@
                             </button>
                             <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
                                 <% filter[2].forEach(parameter =>{%>
-                            <li><a class="dropdown-item" href="/explore_anywhere?species=dog&<%=filter[1]%>=<%=parameter%>"><%=parameter%></a></li>
+                            <li><a class="dropdown-item" href="/explore_anywhere?species=species_param&<%=filter[1]%>=<%=parameter%>"><%=parameter%></a></li>
                                 <%});%>
                             </ul>
                         </div>
@@ -141,19 +141,7 @@
                                     }
                                 %>
                                 <p><%=dist%></p>
-                                <form action="/petpage" method="GET">
-                                    <input type="hidden" name ="pet_id" value= <%= pet.id %> />
-                                    <input type="hidden" name ="pet_name" value= <%= pet.name%> />
-                                    <input type="hidden" name ="pet_age" value= <%= pet.age%> />
-                                    <input type="hidden" name ="pet_url" value= <%= pet.url%> />
-                                    <input type="hidden" name ="pet_species" value= <%= pet.species%> />
-                                    <input type="hidden" name ="pet_type" value= <%= pet.type%> />
-                                    <input type="hidden" name ="pet_organization_id" value= <%= pet.organization_id%> />
-                                    <input type="hidden" name ="pet_gender" value= <%= pet.gender%> />
-                                    <input type="hidden" name ="pet_size" value= <%= pet.size%> />
-                                    <input type="hidden" name ="pet" value= <%= pet %> />
-                                    <input class="btn btn-primary" type="submit" value="More Info">
-                                </form>
+                                <a type="btn btn-primary" href="/petpage?pet_id=<%=pet.id%>" class="btn btn-primary">More Info</a>
                             </div>
                         </div>
                     </div>
