@@ -1,0 +1,20 @@
+Week of 11/28/23
+
+Main decisions:  
+Pet Page functionality needs to be finished, Favorites functionality needs to be added to explore anywhere.
+Filters for explore anywhere need to be finished.
+Admin Functionality is still on the backburner and so is the application functionality. 
+
+Roles for upcoming week:  
+Lindy: Testing Favorites page and adding favorites functionality to explore anywhere
+Yash: Complete pet page for boulder and make everything look nice.
+Matt: Finish My Posts and working on pet page bug.
+Andrew: Add messages to redirections in a way that is not confusing for the user. If time permits, add tests to profile changes.
+Vince: Finish filter functionality and redesign explore anywhere for seperate cats/dogs page
+Lucy: Get the pet photos to render, figure out why and correct CSS issue. Transfer inline styles to css.
+
+Some of the filters are not functional.  
+Issue with photos being added when posts are being created.  
+Issue with certain pets from Explore anywhere(incorrect petId)
+CSS Style sheet is not applying
+Explore pet pages are 

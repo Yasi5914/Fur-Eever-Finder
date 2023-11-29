@@ -10,8 +10,8 @@ CREATE TABLE Users(
 );
 -- DROP TABLE IF EXISTS PetInfo CASCADE;
 CREATE TABLE PetInfo(
-    petID SERIAL PRIMARY KEY NOT NULL,
-    name VARCHAR(45),
+    petID SERIAL NOT NULL,
+    name VARCHAR(45) NOT NULL,
     animalType INT NOT NULL,
     breed VARCHAR(45),
     size INT NOT NULL,
@@ -19,16 +19,32 @@ CREATE TABLE PetInfo(
     sex INT NOT NULL,
     description VARCHAR(500),
     adoptionFee INT,
-    petPhoto VARCHAR(255)
+    petPhoto VARCHAR(255),
+    PRIMARY KEY (petID, name),
+    CONSTRAINT unique_petinfo_id_name UNIQUE (petID, name)
+);
+
+-- DROP TABLE IF EXISTS PetInfo CASCADE;
+CREATE TABLE PetInfoAPI(
+    petID INT NOT NULL,
+    name VARCHAR(45) NOT NULL,
+    age VARCHAR(45) NOT NULL,
+    sex VARCHAR(45) NOT NULL,
+    description VARCHAR(500),
+    petPhoto VARCHAR(255),
+    PRIMARY KEY (petID, name),
+    CONSTRAINT unique_petinfoapi_id_name UNIQUE (petID, name)
 );
 
 -- DROP TABLE IF EXISTS User_to_Pet CASCADE;
 CREATE TABLE User_to_Pet(
     username VARCHAR(25),
     petID INT,
+    name VARCHAR(45),
     FOREIGN KEY (username) REFERENCES Users(username),
-    FOREIGN KEY (petID) REFERENCES PetInfo(petID)
+    FOREIGN KEY (petID, name) REFERENCES PetInfo(petID, name)
 );
+
 
 -- the user in this table is the one trying to adopt
 -- DROP TABLE IF EXISTS Applications CASCADE;
@@ -37,22 +53,26 @@ CREATE TABLE Applications(
     status INT NOT NULL,
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
+    name VARCHAR(45) NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
+    FOREIGN KEY(petID, name) REFERENCES PetInfo(petID, name)
 );
+
 
 -- DROP TABLE IF EXISTS UserFavorites CASCADE;
 CREATE TABLE UserFavoritesBoulder(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
+    name VARCHAR(45) NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
+    FOREIGN KEY(petID, name) REFERENCES PetInfo(petID, name)
 );
 
 -- DROP TABLE IF EXISTS UserFavorites CASCADE;
 CREATE TABLE UserFavoritesAnywhere(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
+    name VARCHAR(45) NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
+    FOREIGN KEY(petID, name) REFERENCES PetInfoAPI(petID, name)
 );
