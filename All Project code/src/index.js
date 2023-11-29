@@ -294,8 +294,9 @@ app.post('/add_favorite_boulder', async (req, res) => {
   try {
     const username = req.session.user.username;
     const petID = req.body.petID;
-    const petQuery = await db.oneOrNone('SELECT name, age FROM petInfo where petID = $1', [petID]);
-    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
+    const name = req.body.name;
+    const petQuery = await db.oneOrNone('SELECT name, age FROM petInfo where petID = $1 AND name = $2', [petID, name]);
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2 AND name = $3', [username, petID, name]);
 
     if (existingFavorite) {
       // The pet is already a favorite, handle this case as needed
@@ -304,7 +305,7 @@ app.post('/add_favorite_boulder', async (req, res) => {
     } else {
       // The pet is not in favorites, add it
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
-      await db.none('INSERT INTO UserFavoritesBoulder (username, petID) VALUES($1, $2)', [username, petID]);
+      await db.none('INSERT INTO UserFavoritesBoulder (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
       res.json({ success: true, message: 'Pet added to favorites.', petInfo: {name: petQuery.name, age:petQuery.age}, });
     }
   } catch (error) {
@@ -326,7 +327,7 @@ app.post('/add_favorite_anywhere', async (req, res) => {
     console.log("req.body", req.body);
     console.log("petID", petID);
     await db.none('INSERT INTO petInfoAPI (petid, name, age, sex, description, petPhoto) VALUES ($1, $2, $3, $4, $5, $6)',[petID, name, age, gender, description, url]);
-    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND petID = $2', [username, petID]);
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND name = $2 AND petID = $3', [username, name, petID]);
 
     if (existingFavorite) {
       // The pet is already a favorite, handle this case as needed
@@ -335,7 +336,7 @@ app.post('/add_favorite_anywhere', async (req, res) => {
     } else {
       // The pet is not in favorites, add it
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
-      await db.none('INSERT INTO UserFavoritesAnywhere (username, petID) VALUES($1, $2)', [username, petID]);
+      await db.none('INSERT INTO UserFavoritesAnywhere (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
       res.json({ success: true, message: 'Pet added to favorites.'});
     }
   } catch (error) {
@@ -404,6 +405,7 @@ app.get('/favorites', (req, res) => {
       res.status(500).send('Internal Server Error');
     });
 });
+
 
 app.get('/account', (req, res) => {
   res.status(200)
