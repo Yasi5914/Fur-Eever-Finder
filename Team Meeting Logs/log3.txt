@@ -1,0 +1,18 @@
+Week of 11/28/23
+
+Main decisions:  
+Pet Page functionality needs to be finished, Favorites functionality needs to be added to explore anywhere.
+Filters for explore anywhere need to be finished.
+Admin Functionality is still on the backburner and so is the application functionality. 
+
+Roles for upcoming week:  
+Lindy: Testing Favorites page and adding favorites functionality to explore anywhere
+Yash: 
+Matt: Finish My Posts and working on pet page bug.
+Andrew:
+Vince:
+Lucy:
+
+Some of the filters are not functional.  
+Issue with photos being added when posts are being created.  
+Issue with certain pets from Explore anywhere(incorrect petId)
