@@ -273,7 +273,8 @@ app.get('/explore_anywhere', async (req, res) => {
       //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
         res.render('pages/explore_anywhere',{
           results,
-          filter
+          filter,
+          username: req.session.user.username
         })
     })
     .catch(error => {
@@ -282,18 +283,18 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        breeds
+        breeds,
+        username: req.session.user.username
         })
     });
 
 });
 
-app.post('/add_favorite', async (req, res) => {
+app.post('/add_favorite_boulder', async (req, res) => {
   try {
     const username = req.session.user.username;
     const petID = req.body.petID;
     const petQuery = await db.oneOrNone('SELECT name, age FROM petInfo where petID = $1', [petID]);
-  
     const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
 
     if (existingFavorite) {
@@ -312,22 +313,63 @@ app.post('/add_favorite', async (req, res) => {
   }
 });
 
+app.post('/add_favorite_anywhere', async (req, res) => {
+  try {
+    const username = req.body.username;
+    const petID = req.body.petID;
+    const name = req.body.name;
+    const age = req.body.age;
+    const gender = req.body.gender;
+    const description = req.body.description;
+    const url = req.body.url;
+
+    console.log("req.body", req.body);
+    console.log("petID", petID);
+    await db.none('INSERT INTO petInfoAPI (petid, name, age, sex, description, petPhoto) VALUES ($1, $2, $3, $4, $5, $6)',[petID, name, age, gender, description, url]);
+    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND petID = $2', [username, petID]);
+
+    if (existingFavorite) {
+      // The pet is already a favorite, handle this case as needed
+      console.log('Pet is already a favorite.');
+      res.json({ success: false, message: 'Pet is already a favorite.' });
+    } else {
+      // The pet is not in favorites, add it
+      // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
+      await db.none('INSERT INTO UserFavoritesAnywhere (username, petID) VALUES($1, $2)', [username, petID]);
+      res.json({ success: true, message: 'Pet added to favorites.'});
+    }
+  } catch (error) {
+    console.error('Error adding favorite:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  }
+});
+
 // Remove favorite
 app.post('/remove_favorite', async (req, res) => {
   try {
     const username = req.session.user.username;
     const petID = req.body.petID;
 
-    // Check if the pet is in favorites for the user
-    const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
+    // Check if the pet is in favorites for the user in UserFavoritesBoulder
+    const existingFavoriteBoulder = await db.oneOrNone('SELECT * FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
 
-    if (!existingFavorite) {
+    // Check if the pet is in favorites for the user in UserFavoritesAnywhere
+    const existingFavoriteAnywhere = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND petID = $2', [username, petID]);
+
+    if (!existingFavoriteBoulder && !existingFavoriteAnywhere) {
       // The pet is not in favorites, handle this case as needed
       console.log('Pet is not in favorites.');
       res.json({ success: false, message: 'Pet is not in favorites.' });
     } else {
-      // The pet is in favorites, remove it
-      await db.none('DELETE FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
+      // The pet is in favorites, remove it from the appropriate table(s)
+      if (existingFavoriteBoulder) {
+        await db.none('DELETE FROM UserFavoritesBoulder WHERE username = $1 AND petID = $2', [username, petID]);
+      }
+
+      if (existingFavoriteAnywhere) {
+        await db.none('DELETE FROM UserFavoritesAnywhere WHERE username = $1 AND petID = $2', [username, petID]);
+      }
+
       res.json({ success: true, message: 'Pet removed from favorites.' });
     }
   } catch (error) {
@@ -336,11 +378,20 @@ app.post('/remove_favorite', async (req, res) => {
   }
 });
 
+
 app.get('/favorites', (req, res) => {
   const username = req.session.user.username;
-  const favQuery = 'SELECT fav_b.*, pi.name, pi.age FROM UserFavoritesBoulder fav_b ' +
-  'JOIN PetInfo pi ON fav_b.petID = pi.petID ' + 
-  'WHERE fav_b.username = $1';
+  const favQuery = `
+    SELECT fav_b.*, pi.name, pi.age::VARCHAR(45)
+    FROM UserFavoritesBoulder fav_b
+    JOIN PetInfo pi ON fav_b.petID = pi.petID
+    WHERE fav_b.username = $1
+    UNION
+    SELECT fav_a.*, pia.name, pia.age
+    FROM UserFavoritesAnywhere fav_a
+    JOIN petInfoAPI pia ON fav_a.petID = pia.petID
+    WHERE fav_a.username = $1
+  `;
   // Fetch favorite pet information for the logged-in user
   db.any(favQuery, [username])
     .then((FavPetInfo) => {

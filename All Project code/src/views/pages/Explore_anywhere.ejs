@@ -74,8 +74,8 @@
                         <div class="card" style="width: 18rem; text-align: center;" id="hobby-card-3">
                             <img src="<%=pet.primary_photo_cropped.small%>" class="card-img-top" alt="..." width="275" height="183">
                             <div class="card-img-overlay" style = "text-align: right; height: 11.5rem;">
-                                <a type="button" href="<%=pet.url%>" class="btn btn-light rounded-circle bg-opacity-10" style="color: pink; background-color: grey;" target="_blank">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                                <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: white; background-color: grey;" data-pet-id="<%= pet.id %>" data-favorite="<%= pet.isFavorite %>" onclick="addToFavorites('<%= pet.id %>', '<%= username %>', '<%= pet.name %>', '<%= pet.age %>', '<%= pet.gender %>', '<%= pet.description %>', '<%= pet.url %>')">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                     </svg>
                                 </a>
@@ -107,5 +107,25 @@
       </div>
   </div>
 </main>
+<script>
+    async function addToFavorites(petID, username, name, age, gender, description, url) {
+      console.log('Pet ID:', petID);
+      try {
+        const response = await fetch('/add_favorite_anywhere', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username, petID, name, age, gender, description, url }),
+        });
 
+        const data = await response.json();
+        
+//should we redirect to favorites after successfully adding to favorites?
+        console.log('Response:', data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    }
+  </script>
 <%- include ('../partials/footer') %>

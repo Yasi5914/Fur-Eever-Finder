@@ -22,6 +22,16 @@ CREATE TABLE PetInfo(
     petPhoto VARCHAR(255)
 );
 
+-- DROP TABLE IF EXISTS PetInfo CASCADE;
+CREATE TABLE PetInfoAPI(
+    petID INT PRIMARY KEY NOT NULL,
+    name VARCHAR(45),
+    age VARCHAR(45) NOT NULL,
+    sex VARCHAR(45) NOT NULL,
+    description VARCHAR(500),
+    petPhoto VARCHAR(255)
+);
+
 -- DROP TABLE IF EXISTS User_to_Pet CASCADE;
 CREATE TABLE User_to_Pet(
     username VARCHAR(25),
@@ -54,5 +64,5 @@ CREATE TABLE UserFavoritesAnywhere(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID) REFERENCES PetInfo(petID)
+    FOREIGN KEY(petID) REFERENCES PetInfoAPI(petID)
 );
