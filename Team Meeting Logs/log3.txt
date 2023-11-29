@@ -11,8 +11,10 @@ Yash: Complete pet page for boulder and make everything look nice.
 Matt: Finish My Posts and working on pet page bug.
 Andrew: Add messages to redirections in a way that is not confusing for the user. If time permits, add tests to profile changes.
 Vince: Finish filter functionality and redesign explore anywhere for seperate cats/dogs page
-Lucy:
+Lucy: Get the pet photos to render, figure out why and correct CSS issue. Transfer inline styles to css.
 
 Some of the filters are not functional.  
 Issue with photos being added when posts are being created.  
 Issue with certain pets from Explore anywhere(incorrect petId)
+CSS Style sheet is not applying
+Explore pet pages are 
