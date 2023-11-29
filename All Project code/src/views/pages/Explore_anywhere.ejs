@@ -4,9 +4,10 @@
 <main>
   <div class="container">
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-    <div class="d-flex justify-content-center" style="margin-top: 2%;margin-bottom: 5%;"id="hobbies">
+    <div class="d-flex justify-content-center" style="margin-top: 2%;margin-bottom: 2%;"id="explore_anywhere">
+        <div class="row ">
         <%if(filter.length == 0){%>
-        <div class="row">
+       
             <div class="dropdown">
                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Type of Pet 
@@ -18,6 +19,8 @@
                 </ul>
             </div>
         </div>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-bottom: 5%;"id="explore_anywhere">
         <%}
             else{%>
             <div class="col-2" style="padding-top: 5%;">
@@ -54,8 +57,8 @@
                             <%=filter[0]%>
                             </button>
                             <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
-                                <% filter[1].forEach(parameter =>{%>
-                            <li><a class="dropdown-item" href="/explore_anywhere?species=dog&age=<%=parameter%>"><%=parameter%></a></li>
+                                <% filter[2].forEach(parameter =>{%>
+                            <li><a class="dropdown-item" href="/explore_anywhere?species=dog&<%=filter[1]%>=<%=parameter%>"><%=parameter%></a></li>
                                 <%});%>
                             </ul>
                         </div>
@@ -66,12 +69,17 @@
                 </div>
             </div>
             <%}%>
+            <%if(filter.length == 0){%>
+            <div class="col-12">
+            <%}
+                else{%>
             <div class="col-10">
+            <%}%>
                 <div class="row">
                     <%results.data.animals.forEach(pet =>{
                         if(pet.primary_photo_cropped != null){%>
                     <div class="col" style="padding-top: 5%;">
-                        <div class="card" style="width: 18rem; text-align: center;" id="hobby-card-3">
+                        <div class="card" style="width: 16rem; text-align: center;" id="hobby-card-3">
                             <img src="<%=pet.primary_photo_cropped.small%>" class="card-img-top" alt="..." width="275" height="183">
                             <div class="card-img-overlay" style = "text-align: right; height: 11.5rem;">
                                 <a type="button" href="<%=pet.url%>" class="btn btn-light rounded-circle bg-opacity-10" style="color: pink; background-color: grey;" target="_blank">
@@ -79,6 +87,11 @@
                                         <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
                                     </svg>
                                 </a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title"><%=pet.name.split(" ")[0]%></h5>
+                                <p><%=pet.age%> | <%=pet.breeds.primary%></p>
+                                <p><%=pet.distance%> Miles Away</p>
                                 <form action="/petpage" method="GET">
                                     <input type="hidden" name ="pet_id" value= <%= pet.id %> />
                                     <input type="hidden" name ="pet_name" value= <%= pet.name%> />
@@ -92,11 +105,6 @@
                                     <input type="hidden" name ="pet" value= <%= pet %> />
                                     <input class="btn btn-primary" type="submit" value="More Info">
                                 </form>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title"><%=pet.name.split(" ")[0]%></h5>
-                                <p><%=pet.age%> | <%=pet.breeds.primary%></p>
-                                <p><%=pet.distance%> Miles Away</p>
                             </div>
                         </div>
                     </div>
