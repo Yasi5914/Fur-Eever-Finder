@@ -4,20 +4,10 @@
 <div>
     <div  class="float-container">
 
-        <% results.data.animals.forEach(pet =>{ console.log(pet.id)%>
+        <% pet = results.data.animal%>
 
         <div  class="float-child-1">
-
-            <%if(pet.primary_photo_cropped.large != null){%>
-            <img src= <%=pet.primary_photo_cropped.large%> id="self-image">
-            <%} else if(pet.primary_photo_cropped.medium){%>
-            <img src= <%=pet.primary_photo_cropped.medium%> id="self-image">
-            <%} else if(pet.primary_photo_cropped.small){%>
-            <img src= <%=pet.primary_photo_cropped.small%> id="self-image">
-            <% } %>
-
-
-
+            <img src= <%=pet.primary_photo_cropped.medium%>
         </div>
 
         <div id="self-desc" class="float-child-2">
@@ -64,8 +54,6 @@
                     <button type="button" class="btn btn-info">Adopt!</button>
                 </a>
             <% } %>
-
-            <% }) %>
 
         </div>
 
