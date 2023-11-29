@@ -10,7 +10,7 @@ Lindy: Testing Favorites page and adding favorites functionality to explore anyw
 Yash: 
 Matt: Finish My Posts and working on pet page bug.
 Andrew:
-Vince:
+Vince: Finish filter functionality and redesign explore anywhere for seperate cats/dogs page
 Lucy:
 
 Some of the filters are not functional.  
