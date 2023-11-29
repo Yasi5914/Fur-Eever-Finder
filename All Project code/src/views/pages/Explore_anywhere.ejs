@@ -132,7 +132,15 @@
                             <div class="card-body">
                                 <h5 class="card-title"><%=pet.name.split(" ")[0]%></h5>
                                 <p><%=pet.age%> | <%=pet.breeds.primary%></p>
-                                <p><%=pet.distance%> Miles Away</p>
+                                <% var dist = "";
+                                    if(pet.distance < 1){
+                                        dist = "Less Than 1 Mile Away";
+                                    } 
+                                    else{ 
+                                        dist = Math.round(pet.distance) + " Miles Away";
+                                    }
+                                %>
+                                <p><%=dist%></p>
                                 <form action="/petpage" method="GET">
                                     <input type="hidden" name ="pet_id" value= <%= pet.id %> />
                                     <input type="hidden" name ="pet_name" value= <%= pet.name%> />
