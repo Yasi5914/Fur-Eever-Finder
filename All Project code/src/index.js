@@ -226,6 +226,7 @@ app.get('/explore', (req, res) => {
 
 app.get('/explore_anywhere', async (req, res) => {
   const species_param = req.query.species;
+  console.log(species_param);
   const breed_param = req.query.breed;
   const age_param = req.query.age;
   const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
@@ -262,7 +263,8 @@ app.get('/explore_anywhere', async (req, res) => {
       //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
         res.render('pages/explore_anywhere',{
           results,
-          filter
+          filter,
+          species_param
         })
     })
     .catch(error => {
@@ -271,7 +273,8 @@ app.get('/explore_anywhere', async (req, res) => {
       console.log(error);
       res.render('pages/explore_anywhere', {
         results: [],
-        breeds
+        breeds,
+        species_param
         })
     });
 
