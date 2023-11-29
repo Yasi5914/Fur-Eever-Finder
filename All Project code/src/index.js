@@ -168,6 +168,17 @@ app.post("/login", async (req, res) => {
   }
 });
 
+const auth = (req, res, next) => {
+  if (!req.session.user) {
+    // Default to login page.
+    res.status(200)
+    return res.redirect('/login');
+  }
+  next();
+};
+// Authentication Required
+app.use(auth);
+
 app.get('/petpage', async (req,res)=> {
   const pet_id = req.query.pet_id;
   const pet_name = req.query.pet_name;
@@ -483,17 +494,6 @@ app.post('/post_pets', async (req, res) => {
     res.status(500).send('Internal Server Error');
   }
 });
-
-const auth = (req, res, next) => {
-  if (!req.session.user) {
-    // Default to login page.
-    res.status(200)
-    return res.redirect('/login');
-  }
-  next();
-};
-// Authentication Required
-app.use(auth);
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
