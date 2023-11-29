@@ -7,7 +7,7 @@ Admin Functionality is still on the backburner and so is the application functio
 
 Roles for upcoming week:  
 Lindy: Testing Favorites page and adding favorites functionality to explore anywhere
-Yash: 
+Yash: Complete pet page for boulder and make everything look nice.
 Matt: Finish My Posts and working on pet page bug.
 Andrew:
 Vince: Finish filter functionality and redesign explore anywhere for seperate cats/dogs page
