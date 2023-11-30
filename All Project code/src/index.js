@@ -179,6 +179,21 @@ const auth = (req, res, next) => {
 // Authentication Required
 app.use(auth);
 
+app.get('/petpage_boulder',async(req,res)=>{
+  const query = `SELECT * FROM PetInfo WHERE petID = $1`;
+  let pet_id = parseInt(req.query.pet_id);
+  console.log(pet_id);
+  db.any(query,pet_id)
+      .then( pet =>{
+        res.render('pages/boulderpetpage', {pet});
+        console.log(pet);
+      })
+      // if query execution fails
+      // send error message
+      .catch(err=> {
+        return console.log(err);
+      });
+})
 app.get('/petpage', async (req,res)=> {
   let pet_id = parseInt(req.query.pet_id);
   const pet_name = req.query.pet_name;
@@ -202,7 +217,6 @@ app.get('/petpage', async (req,res)=> {
         })
       })
       .catch(err =>{
-        console.log("fuaashjkafs");
         console.log(err);
       });
 

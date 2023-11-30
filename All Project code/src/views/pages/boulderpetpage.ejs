@@ -1,11 +1,9 @@
 <%- include ('../partials/head') %>
-<%- include ('../partials/login_register_menu') %>
+<%- include ('../partials/menu') %>
 
 <div>
     <div  class="float-container">
-
-        <% pet = results.data.animal%>
-
+        <% pet = pet[0]%>
         <div  class="float-child-1">
             <img src= <%=pet.petPhoto%>
         </div>
@@ -13,7 +11,7 @@
         <div id="self-desc" class="float-child-2">
             <h2>About <%= pet.name%></h2>
 
-            <%if(pet.breeds.primary){%>
+            <%if(pet.breeds){%>
             <h5> Breed : <%= pet.breeds%>
             </h5>
             <% } %>
@@ -29,6 +27,7 @@
             <h5> Size : <%= pet.size%>
             </h5>
             <% } %>
+            <%console.log(pet.adoptionFee);%>
             <%if(pet.adoptionFee){%>
             <h5> Adoption Fee : <%= pet.adoptionFee%>
             </h5>
