@@ -1,13 +1,13 @@
 <%- include ('../partials/head') %>
-<%- include ('../partials/login_register_menu') %>
+<%- include ('../partials/menu') %>
 
 <div>
     <div  class="float-container">
 
         <% pet = results.data.animal%>
 
-        <div  class="float-child-1">
-            <img src= <%=pet.primary_photo_cropped.medium%>
+        <div  class="float-child-1" >
+            <img id="self-image" src= <%=pet.primary_photo_cropped.medium%>>
         </div>
 
         <div id="self-desc" class="float-child-2">

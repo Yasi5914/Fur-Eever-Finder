@@ -1,0 +1,46 @@
+<%- include ('../partials/head') %>
+<%- include ('../partials/login_register_menu') %>
+
+<div>
+    <div  class="float-container">
+
+        <% pet = results.data.animal%>
+
+        <div  class="float-child-1">
+            <img src= <%=pet.petPhoto%>
+        </div>
+
+        <div id="self-desc" class="float-child-2">
+            <h2>About <%= pet.name%></h2>
+
+            <%if(pet.breeds.primary){%>
+            <h5> Breed : <%= pet.breeds%>
+            </h5>
+            <% } %>
+            <%if(pet.age){%>
+            <h5> Age : <%= pet.age%>
+            </h5>
+            <% } %>
+            <%if(pet.sex){%>
+            <h5> Gender : <%= pet.sex%>
+            </h5>
+            <% } %>
+            <%if(pet.size){%>
+            <h5> Size : <%= pet.size%>
+            </h5>
+            <% } %>
+            <%if(pet.adoptionFee){%>
+            <h5> Adoption Fee : <%= pet.adoptionFee%>
+            </h5>
+            <% } %>
+            <%if(pet.description){%>
+            <h5> Description : <%= pet.description%>
+            </h5>
+            <% } %>
+
+        </div>
+
+    </div>
+</div>
+
+<%- include ('../partials/footer') %>
