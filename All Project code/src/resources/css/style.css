@@ -6,6 +6,7 @@
 .footer {
     background-color: #fff2f5;
     height:30px;
+    padding: 10px;
 }
 
 .active a {
@@ -80,6 +81,11 @@
 .pet-info {
     text-align: center;
 }
+#MoreInfo {
+    background-color: #537791;
+    border-color: #537791;
+    margin-bottom: 15px;
+}
 
 /* Create post button */
 .create-post-button {
@@ -98,4 +104,10 @@
     background-color: lightblue;
     display: inline-block;
     margin-right: 10px;
+}
+
+/* Default page format */
+h1{
+    padding-top: 5%;
+    color: #314a52;
 }
