@@ -6,28 +6,35 @@
   <div class="container">
 
     <h1>My Pet Posts</h1>
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Your Pets</title>
-      <link rel="stylesheet" type="text/css" href="../../resources/css/style.css">
-    </head>
 
     <body>
     <% if (locals.petInfo && locals.petInfo.length > 0) { %>
       <% locals.petInfo.forEach(function(pet) { %>
         <div class="user-pet-card">
-          <img src="<%= pet.photoURL %>" alt="<%= pet.name %>">
-          <div class="user-pet-card-content">
-            <h2><%= pet.name %></h2>
-            <p><%= pet.description %></p>
-            <!-- Additional information fields -->
-            <p>Name: <%= pet.name || 'N/A' %></p>
-            <p>Animal Type: <%= pet.animalType || 'N/A' %></p>
+          <div class="pet-card-content">
+
+            <!-- Pet Photo -->
+            <% if (pet.petPhoto) { %>
+              <img src="<%= pet.petPhoto %>" alt="<%= pet.name %>'s Photo">
+            <% } else { %>
+              <div class="no-photo">No Photo Available</div>
+            <% } %>
+
+            <!-- Description -->
+            <div class="pet-description">
+              <p><strong>Description:</strong> <%= pet.description || 'N/A' %></p>
+            </div>
+          </div>
+
+          <!-- Additional information fields -->
+          <div class="pet-info">
+            <p>Name: <%= pet.name ? pet.name.charAt(0).toUpperCase() + pet.name.slice(1) : 'N/A' %></p>
+            <p>Animal Type: <% if (pet.animaltype === 1) { %>Dog<% } else if (pet.animaltype === 2) { %>Cat<% } else if (pet.animaltype === 3) { %>Other<% } else { %>N/A<% } %></p>
             <p>Breed: <%= pet.breed || 'N/A' %></p>
-            <p>Size: <%= pet.size || 'N/A' %></p>
+            <p>Size: <% if (pet.size === 1) { %>Small<% } else if (pet.size === 2) { %>Medium<% } else if (pet.size === 3) { %>Large<% } else { %>N/A<% } %></p>
             <p>Age: <%= pet.age || 'N/A' %></p>
-            <p>Sex: <%= pet.sex || 'N/A' %></p>
+            <p>Sex: <% if (pet.sex === 1) { %>Female<% } else if (pet.sex === 2) { %>Male<% } else { %>N/A<% } %></p>
+            <p>Adoption Fee: <%= pet.adoptionfee !== null ? '$' + pet.adoptionfee.toLocaleString() : 'N/A' %></p>
           </div>
         </div>
       <% }); %>
