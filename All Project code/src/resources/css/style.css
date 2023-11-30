@@ -47,3 +47,55 @@
 }
 
 /* end of petpage css */
+
+
+/* Styles for the pet card */
+.user-pet-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Styles for the pet card content */
+.pet-card-content {
+    display: flex;
+}
+
+/* Styles for the pet image */
+.pet-image img {
+    max-width: 100px;
+    height: auto;
+    margin-right: 20px;
+}
+
+/* Styles for the pet description */
+.pet-description {
+    flex-grow: 1;
+}
+
+/* Styles for additional information fields */
+.pet-info {
+    text-align: center;
+}
+
+/* Create post button */
+.create-post-button {
+    display: block;
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #4CAF50; /* Green color */
+    color: white;
+    text-decoration: none;
+    text-align: center;
+}
+
+.no-photo {
+    width: 100px;
+    height: 100px;
+    background-color: lightblue;
+    display: inline-block;
+    margin-right: 10px;
+}
