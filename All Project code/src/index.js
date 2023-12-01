@@ -309,6 +309,9 @@ app.post('/add_favorite_boulder', async (req, res) => {
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
       await db.none('INSERT INTO UserFavoritesBoulder (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
       res.json({ success: true, message: 'Pet added to favorites.', petInfo: {name: petQuery.name, age:petQuery.age}, });
+      return res.render('pages/explore', {
+        message: "Pet added to your favorites!",
+      });
     }
   } catch (error) {
     console.error('Error adding favorite:', error);
