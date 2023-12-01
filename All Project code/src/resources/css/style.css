@@ -99,8 +99,8 @@
 }
 
 .no-photo {
-    width: 100px;
-    height: 100px;
+    height: auto;
+    width: auto;
     background-color: lightblue;
     display: inline-block;
     margin-right: 10px;
@@ -108,6 +108,5 @@
 
 /* Default page format */
 h1{
-    padding-top: 5%;
-    color: #314a52;
+    padding-top: 2%;
 }
