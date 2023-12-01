@@ -13,7 +13,7 @@
               <div class="col" style="padding-top: 5%;">
                   <div class="card" style="width: 18rem; text-align: center;">
                       <img src="<%= pet.petphoto %>" class="card-img-top" alt="Image not available" width="275" height="183">
-                      <div class="card-img-overlay" style = "text-align: right;">
+                      <div class="card-img-overlay" style = "text-align: right;height: 11.5rem;">
                         <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: white; background-color: grey;" 
                           data-pet-id="<%= pet.petid %>" data-favorite="<%= pet.isFavorite %>" onclick="addToFavorites('<%= pet.petid %>', '<%= username %>', '<%= pet.name %>')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
@@ -25,8 +25,8 @@
                         <a  class="card-title"></h5><%- pet.name %></a>
                         <a> | <%- pet.age %> years</a>
                       </div>
-                      <div>
-                        <a type="btn btn-primary" href="/petpage_boulder?pet_id=<%=pet.id%>" class="btn btn-primary" ID="MoreInfo">More Info</a>
+                      <div><%console.log(pet)%>
+                        <a type="btn btn-primary" href="/petpage_boulder?pet_id=<%=pet.petid%>" class="btn btn-primary" ID="MoreInfo">More Info</a>
                       </div>
                   </div>
               </div>
