@@ -10,7 +10,7 @@
       <%FavPetInfo.forEach(function(pet){%>
         <div class="col" style="padding-top: 5%;">
             <div class="card" style="width: 18rem; text-align: center;" id="PetCards">
-                <img src="<% pet.petPhoto %>" class="card-img-top" alt="Image not available" width="275" height="183">
+                <img src="<%= pet.petphoto %>" class="card-img-top" alt="Image not available" width="275" height="183">
                 <div class="card-img-overlay" style = "text-align: right;">
                   <a type="button" class="btn btn-light rounded-circle bg-opacity-10 favorite-button" style="color: pink; background-color: grey;" 
                     data-pet-id="<%- pet.petid %>" data-favorite="<%- pet.isFavorite %>" 

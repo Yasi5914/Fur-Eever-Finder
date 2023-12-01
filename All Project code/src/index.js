@@ -227,6 +227,7 @@ app.get('/explore', (req, res) => {
   const username = req.session.user.username;
   db.any(petQuery)
     .then((PetInfo) => {
+      console.log(PetInfo);
       res.status(200).render("pages/explore", { PetInfo , username , page: "explore"});
     })
     .catch((error) => {

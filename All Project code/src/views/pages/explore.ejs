@@ -12,7 +12,7 @@
             <%PetInfo.forEach(pet=>{%>
               <div class="col" style="padding-top: 5%;">
                   <div class="card" style="width: 18rem; text-align: center;">
-                      <img src="<% pet.petPhoto %>", class="card-img-top" alt="Image not available" width="275" height="183">
+                      <img src="<%= pet.petphoto %>" class="card-img-top" alt="Image not available" width="275" height="183">
                       <div class="card-img-overlay" style = "text-align: right;">
                         <form action = '/add_favorite_boulder' method = 'post', >
                           <input type="hidden" name="data-pet-id" value="<%= pet.petid %>">
@@ -25,7 +25,7 @@
                       </form>
                     </div>
                       <div class="card-body">
-                        <a href="#" class="card-title"></h5><%- pet.name %></a>
+                        <a  class="card-title"></h5><%- pet.name %></a>
                         <a> | <%- pet.age %> years</a>
                       </div>
                       <div>
@@ -33,8 +33,7 @@
                       </div>
                   </div>
               </div>
-              <%
-          });%>
+              <%});%>
           </div>
       </div>
     </main>
