@@ -386,12 +386,12 @@ app.post('/remove_favorite', async (req, res) => {
 app.get('/favorites', (req, res) => {
   const username = req.session.user.username;
   const favQuery = `
-    SELECT fav_b.*, pi.name, pi.age::VARCHAR(45)
+    SELECT fav_b.*, pi.name, pi.age::VARCHAR(45), pi.petphoto
     FROM UserFavoritesBoulder fav_b
     JOIN PetInfo pi ON fav_b.petID = pi.petID
     WHERE fav_b.username = $1
     UNION
-    SELECT fav_a.*, pia.name, pia.age
+    SELECT fav_a.*, pia.name, pia.age, pia.petphoto
     FROM UserFavoritesAnywhere fav_a
     JOIN petInfoAPI pia ON fav_a.petID = pia.petID
     WHERE fav_a.username = $1
