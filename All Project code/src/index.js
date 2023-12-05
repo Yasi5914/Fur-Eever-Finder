@@ -271,7 +271,7 @@ app.get('/explore_anywhere', async (req, res) => {
     },
   })
     .then(results => {
-      //console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
+      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
         res.render('pages/explore_anywhere',{
           results,
           filter,
@@ -308,6 +308,7 @@ app.post('/add_favorite_boulder', async (req, res) => {
     } else {
       // The pet is not in favorites, add it
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
+      console.log('added into boulder');
       await db.none('INSERT INTO UserFavoritesBoulder (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
       res.json({ success: true, message: 'Pet added to favorites.', petInfo: {name: petQuery.name, age:petQuery.age}, });
     }
@@ -324,12 +325,11 @@ app.post('/add_favorite_anywhere', async (req, res) => {
     const name = req.body.name;
     const age = req.body.age;
     const gender = req.body.gender;
-    const description = req.body.description;
-    const url = req.body.url;
+    const petphoto = req.body.petphoto;
 
     console.log("req.body", req.body);
     console.log("petID", petID);
-    await db.none('INSERT INTO petInfoAPI (petid, name, age, sex, description, petPhoto) VALUES ($1, $2, $3, $4, $5, $6)',[petID, name, age, gender, description, url]);
+    await db.none('INSERT INTO petInfoAPI (petid, name, age, sex, petPhoto) VALUES ($1, $2, $3, $4, $5)',[petID, name, age, gender, petphoto]);
     const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND name = $2 AND petID = $3', [username, name, petID]);
 
     if (existingFavorite) {
@@ -339,7 +339,8 @@ app.post('/add_favorite_anywhere', async (req, res) => {
     } else {
       // The pet is not in favorites, add it
       // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
-      await db.none('INSERT INTO UserFavoritesAnywhere (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
+      console.log('added into anywhere');
+      await db.none('INSERT INTO UserFavoritesAnywhere (username, petID, name, petPhoto) VALUES($1, $2, $3, $4)', [username, petID, name, petphoto]);
       res.json({ success: true, message: 'Pet added to favorites.'});
     }
   } catch (error) {

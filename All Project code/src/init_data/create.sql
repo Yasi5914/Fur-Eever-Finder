@@ -20,8 +20,8 @@ CREATE TABLE PetInfo(
     description VARCHAR(500),
     adoptionFee INT,
     petPhoto VARCHAR(255),
-    PRIMARY KEY (petID, name),
-    CONSTRAINT unique_petinfo_id_name UNIQUE (petID, name)
+    PRIMARY KEY (petID, name, petPhoto),
+    CONSTRAINT unique_petinfo_id_name UNIQUE (petID, name, petPhoto)
 );
 
 -- DROP TABLE IF EXISTS PetInfo CASCADE;
@@ -32,8 +32,8 @@ CREATE TABLE PetInfoAPI(
     sex VARCHAR(45) NOT NULL,
     description VARCHAR(500),
     petPhoto VARCHAR(255),
-    PRIMARY KEY (petID, name),
-    CONSTRAINT unique_petinfoapi_id_name UNIQUE (petID, name)
+    PRIMARY KEY (petID, name, petPhoto),
+    CONSTRAINT unique_petinfoapi_id_name UNIQUE (petID, name, petPhoto)
 );
 
 -- DROP TABLE IF EXISTS User_to_Pet CASCADE;
@@ -41,8 +41,9 @@ CREATE TABLE User_to_Pet(
     username VARCHAR(25),
     petID INT,
     name VARCHAR(45),
+    petPhoto VARCHAR(255),
     FOREIGN KEY (username) REFERENCES Users(username),
-    FOREIGN KEY (petID, name) REFERENCES PetInfo(petID, name)
+    FOREIGN KEY (petID, name, petPhoto) REFERENCES PetInfo(petID, name, petPhoto)
 );
 
 
@@ -54,8 +55,9 @@ CREATE TABLE Applications(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     name VARCHAR(45) NOT NULL,
+    petPhoto VARCHAR(255),
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID, name) REFERENCES PetInfo(petID, name)
+    FOREIGN KEY(petID, name, petPhoto) REFERENCES PetInfo(petID, name, petPhoto)
 );
 
 
@@ -64,8 +66,9 @@ CREATE TABLE UserFavoritesBoulder(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     name VARCHAR(45) NOT NULL,
+    petPhoto VARCHAR(255),
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID, name) REFERENCES PetInfo(petID, name)
+    FOREIGN KEY(petID, name, petPhoto) REFERENCES PetInfo(petID, name, petPhoto)
 );
 
 -- DROP TABLE IF EXISTS UserFavorites CASCADE;
@@ -73,6 +76,7 @@ CREATE TABLE UserFavoritesAnywhere(
     username VARCHAR(25) NOT NULL,
     petID INT NOT NULL,
     name VARCHAR(45) NOT NULL,
+    petPhoto VARCHAR(255),
     FOREIGN KEY(username) REFERENCES Users(username),
-    FOREIGN KEY(petID, name) REFERENCES PetInfoAPI(petID, name)
+    FOREIGN KEY(petID, name, petPhoto) REFERENCES PetInfoAPI(petID, name, petPhoto)
 );
