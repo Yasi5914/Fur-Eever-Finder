@@ -549,7 +549,7 @@ app.post('/post_pets', async (req, res) => {
 
 app.get("/logout", (req, res) => {
   req.session.destroy();
-  res.render("pages/login");
+  res.render("pages/login", {message: "Logout Successful!"});
 });
 
 //module.exports = app.listen(3000);
