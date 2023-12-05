@@ -88,8 +88,17 @@
             keys.shift();
             values = values.flat();
             keys = keys.flat();
+            console.log("New");
+            console.log(values);
+            console.log(keys);
             for (let i = 0; i < values.length; i++) {
-                var newUrl = fullUrl.replace("&" + keys[i] + "=" + values[i].replaceAll(" ", "%20"),"");
+                var key = keys[i];
+                if(key == undefined){
+                    key = keys[i-1];
+                }
+                var newUrl = fullUrl.replace("&" + key + "=" + values[i].replaceAll(" ", "%20"),"");
+                console.log(key);
+                console.log(newUrl);
                 %>
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a class="btn btn-primary" style="--bs-btn-font-size: .65rem;"> 

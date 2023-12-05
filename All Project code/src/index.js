@@ -258,7 +258,7 @@ app.get('/explore_anywhere', async (req, res) => {
   );
   const key = token_response.data.access_token;
   const header = { 'Authorization': `Bearer ${key}` };
-  filtersDogs = [["Breeds","breed",["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"]],["Age","age",["Puppy","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]]];
+  filtersDogs = [["Breeds","breed",["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shepherd","Terrier","Yorkshire Terrier"]],["Age","age",["Puppy","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]]];
   filtersCats = [["Breeds","breed",["American Shorthair","British Shorthair","Burmese","Calico","Domestic Long Hair","Domestic Medium Hair","Domestic Short Hair","Maine Coon","Persian","Russian Blue","Siamese","Tabby","Tortoiseshell","Turkish Van","Tuxedo"]],["Age","age",["Kitten","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]]];  
   var filter = [];
   if(species_param == "dog"){
