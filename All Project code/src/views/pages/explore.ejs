@@ -43,7 +43,7 @@
             headers: {
               'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ username, petID, name }),
+            body: JSON.stringify({ petID, username, name }),
           });
 
           const data = await response.json();
