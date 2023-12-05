@@ -31,7 +31,7 @@ db.connect()
     obj.done(); // success, release the connection;
   })
   .catch(error => {
-    console.log('ERROR:', error.message || error);
+    console.error('ERROR:', error.message || error);
   });
 
 // *****************************************************
@@ -66,10 +66,10 @@ app.get('/welcome', (req, res) => {
 });
 
 app.get('/', (req, res) => {
-  res.redirect('/login');
+  res.status(200).redirect('/login');
 });
 app.get('/register', (req, res) => {
-  res.render('pages/register');
+  res.status(200).render('pages/register');
 });
 app.get('/admin_access', (req, res) => {
   res.render('pages/admin_access');
@@ -82,6 +82,10 @@ app.get('/register', (req, res) => {
 // Register
 app.post('/register', async (req, res) => {
   try {
+    if(req.query.error)
+    {
+      return res.render('pages/register', {message: decodeURI(error)})
+    }
     if (req.body.username == '' || req.body.hashPW == '') {
       return res.render('pages/register', {
         message: "Missing username or password. Failed to register"
@@ -113,17 +117,21 @@ app.post('/register', async (req, res) => {
     await db.none(insertQuery, [username, hash, name, address, email]);
 
     // Registration successful, redirect to the login page
-    res.redirect('/login');
+    res.status(200).redirect('/login/?success=true');
   } catch (error) {
     // If the insert fails, redirect to the registration page
     console.error('Registration error:', error);
-    res.redirect('/register');
+    res.redirect('/register/?error=' + encodeURI(error));
   }
 });
 
 app.get('/login', (req, res) => {
-  res.status(200)
-  res.render("pages/login");
+  
+  if(req.query.success)
+  {
+    res.status(200).render("pages/login", {message: "Registration Successful!"});
+  }
+  res.status(200).render("pages/login");
 });
 
 app.post("/login", async (req, res) => {
@@ -140,7 +148,7 @@ app.post("/login", async (req, res) => {
     const user = await db.oneOrNone(query, [req.body.username]);
     // if the user is not found in the table, redirect to register page
     if (!user) {
-      return res.redirect(301, '/register');
+      return res.render('pages/login', {message: "Account not found. Perhaps you need to register?"});
     }
     // if the user is found, check if the password entered matches the database.
     const match = await bcrypt.compare(req.body.hashPW, user.hashpw);
@@ -148,8 +156,7 @@ app.post("/login", async (req, res) => {
     if (match) {
       req.session.user = user;
       req.session.save();
-      res.status(200)
-      return res.redirect('/explore');
+      return res.status(200).redirect('/explore/?login=true');
     }
     // otherwise, re-render the login and notify them of the incorrect password
     else {
@@ -159,7 +166,7 @@ app.post("/login", async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("Login error:", error);
+    console.error("Login error:", error);
     res.status(500)
     return res.render('pages/login', {
       message: "An error occurred during login"
@@ -170,8 +177,7 @@ app.post("/login", async (req, res) => {
 const auth = (req, res, next) => {
   if (!req.session.user) {
     // Default to login page.
-    res.status(200)
-    return res.redirect('/login');
+    return res.status(200).redirect('/login');
   }
   next();
 };
@@ -181,16 +187,14 @@ app.use(auth);
 app.get('/petpage_boulder',async(req,res)=>{
   const query = `SELECT * FROM PetInfo WHERE petID = $1`;
   let pet_id = parseInt(req.query.pet_id);
-  //console.log(pet_id);
   db.any(query,pet_id)
       .then( pet =>{
         res.render('pages/boulderpetpage', {pet});
-        //console.log(pet);
       })
       // if query execution fails
       // send error message
       .catch(err=> {
-        return console.log(err);
+        return console.error(err);
       });
 })
 app.get('/petpage', async (req,res)=> {
@@ -216,17 +220,24 @@ app.get('/petpage', async (req,res)=> {
         })
       })
       .catch(err =>{
-        console.log(err);
+        console.error(err);
       });
 
 })
 
-app.get('/explore', (req, res) => {
+app.get('/explore', async (req, res) => {
   const petQuery = 'SELECT * FROM PetInfo;';
   const username = req.session.user.username;
-  db.any(petQuery)
+  
+  await db.any(petQuery)
     .then((PetInfo) => {
-      res.status(200).render("pages/explore", { PetInfo , username , page: "explore"});
+      if(req.query.login)
+      {
+        res.status(200).render("pages/explore", { PetInfo , username , page: "explore", message : "Login Successful!"});
+      } else
+      {
+        res.status(200).render("pages/explore", { PetInfo , username , page: "explore"});
+      }
     })
     .catch((error) => {
       console.error('Error fetching pet info:', error);
@@ -273,7 +284,7 @@ app.get('/explore_anywhere', async (req, res) => {
           results,
           filter,
           username: req.session.user.username,
-          species_param
+          species_param,
         })
     })
     .catch(error => {
@@ -300,7 +311,7 @@ app.post('/add_favorite_boulder', async (req, res) => {
 
     if (existingFavorite) {
       // The pet is already a favorite, handle this case as needed
-      console.log('Pet is already a favorite.');
+      console.error('Pet is already a favorite.');
       res.json({ success: false, message: 'Pet is already a favorite.' });
     } else {
       // The pet is not in favorites, add it
@@ -327,7 +338,7 @@ app.post('/add_favorite_anywhere', async (req, res) => {
 
     if (existingFavorite) {
       // The pet is already a favorite, handle this case as needed
-      console.log('Pet is already a favorite.');
+      console.error('Pet is already a favorite.');
       res.json({ success: false, message: 'Pet is already a favorite.' });
     } else {
       // The pet is not in favorites, add it
@@ -455,7 +466,7 @@ app.post('/account', async (req, res) => {
       await db.none(query)
     }
   } catch (error) {
-    console.log(error)
+    console.error(error)
   }
   res.render('pages/account', {
     username: req.session.user.username,
@@ -471,7 +482,7 @@ app.get('/my_posts', async (req, res) => {
   try {
     // Check if the user is logged in
     if (!req.session.user) {
-      return res.redirect('/login');
+      return res.status(200).redirect('/login');
     }
 
     // Fetch pet information for the logged-in user
@@ -485,8 +496,6 @@ app.get('/my_posts', async (req, res) => {
       INNER JOIN Users u ON utp.username = u.username
       WHERE u.username = $1
     `, [username]);
-    console.log('User: ', username);
-    console.log('Fetched Pet Info:', petInfo);
 
     // Render the my_posts page with pet information
     res.render('pages/my_posts', { petInfo });
@@ -500,7 +509,7 @@ app.get('/my_posts', async (req, res) => {
 app.get('/post_pets', (req, res) => {
   // Check if the user is logged in
   if (!req.session.user) {
-    return res.redirect('/login');
+    return res.status(200).redirect('/login');
   }
   res.render('pages/post_pets');
 });
@@ -526,9 +535,6 @@ app.post('/post_pets', async (req, res) => {
       `;
 
       await db.none(linkQuery, [username, result.petid]);
-
-      console.log('Post creation successful');
-      console.log('Linked user to pet:', username, result.petid);
 
       res.redirect('/my_posts');
     } else {
