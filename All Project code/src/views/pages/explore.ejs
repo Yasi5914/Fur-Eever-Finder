@@ -31,22 +31,18 @@
           </div>
           <%});%>
       </div>
-  </div>
-</main>
-<script>
-  async function addToFavorites(petID, username, name) {
-    console.log('Pet ID:', petID);
-    try {
-      const response = await fetch('/add_favorite_boulder', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, petID, name }),
-      });
-
-      const data = await response.json();
-
+    </main>
+    <script>
+      async function addToFavorites(petID, username, name) {
+        console.log('Pet ID:', petID);
+        try {
+          const response = await fetch('/add_favorite_boulder', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ petID, username, name }),
+          });
     } catch (error) {
       console.error('Error:', error);
     }

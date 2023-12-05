@@ -4,37 +4,45 @@
 
 <main>
   <div class="container">
-
     <h1><center>My Posts</center></h1>
+
+    <!-- "Create Post" button -->
+    <a href="/post_pets" class="create-post-button">Create Post</a>
 
     <body>
     <% if (locals.petInfo && locals.petInfo.length > 0) { %>
       <% locals.petInfo.forEach(function(pet) { %>
         <div class="user-pet-card">
           <div class="pet-card-content">
+            <!-- Pet Photo or No Photo -->
+            <div class="pet-photo-container">
+              <div class="pet-image">
+                <img src="<%= pet.petphoto || '#' %>" alt="<%= 'No Photo Available' %>" class="no-photo">
+              </div>
+            </div>
 
-            <!-- Pet Photo -->
-            <% if (pet.petphoto) { %>
-              <img src="<%= pet.petphoto %>" alt="<%= pet.name %>'s Photo">
-            <% } else { %>
-              <div class="no-photo">No Photo Available</div>
-            <% } %>
+            <!-- Name -->
+            <h3><%= pet.name ? pet.name.charAt(0).toUpperCase() + pet.name.slice(1) : 'N/A' %></h3>
+
+            <!-- Additional information fields -->
+            <div class="pet-info">
+              <p><strong>Animal Type: </strong> <% if (pet.animaltype === 1) { %>Dog<% } else if (pet.animaltype === 2) { %>Cat<% } else if (pet.animaltype === 3) { %>Other<% } else { %>N/A<% } %></p>
+              <p><strong>Breed: </strong> <%= pet.breed || 'N/A' %></p>
+              <p><strong>Size: </strong> <% if (pet.size === 1) { %>Small<% } else if (pet.size === 2) { %>Medium<% } else if (pet.size === 3) { %>Large<% } else { %>N/A<% } %></p>
+              <p><strong>Age: </strong> <%= pet.age || 'N/A' %></p>
+              <p><strong>Sex: </strong><% if (pet.sex === 1) { %>Female<% } else if (pet.sex === 2) { %>Male<% } else { %>N/A<% } %></p>
+              <p><strong>Adoption Fee: </strong><%= pet.adoptionfee !== null ? '$' + pet.adoptionfee.toLocaleString() : 'N/A' %></p>
+            </div>
 
             <!-- Description -->
             <div class="pet-description">
               <p><strong>Description:</strong> <%= pet.description || 'N/A' %></p>
             </div>
-          </div>
 
-          <!-- Additional information fields -->
-          <div class="pet-info">
-            <p><strong>Name: </strong><%= pet.name ? pet.name.charAt(0).toUpperCase() + pet.name.slice(1) : 'N/A' %></p>
-            <p><strong>Animal Type: </strong> <% if (pet.animaltype === 1) { %>Dog<% } else if (pet.animaltype === 2) { %>Cat<% } else if (pet.animaltype === 3) { %>Other<% } else { %>N/A<% } %></p>
-            <p><strong>Breed: </strong> <%= pet.breed || 'N/A' %></p>
-            <p><strong>Size: </strong> <% if (pet.size === 1) { %>Small<% } else if (pet.size === 2) { %>Medium<% } else if (pet.size === 3) { %>Large<% } else { %>N/A<% } %></p>
-            <p><strong>Age: </strong> <%= pet.age || 'N/A' %></p>
-            <p><strong>Sex: </strong><% if (pet.sex === 1) { %>Female<% } else if (pet.sex === 2) { %>Male<% } else { %>N/A<% } %></p>
-            <p><strong>Adoption Fee: </strong><%= pet.adoptionfee !== null ? '$' + pet.adoptionfee.toLocaleString() : 'N/A' %></p>
+            <!-- Delete Button with Confirmation -->
+            <form action="/delete_pet/<%= pet.id %>" onsubmit="return confirm('Are you sure you want to delete this post?');">
+              <button type="submit" class="delete-button">Delete Post</button>
+            </form>
           </div>
         </div>
       <% }); %>
@@ -45,12 +53,14 @@
         </div>
       </div>
     <% } %>
-
-    <!-- "Create Post" button -->
-    <a href="/post_pets" class="create-post-button">Create Post</a>
-
     </body>
   </div>
 </main>
 
 <%- include ('../partials/footer') %>
+
+<script>
+  function confirmDelete() {
+    return confirm("Are you sure you want to delete this post?");
+  }
+</script>

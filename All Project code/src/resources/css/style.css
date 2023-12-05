@@ -57,61 +57,81 @@
 
 /* Styles for the pet card */
 .user-pet-card {
+    width: 45%;
+    margin: 1%;
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    position: relative;
     border: 1px solid #ddd;
     padding: 20px;
-    margin: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 /* Styles for the pet card content */
 .pet-card-content {
     display: flex;
+    flex-direction: column;
 }
 
 /* Styles for the pet image */
-.pet-image img {
-    max-width: 100px;
-    height: auto;
-    margin-right: 20px;
+.pet-card-content img {
+    width: auto;
+    height: 300px;
+    object-fit: cover;
+    margin-bottom: 10px;
 }
 
 /* Styles for the pet description */
 .pet-description {
     flex-grow: 1;
+    height: 100px;
+    overflow-y: auto;
 }
 
 /* Styles for additional information fields */
 .pet-info {
-    text-align: center;
-}
-#MoreInfo {
-    background-color: #537791;
-    border-color: #537791;
-    margin-bottom: 15px;
+    column-count: 2;
+    column-gap: 20px;
 }
 
-/* Create post button */
+/* Style for the delete button */
+.delete-button {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+}
+
+/* Styles for the "Create Post" button */
 .create-post-button {
     display: block;
     margin-top: 20px;
     padding: 10px;
-    background-color: #4CAF50; /* Green color */
+    background-color: limegreen;
     color: white;
     text-decoration: none;
     text-align: center;
 }
 
 .no-photo {
-    height: auto;
-    width: auto;
-    background-color: lightblue;
-    display: inline-block;
-    margin-right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    background-color: lightgray;
+    color: black;
+    height: 300px;
+    font-size: 25px;
 }
 
 /* Default page format */
-h1{
+h1 {
     padding-top: 2%;
 }
