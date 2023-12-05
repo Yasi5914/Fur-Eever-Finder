@@ -4,7 +4,7 @@
 
 <main>
   <div class="container">
-    <h1 style="padding-top: 5%;" >Create Pet Post</h1>
+    <h1 style="padding-top: 2%;" >Create Pet Post</h1>
     <head>
       <meta charset="UTF-8">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,48 +14,77 @@
 
     <body>
     <!-- Pet Post Form -->
-    <form action="/post_pets" method="post">
-      <label for="name">Name:</label>
-      <input type="text" id="name" name="name" required>
 
-      <label for="animalType">Animal Type:</label>
-      <select id="animalType" name="animalType" required>
-        <option value=1>Dog</option>
-        <option value=2>Cat</option>
-        <option value=3>Other</option>
-      </select>
 
-      <label for="breed">Breed:</label>
-      <input type="text" id="breed" name="breed" required>
+    <form action="/post_pets" method="post" >
 
-      <label for="size">Size:</label>
-      <select id="size" name="size" required>
-        <option value=1>Small</option>
-        <option value=2>Medium</option>
-        <option value=3>Large</option>
-      </select>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
 
-      <label for="age">Age:</label>
-      <input type="number" name="age" id="age" required>
+        <label for="name">Name:</label>
+        <input class="form-control form-control-sm" type="text" id="name" name="name" required>
 
-      <label for="sex">Sex:</label>
-      <select id="sex" name="sex" required>
-        <option value=1>Female</option>
-        <option value=2>Male</option>
-      </select>
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
 
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" rows="4" required></textarea>
+        <label for="animalType">Animal Type:</label>
+        <select class="form-control form-control-sm" id="animalType" name="animalType" required>
+          <option value=1>Dog</option>
+          <option value=2>Cat</option>
+          <option value=3>Other</option>
+        </select>
 
-      <label for="adoptionFee">Adoption Fee:</label>
-      <input type="number" id="adoptionFee" name="adoptionFee">
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
 
-      <label for="petPhoto">Photo URL:</label>
-      <input type="url" id="petPhoto" name="petPhoto">
+        <label for="breed">Breed:</label>
+        <input class="form-control form-control-sm" type="text" id="breed" name="breed" required>
+
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+
+        <label for="size">Size:</label>
+        <select class="form-control form-control-sm" id="size" name="size" required>
+          <option value=1>Small</option>
+          <option value=2>Medium</option>
+          <option value=3>Large</option>
+        </select>
+
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+        <label for="age">Age:</label>
+        <input class="form-control form-control-sm" type="number" name="age" id="age" required>
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+        <label for="sex">Sex:</label>
+        <select class="form-control form-control-sm" id="sex" name="sex" required>
+          <option value=1>Female</option>
+          <option value=2>Male</option>
+        </select>
+      </div>
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+        <label for="description">Description:</label>
+        <textarea class="form-control form-control-sm" id="description" name="description" rows="4" required></textarea>
+
+      </div>
+
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+        <label for="adoptionFee">Adoption Fee:</label>
+        <input class="form-control form-control-sm" type="number" id="adoptionFee" name="adoptionFee">
+      </div>
+
+
+      <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
+        <label for="petPhoto">Photo URL:</label>
+        <input  class="form-control form-control-sm" type="url" id="petPhoto" name="petPhoto">
+      </div>
+      <div style="padding-bottom: 40px; padding-top: 10px">
+        <button  class="btn btn-primary" type="submit">Create Post</button>
+      </div>
 
       <!-- Submit Button -->
-      <button type="submit">Create Post</button>
     </form>
+
+
     </body>
   </div>
 </main>
