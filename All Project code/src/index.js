@@ -82,7 +82,6 @@ app.get('/register', (req, res) => {
 // Register
 app.post('/register', async (req, res) => {
   try {
-    console.log(req.body);
     if (req.body.username == '' || req.body.hashPW == '') {
       return res.render('pages/register', {
         message: "Missing username or password. Failed to register"
@@ -182,11 +181,11 @@ app.use(auth);
 app.get('/petpage_boulder',async(req,res)=>{
   const query = `SELECT * FROM PetInfo WHERE petID = $1`;
   let pet_id = parseInt(req.query.pet_id);
-  console.log(pet_id);
+  //console.log(pet_id);
   db.any(query,pet_id)
       .then( pet =>{
         res.render('pages/boulderpetpage', {pet});
-        console.log(pet);
+        //console.log(pet);
       })
       // if query execution fails
       // send error message
@@ -227,7 +226,6 @@ app.get('/explore', (req, res) => {
   const username = req.session.user.username;
   db.any(petQuery)
     .then((PetInfo) => {
-      console.log(PetInfo);
       res.status(200).render("pages/explore", { PetInfo , username , page: "explore"});
     })
     .catch((error) => {
@@ -271,7 +269,6 @@ app.get('/explore_anywhere', async (req, res) => {
     },
   })
     .then(results => {
-      console.log(results.data); // the results will be displayed on the terminal if the docker containers are running // Send some parameters
         res.render('pages/explore_anywhere',{
           results,
           filter,
@@ -307,8 +304,6 @@ app.post('/add_favorite_boulder', async (req, res) => {
       res.json({ success: false, message: 'Pet is already a favorite.' });
     } else {
       // The pet is not in favorites, add it
-      // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
-      console.log('added into boulder');
       await db.none('INSERT INTO UserFavoritesBoulder (username, petID, name) VALUES($1, $2, $3)', [username, petID, name]);
       res.json({ success: true, message: 'Pet added to favorites.', petInfo: {name: petQuery.name, age:petQuery.age}, });
     }
@@ -327,8 +322,6 @@ app.post('/add_favorite_anywhere', async (req, res) => {
     const gender = req.body.gender;
     const petphoto = req.body.petphoto;
 
-    console.log("req.body", req.body);
-    console.log("petID", petID);
     await db.none('INSERT INTO petInfoAPI (petid, name, age, sex, petPhoto) VALUES ($1, $2, $3, $4, $5)',[petID, name, age, gender, petphoto]);
     const existingFavorite = await db.oneOrNone('SELECT * FROM UserFavoritesAnywhere WHERE username = $1 AND name = $2 AND petID = $3', [username, name, petID]);
 
@@ -338,8 +331,6 @@ app.post('/add_favorite_anywhere', async (req, res) => {
       res.json({ success: false, message: 'Pet is already a favorite.' });
     } else {
       // The pet is not in favorites, add it
-      // all fields: username, petID, name, animalType, breed, size, age, sex, description, adoptionFee, photoURL
-      console.log('added into anywhere');
       await db.none('INSERT INTO UserFavoritesAnywhere (username, petID, name, petPhoto) VALUES($1, $2, $3, $4)', [username, petID, name, petphoto]);
       res.json({ success: true, message: 'Pet added to favorites.'});
     }
@@ -363,7 +354,6 @@ app.post('/remove_favorite', async (req, res) => {
 
     if (!existingFavoriteBoulder && !existingFavoriteAnywhere) {
       // The pet is not in favorites, handle this case as needed
-      console.log('Pet is not in favorites.');
       res.json({ success: false, message: 'Pet is not in favorites.' });
     } else {
       // The pet is in favorites, remove it from the appropriate table(s)
@@ -401,7 +391,6 @@ app.get('/favorites', (req, res) => {
   db.any(favQuery, [username])
     .then((FavPetInfo) => {
       // Render the favorites page with pet information
-      console.log(FavPetInfo);
       res.status(200).render("pages/favorites", { FavPetInfo, username: username, page: "favorites"});
     })
     .catch((error) => {
