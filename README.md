@@ -39,3 +39,4 @@ docker compose down -v
 docker-compose run web npm test  
 
 ## Link to Deployed Application:  
+[http://recitation-14-team-01.eastus.cloudapp.azure.com:3000](http://recitation-14-team-01.eastus.cloudapp.azure.com:3000)
