@@ -131,7 +131,17 @@
     font-size: 25px;
 }
 
-/* Default page format */
-h1 {
+
+h1
+{
     padding-top: 2%;
+    font-size: 52px;
+    line-height: 30px;
+    text-shadow: -1px -1px #fb6, 1px 1px #d60, -3px 0 4px #000;
+    font-family:"Segoe print", Arial, Helvetica, sans-serif;
+    color: orange;
+    padding:2px;
+    font-weight:lighter;
+    text-align:center;
+    display:inline;
 }
