@@ -246,6 +246,9 @@ app.get('/explore', async (req, res) => {
 });
 
 app.get('/explore_anywhere', async (req, res) => {
+  var fullUrl = req.protocol + '://' + req.get('host') + req.originalUrl;
+  const values = Object.values(req.query);
+  const keys = Object.keys(req.query);
   const species_param = req.query.species;
   const client_id =  'iUSzx8lrO7uNYganTX2SV1TG11esryZBqCQZw4H64m4UhQqN1h';
   const secret = "ooYSIMotLjQ4pcei3HCwrJd6F44G5LGgaLgBLEN4";
@@ -255,8 +258,8 @@ app.get('/explore_anywhere', async (req, res) => {
   );
   const key = token_response.data.access_token;
   const header = { 'Authorization': `Bearer ${key}` };
-  filtersDogs = [["Breeds","breed",["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"]],["Age","age",["Puppy","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]],["Good With","good_with",["Kids", "Other Dogs", "Cats"]],["Coat Length","coat_length",["Hairless","Short","Medium","Long"]],["Color","color",["Beige","Black"]], ["Care & Behavior","care_behavior",["House-trained","Special needs"]],["Days since posted","days",[1,2,3,4]]];
-  filtersCats = [["Breeds","breed",["American Shorthair","British Shorthair","Burmese","Calico","Domestic Long Hair","Domestic Medium Hair","Domestic Short Hair","Maine Coon","Persian","Russian Blue","Siamese","Tabby","Tortoiseshell","Turkish Van","Tuxedo"]],["Age","age",["Kitten","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]],["Good With","good_with",["Kids", "Dogs", "Other Cats"]],["Coat Length","coat_length",["Hairless","Short","Medium","Long"]],["Color","color",["Beige","Black"]], ["Care & Behavior","care_behavior",["House-trained","Declawed","Special needs"]],["Days since posted","days",[1,2,3,4]]];  
+  filtersDogs = [["Breeds","breed",["American Bulldog","American Staffordshire Terrier","Australian Cattle Dog / Blue Heeler","Australian Shepherd","Black Mouth Cur","Boxer","Chihuahua","Dachshund","German Shepherd Dog","Husky","Labrador Retriever","Mixed Breed","Pit Bull Terrier","Pointer","Retriever","Shephard","Terrier","Yorkshire Terrier"]],["Age","age",["Puppy","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]]];
+  filtersCats = [["Breeds","breed",["American Shorthair","British Shorthair","Burmese","Calico","Domestic Long Hair","Domestic Medium Hair","Domestic Short Hair","Maine Coon","Persian","Russian Blue","Siamese","Tabby","Tortoiseshell","Turkish Van","Tuxedo"]],["Age","age",["Kitten","Young","Adult","Senior"]],["Size","size",["Small","Medium","Large","Extra Large"]],["Gender","gender",["Male","Female"]]];  
   var filter = [];
   if(species_param == "dog"){
     filter = filtersDogs;
@@ -285,6 +288,9 @@ app.get('/explore_anywhere', async (req, res) => {
           filter,
           username: req.session.user.username,
           species_param,
+          fullUrl,
+          values,
+          keys
         })
     })
     .catch(error => {
