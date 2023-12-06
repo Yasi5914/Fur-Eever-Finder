@@ -553,6 +553,21 @@ app.post('/post_pets', async (req, res) => {
   }
 });
 
+app.post('/delete_pet', async (req, res) => {
+  try {
+    const petId = parseInt(req.body.petid);
+    // Update the SQL query to include all columns in the primary key
+    const deleteQuery = 'DELETE FROM PetInfo WHERE petID = $1';
+    await db.none(deleteQuery, [petId]);
+
+    // Redirect the user back to the my_posts page after deletion
+    res.redirect('/my_posts');
+  } catch (error) {
+    console.error('Error deleting pet post:', error);
+    res.status(500).send('Internal Server Error');
+  }
+});
+
 app.get("/logout", (req, res) => {
   req.session.destroy();
   res.render("pages/login", {message: "Logout Successful!"});

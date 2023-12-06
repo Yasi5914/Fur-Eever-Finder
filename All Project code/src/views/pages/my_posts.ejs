@@ -40,8 +40,9 @@
             </div>
 
             <!-- Delete Button with Confirmation -->
-            <form action="/delete_pet/<%= pet.id %>" onsubmit="return confirm('Are you sure you want to delete this post?');">
-              <button type="submit" class="delete-button">Delete Post</button>
+            <form action="/delete_pet" method="POST" onsubmit="return confirm('Are you sure you want to delete this post?');">
+              <input type="hidden" name="petid" value="<%= pet.petid %>"/>
+              <input class="delete-button" type="submit" value="Delete">
             </form>
           </div>
         </div>
