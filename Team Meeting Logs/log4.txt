@@ -3,8 +3,9 @@ Week of 12/5/23
 Main decisions:  
 Manually test the filters and features of our website.  
 Google slides for presentation need to be finished.  
-Need to record a video for our demo just in case.  
+Need to record a video for our demo just in case. 
 
 Roles leading up to presentation:  
 Lindy: testing application + presentation slides.
 Andrew: Managing the virtual machine on azure, testing application.
+Yash: Make everything look good by the date of the presentation.
