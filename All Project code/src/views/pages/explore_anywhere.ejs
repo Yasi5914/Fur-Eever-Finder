@@ -66,7 +66,7 @@
             else if(species_param == "cat"){%>
             <div class="col-1"> &nbsp;</div>
             <div class="col-5">
-                <a type="button" href="/explore_anywhere?species=dog" class="btn btn-light" style="background-color:rgb(222, 168, 249);">
+                <a type="button" href="/explore_anywhere?species=dog" class="btn btn-light" style="background-color:#6c8f9f;">
                     <svg xmlns="http://www.w3.org/2000/svg" height="73" width="100" viewBox="0 0 560 512"><!--!Font Awesome Free 6.5.0 by @fontawesome - 
                         https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M309.6 158.5L332.7 
                         19.8C334.6 8.4 344.5 0 356.1 0c7.5 0 14.5 3.5 19 9.5L392 32h52.1c12.7 0 24.9 5.1 33.9 14.1L496 64h56c13.3 0 24 10.7 24 24v24c0 44.2-35.8 
@@ -105,8 +105,8 @@
                 console.log(key);
                 console.log(newUrl);
                 %>
-                <div class="btn-group" role="group" aria-label="Basic example">
-                    <a class="btn btn-primary" style="--bs-btn-font-size: .65rem;"> 
+                <div class="btn-group" role="group" aria-label="Basic example" style="color:  #d98294;">
+                    <a class="btn btn-primary" style="--bs-btn-font-size: .65rem;  background-color:  #d98294; border-color: #d98294;"> 
                         <% displayValue = values[i];
                         if(values[i] == "baby" && species_param == "dog"){
                             displayValue = "Puppy";
@@ -116,7 +116,7 @@
                         }%>
                         <%= displayValue %>
                     </a>
-                    <a class="btn btn-primary" style="--bs-btn-font-size: .65rem;" href="<%= newUrl %>">X</a>
+                    <a class="btn btn-primary" style="--bs-btn-font-size: .65rem; background-color:  #d98294; border-color: #d98294;" href="<%= newUrl %>">X</a>
                   </div>
                 
             <% } %>
@@ -130,14 +130,14 @@
                 <%   filter.forEach(filter =>{%>
                     <div class="row" style="padding-top: 10%;">
                         <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button class="btn btn-secondary dropdown-toggle" style="background-color:#6c8f9f;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <%=filter[0]%>
                             </button>
-                            <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;">
+                            <ul class="dropdown-menu" style = "max-height: 200px;overflow-y: scroll;" style=" background-color:#6c8f9f;">
                                 <% filter[2].forEach(parameter =>{
                                     urlParam = parameter;
                                     if(parameter == "Puppy" || parameter == "Kitten"){urlParam = "baby";}%>
-                            <li><a class="dropdown-item" href="<%= fullUrl + `&` + filter[1] + `=` + urlParam %>"><%=parameter%></a></li>
+                            <li><a class="dropdown-item"  href="<%= fullUrl + `&` + filter[1] + `=` + urlParam %>"><%=parameter%></a></li>
                                 <%});%>
                             </ul>
                         </div>
