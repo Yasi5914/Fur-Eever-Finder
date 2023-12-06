@@ -8,7 +8,7 @@
     <div class="d-flex justify-content-center" style="margin-top: 2%;"id="explore_anywhere">
         <% if(species_param == undefined){%>
             <div class="col-5" style="text-align: right;">
-                <a type="button" href="/explore_anywhere?species=dog" class="btn btn-light" style="background-color:rgb(222, 168, 249);">
+                <a type="button" href="/explore_anywhere?species=dog" class="btn btn-light" style="background-color:#6c8f9f;">
                     <svg xmlns="http://www.w3.org/2000/svg" height="73" width="100" viewBox="0 0 560 512"><!--!Font Awesome Free 6.5.0 by @fontawesome - 
                         https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M309.6 158.5L332.7 
                         19.8C334.6 8.4 344.5 0 356.1 0c7.5 0 14.5 3.5 19 9.5L392 32h52.1c12.7 0 24.9 5.1 33.9 14.1L496 64h56c13.3 0 24 10.7 24 24v24c0 44.2-35.8 
@@ -24,7 +24,7 @@
         <%} 
         else{%>
             <div class="col-5" style="text-align: right;">
-                <a type="button" href="/explore_anywhere?" class="btn btn-light" style="background-color:rgb(222, 168, 249);">
+                <a type="button" href="/explore_anywhere?" class="btn btn-light" style="background-color: #6c8f9f;">
                     <svg xmlns="http://www.w3.org/2000/svg" height="73" width="100" viewBox="0 0 512 512"><!--!Font Awesome Free 6.5.0 by @fontawesome - 
                         https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M226.5 92.9c14.3 42.9-.3 
                         86.2-32.6 96.8s-70.1-15.6-84.4-58.5s.3-86.2 32.6-96.8s70.1 15.6 84.4 58.5zM100.4 198.6c18.9 32.4 14.3 70.1-10.2 84.1s-59.7-.9-78.5-33.3S-2.7 
@@ -42,7 +42,7 @@
             if(species_param == "dog" || species_param == undefined){%>
             <div class="col-1"> &nbsp;</div>
             <div class="col-5">
-                <a type="button" href="/explore_anywhere?species=cat" class="btn btn-light" style="background-color:rgb(222, 168, 249);">
+                <a type="button" href="/explore_anywhere?species=cat" class="btn btn-light" style="background-color:#6c8f9f;">
                     <svg xmlns="http://www.w3.org/2000/svg" height="73" width="100" viewBox="0 0 576 512"><!--!Font Awesome Free 6.5.0 by @fontawesome - 
                         https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M320 192h17.1c22.1 
                         38.3 63.5 64 110.9 64c11 0 21.8-1.4 32-4v4 32V480c0 17.7-14.3 32-32 32s-32-14.3-32-32V339.2L280 448h56c17.7 0 32 14.3 32 32s-14.3 
@@ -171,7 +171,7 @@
                                     }
                                 %>
                                 <p><%=dist%></p>
-                                <a type="btn btn-primary" href="/petpage?pet_id=<%=pet.id%>" class="btn btn-primary">More Info</a>
+                                <a type="btn btn-primary" href="/petpage?pet_id=<%=pet.id%>" class="btn btn-primary" ID="MoreInfo">More Info</a>
                             </div>
                         </div>
                     </div>

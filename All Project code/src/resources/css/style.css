@@ -51,7 +51,10 @@
     float:right;
     padding:20px;
 }
-
+#MoreInfo{
+    background-color: #d98294;
+    border-color: #fff;
+}
 /* end of petpage css */
 
 
