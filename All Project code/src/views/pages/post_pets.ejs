@@ -75,8 +75,12 @@
 
       <div class="form-group" style="padding-bottom: 10px; padding-top: 10px">
         <label for="petPhoto">Photo URL:</label>
-        <input  class="form-control form-control-sm" type="url" id="petPhoto" name="petPhoto" required>
+        <input class="form-control form-control-sm" type="url" id="petPhoto" name="petPhoto" pattern="https?://.+" required>
+        <small id="petPhotoHelp" class="form-text text-muted">
+          Please enter a valid URL for the pet photo.
+        </small>
       </div>
+
       <div style="padding-bottom: 40px; padding-top: 10px">
         <button  class="btn btn-primary" type="submit" style="background-color: #d98294; border-color: #fff;">Create Post</button>
       </div>
