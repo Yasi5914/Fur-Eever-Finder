@@ -6,4 +6,5 @@ Google slides for presentation need to be finished.
 Need to record a video for our demo just in case.  
 
 Roles leading up to presentation:  
-Lindy: testing application + presentation slides  
+Lindy: testing application + presentation slides.
+Andrew: Managing the virtual machine on azure, testing application.
